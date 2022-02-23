@@ -4,3 +4,23 @@ author: "Naomi Liftman"
 date: "2/23/2022"
 output: pdf_document
 ---
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+pre <- read_csv("TeleCom_Dyad_premeasures.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+
