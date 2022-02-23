@@ -1,0 +1,6 @@
+---
+title: "clean clean clean <3"
+author: "Naomi Liftman"
+date: "2/23/2022"
+output: pdf_document
+---
