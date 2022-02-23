@@ -1,0 +1,228 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  english,
+  man]{apa6}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Intergroup Relationships Proposal},
+  pdfauthor={Cara Krupnikoff-Salkin1 \& Naomi Liftman1},
+  pdflang={en-EN},
+  pdfkeywords={keywords},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+\shorttitle{Proposal}
+\keywords{keywords\newline\indent Word count: X}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{lineno}
+
+\linenumbers
+\usepackage{csquotes}
+\ifxetex
+  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{english}
+\else
+  \usepackage[shorthands=off,main=english]{babel}
+\fi
+
+\title{Intergroup Relationships Proposal}
+\author{Cara Krupnikoff-Salkin\textsuperscript{1} \& Naomi Liftman\textsuperscript{1}}
+\date{}
+
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Smith College}
+
+\begin{document}
+\maketitle
+
+For our project, we are interested in looking at the relationship between marital dyads division of housework and relationship satisfaction. Sweeney, Goldberg, and Garcia (2017) suggest that gender norms effect the way that couples choose to divide their household labor, and equitable division of labor has been linked to greater relationship satisfaction. For this reason, we believe that division of labor will have a moderating role in the relationship between ambivalent sexism and marital satisfaction. Our research questions are (1) Do levels of ambivalent sexism impact feelings of marital satisfaction? How does this change depending on benevolent sexism (BS) or hostile sexism (HS)?, (2) To what extent is the relationship between ambivalent sexism and marital satisfaction moderated by division of household labor? (3) What is the relationship between the husband's feelings of marital satisfaction and his wife's feelings of marital satisfaction? What is it when taking division of household labor and BS/HS into account?
+
+Relationship satisfaction is incredibly important towards overall well-being and the health of relationships. There is a lot of research focusing on the individual components of our research questions; however, we believe that it is not enough to look at the relationships between division of labor, ambivalent sexism, and marital satisfaction on an individual level. Through this research we want to highlight these factors in the relationship between partners as a whole in hopes of helping couples everywhere divide labor in their relationships in a satisfactory manor.
+
+Our explanatory variable is ambivalent sexism, which is called asi\_1-asi\_22 in the premeasures dataset. Our response variable is the daily response to the question \enquote{today, my partner and I are really a team,} which is called qmi4 in the dataset. Our moderating variable is division of household labor. For this variable, we will be looking at the information from the daily diaries for the questions in the household block (in the dataset columns beds through calls) in order to calculate the percentage that each partner contributes to the housework. Since we are looking at ambivalent sexism in couples with a female and male partner, we intend to only include the data from heterosexual couples.
+
+For deeper understanding and analysis we are looking through more articles already published. These articles look into the relationships between ambivalent sexism, relationship satisfaction, and household labor, which we hope our research can build upon. The articles are listed below, and included in the references section.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Thomae and Houston (2016)
+\item
+  Dawson, Pike, and Bird (2015)
+\item
+  Mickelson, Claffey, and Williams (2006)
+\item
+  Barstad (2014)
+\item
+  Hammond and Overall (2013)
+\item
+  Huffman, Matthews, and Irving (2017)
+\item
+  Helms, Walls, Crouter, and McHale (2010)
+\item
+  (``Ambivalent sexism in close relationships,'' 2010)
+\item
+  Bareket, Shnabel, Kende, Knab, and Bar-Anan (2020)
+\item
+  Girvan, Deason, and Borgida (2015)
+\item
+  (``Hostile and benevolent sexism,'' 1997)
+\end{enumerate}
+
+\newpage
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-0546b000ecf94c278dbbcc10a41db43d}{}%
+Ambivalent sexism in close relationships: (Hostile) power and (benevolent) romance shape relationship ideals. (2010). \emph{Sex Roles: A Journal of Research}, \emph{62}(7-8), 583--601. \url{https://doi.org/10.1007/s11199-010-9770-x}
+
+\leavevmode\hypertarget{ref-article3}{}%
+Bareket, O., Shnabel, N., Kende, A., Knab, N., \& Bar-Anan, Y. (2020). Need some help, honey? Dependency-oriented helping relations between women and men in the domestic sphere. \emph{Journal of Personality and Social Psychology}, \emph{120}. \url{https://doi.org/10.1037/pspi0000292}
+
+\leavevmode\hypertarget{ref-doi:10.1177ux2f0192513X14522246}{}%
+Barstad, A. (2014). Equality is bliss? Relationship quality and the gender division of household labor. \emph{Journal of Family Issues}, \emph{35}(7), 972--992. \url{https://doi.org/10.1177/0192513X14522246}
+
+\leavevmode\hypertarget{ref-dawson}{}%
+Dawson, A., Pike, A., \& Bird, L. (2015). Parental division of household labour and sibling relationship quality: Family relationship mediators. \emph{Infant and Child Development}, \emph{24}(4), 379--393. \url{https://doi.org/https://doi.org/10.1002/icd.1890}
+
+\leavevmode\hypertarget{ref-342e1ecdac0d477ba435b81b89713ffc}{}%
+Girvan, E., Deason, G., \& Borgida, E. (2015). The generalizability of gender bias: Testing the effects of contextual, explicit, and implicit sexism on labor arbitration decisions. \emph{Law and Human Behavior}, \emph{39}(5), 525--537. \url{https://doi.org/10.1037/lhb0000139}
+
+\leavevmode\hypertarget{ref-https:ux2fux2fdoi.orgux2f10.1002ux2fejsp.1939}{}%
+Hammond, M. D., \& Overall, N. C. (2013). When relationships do not live up to benevolent ideals: Women's benevolent sexism and sensitivity to relationship problems. \emph{European Journal of Social Psychology}, \emph{43}(3), 212--223. \url{https://doi.org/https://doi.org/10.1002/ejsp.1939}
+
+\leavevmode\hypertarget{ref-article2}{}%
+Helms, H., Walls, J., Crouter, A., \& McHale, S. (2010). Provider role attitudes, marital satisfaction, role overload, and housework: A dyadic approach. \emph{Journal of Family Psychology : JFP : Journal of the Division of Family Psychology of the American Psychological Association (Division 43)}, \emph{24}, 568--577. \url{https://doi.org/10.1037/a0020637}
+
+\leavevmode\hypertarget{ref-66a87b2ab3f14305bf702cad76e76acf}{}%
+Hostile and benevolent sexism: Measuring ambivalent sexist attitudes toward women. (1997). \emph{Psychology of Women Quarterly}, \emph{21}(1), 119--135. \url{https://doi.org/10.1111/j.1471-6402.1997.tb00104.x}
+
+\leavevmode\hypertarget{ref-https:ux2fux2fdoi.orgux2f10.1111ux2fjoop.12165}{}%
+Huffman, A. H., Matthews, R. A., \& Irving, L. H. (2017). Family fairness and cohesion in marital dyads: Mediating processes between work--family conflict and couple psychological distress. \emph{Journal of Occupational and Organizational Psychology}, \emph{90}(1), 95--116. \url{https://doi.org/https://doi.org/10.1111/joop.12165}
+
+\leavevmode\hypertarget{ref-6c1621b9e66c4c4aa10336b4dd32bfe3}{}%
+Mickelson, K., Claffey, S., \& Williams, S. (2006). The moderating role of gender and gender role attitudes on the link between spousal support and marital quality. \emph{Sex Roles: A Journal of Research}, \emph{55}(1-2), 73--82. \url{https://doi.org/10.1007/s11199-006-9061-8}
+
+\leavevmode\hypertarget{ref-articlesween}{}%
+Sweeney, K., Goldberg, A., \& Garcia, R. (2017). Not a "mom thing": Predictors of gatekeeping in same-sex and heterosexual parent families. \emph{Journal of Family Psychology}, \emph{31}. \url{https://doi.org/10.1037/fam0000261}
+
+\leavevmode\hypertarget{ref-THOMAE2016152}{}%
+Thomae, M., \& Houston, D. M. (2016). The impact of gender ideologies on men's and women's desire for a traditional or non-traditional partner. \emph{Personality and Individual Differences}, \emph{95}, 152--158. \url{https://doi.org/https://doi.org/10.1016/j.paid.2016.02.026}
+
+\endgroup
+
+
+\end{document}

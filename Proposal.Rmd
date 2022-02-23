@@ -24,7 +24,7 @@ affiliation:
 keywords          : "keywords"
 wordcount         : "X"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["r-references.bib", "psy-references.bib"]
 
 floatsintext      : no
 figurelist        : no
@@ -50,6 +50,25 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
+For our project, we are interested in looking at the relationship between marital dyads division of housework and relationship satisfaction. @articlesween suggest that gender norms effect the way that couples choose to divide their household labor, and equitable division of labor has been linked to greater relationship satisfaction. For this reason, we believe that division of labor will have a moderating role in the relationship between ambivalent sexism and marital satisfaction. Our research questions are (1) Do levels of ambivalent sexism impact feelings of marital satisfaction? How does this change depending on benevolent sexism (BS) or hostile sexism (HS)?, (2) To what extent is the relationship between ambivalent sexism and marital satisfaction moderated by division of household labor? (3) What is the relationship between the husband’s feelings of marital satisfaction and his wife’s feelings of marital satisfaction? What is it when taking division of household labor and BS/HS into account?
+
+Relationship satisfaction is incredibly important towards overall well-being and the health of relationships. There is a lot of research focusing on the individual components of our research questions; however, we believe that it is not enough to look at the relationships between division of labor, ambivalent sexism, and marital satisfaction on an individual level. Through this research we want to highlight these factors in the relationship between partners as a whole in hopes of helping couples everywhere divide labor in their relationships in a satisfactory manor. 
+
+Our explanatory variable is ambivalent sexism, which is called asi_1-asi_22 in the premeasures dataset. Our response variable is the daily response to the question “today, my partner and I are really a team,” which is called qmi4 in the dataset. Our moderating variable is division of household labor. For this variable, we will be looking at the information from the daily diaries for the questions in the household block (in the dataset columns beds through calls) in order to calculate the percentage that each partner contributes to the housework. Since we are looking at ambivalent sexism in couples with a female and male partner, we intend to only include the data from heterosexual couples.
+
+For deeper understanding and analysis we are looking through more articles already published. These articles look into the relationships between ambivalent sexism, relationship satisfaction, and household labor, which we hope our research can build upon. The articles are listed below, and included in the references section. 
+  
+  1. @THOMAE2016152
+  2. @dawson
+  3. @6c1621b9e66c4c4aa10336b4dd32bfe3
+  4. @doi:10.1177/0192513X14522246
+  5. @https://doi.org/10.1002/ejsp.1939
+  6. @https://doi.org/10.1111/joop.12165
+  7. @article2
+  8. @0546b000ecf94c278dbbcc10a41db43d
+  9. @article3
+  10. @342e1ecdac0d477ba435b81b89713ffc
+  11. @66a87b2ab3f14305bf702cad76e76acf
 
 
 \newpage
