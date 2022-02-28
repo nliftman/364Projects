@@ -4,13 +4,14 @@ author: "Naomi Liftman"
 date: "2/23/2022"
 output: pdf_document
 ---
+# Load Files
 ```{r}
 #load all necessary packages
 library(tidyverse)
 library(psych)
 ```
 
-# Premeasures
+# Import Premeasures and Clean
 ```{r}
 #import the data
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
@@ -40,10 +41,36 @@ pre <- pre %>%
          asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
          asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
 
-#create a correlation matrix for the now numeric data
-corr.test(select(pre, asi_1:asi_22))$r
+#reversing all the variables that need it 
+pre <- pre %>% 
+  mutate(asi_3.r = (1+6) - asi_3,
+         asi_6.r = (1+6) - asi_6,
+         asi_7.r = (1+6) - asi_7,
+         asi_13.r = (1+6) - asi_13,
+         asi_18.r = (1+6) - asi_18,
+         asi_21.r = (1+6) - asi_21)
+```
+
+# Look at benevolent
+```{r}
+#pull out for benevolent sexism
+benevbaby <- pre %>% 
+  select(asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+
+#benevolent correlation matrix
+corr.test(select(benevbaby, asi_1:asi_22))$r
 
 
+```
+
+# Look at hostile
+```{r}
+#pull out for hostile sexism
+hostilebaby <- pre %>% 
+  select(asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+
+#hostile correlation matrix
+corr.test(select(hostilebaby, asi_2:asi_21.r))$r
 ```
 
 # Daily
@@ -57,11 +84,11 @@ daily <- daily %>%
 pre <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
   select(dyadID, sexualor) %>%
   
-
 chores <- daily %>%
   left_join(pre, by = "dyadID") %>%
   filter(sexualor == "Heterosexual")
 
+# Making chore data numeric
 chores <- chores %>%
   mutate(beds = if_else(beds == "Yes", 1, 0),
          vacuum = if_else(vaccum == "Yes", 1, 0),
@@ -79,15 +106,3 @@ chores <- chores %>%
   select(-vaccum) %>%
   distinct()
 ```
-
-
-
-
-
-
-
-
-
-
-
-
