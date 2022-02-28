@@ -42,6 +42,8 @@ pre <- pre %>%
 
 #create a correlation matrix for the now numeric data
 corr.test(select(pre, asi_1:asi_22))$r
+
+
 ```
 
 ```{r}
