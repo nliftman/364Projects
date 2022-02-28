@@ -8,9 +8,9 @@ output: pdf_document
 #load all necessary packages
 library(tidyverse)
 library(psych)
-library(dplyr)
 ```
 
+# Premeasures
 ```{r}
 #import the data
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
@@ -46,8 +46,38 @@ corr.test(select(pre, asi_1:asi_22))$r
 
 ```
 
+# Daily
 ```{r}
 daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
+
+#cleaning data to only include our sample size and the variables we are measuring
+daily <- daily %>%
+  select(dyadID, RecordedDate, gender, beds:calls, qmi4) 
+
+pre <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
+  select(dyadID, sexualor) %>%
+  
+
+chores <- daily %>%
+  left_join(pre, by = "dyadID") %>%
+  filter(sexualor == "Heterosexual")
+
+chores <- chores %>%
+  mutate(beds = if_else(beds == "Yes", 1, 0),
+         vacuum = if_else(vaccum == "Yes", 1, 0),
+         food = if_else(food == "Yes", 1, 0),
+         dishes = if_else(dishes == "Yes", 1, 0),
+         garbage = if_else(garbage == "Yes", 1, 0),
+         yardwork = if_else(yardwork == "Yes", 1, 0),
+         pets = if_else(pets == "Yes", 1, 0),
+         laundry = if_else(laundry == "Yes", 1, 0),
+         errands = if_else(errands == "Yes", 1, 0),
+         cars = if_else(cars == "Yes", 1, 0),
+         finances = if_else(finances == "Yes", 1, 0),
+         events = if_else(events == "Yes", 1, 0),
+         calls = if_else(calls == "Yes", 1, 0)) %>%
+  select(-vaccum) %>%
+  distinct()
 ```
 
 
