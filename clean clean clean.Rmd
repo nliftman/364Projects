@@ -14,7 +14,7 @@ pre <- read_csv("TeleCom_Dyad_premeasures.csv")
 ```
 
 ```{r}
-daily <- read_csv("")
+daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
 ```
 
 
