@@ -5,12 +5,43 @@ date: "2/23/2022"
 output: pdf_document
 ---
 ```{r}
+#load all necessary packages
 library(tidyverse)
+library(psych)
+library(dplyr)
 ```
 
-
 ```{r}
+#import the data
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
+
+#clean the data so it is numeric
+pre <- pre %>%
+  mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
+         asi_2 = as.numeric(gsub("[a-zA-Z]", "", asi_2)),
+         asi_3 = as.numeric(gsub("[a-zA-Z]", "", asi_3)),
+         asi_4 = as.numeric(gsub("[a-zA-Z]", "", asi_4)),
+         asi_5 = as.numeric(gsub("[a-zA-Z]", "", asi_5)),
+         asi_6 = as.numeric(gsub("[a-zA-Z]", "", asi_6)),
+         asi_7 = as.numeric(gsub("[a-zA-Z]", "", asi_7)),
+         asi_8 = as.numeric(gsub("[a-zA-Z]", "", asi_8)),
+         asi_9 = as.numeric(gsub("[a-zA-Z]", "", asi_9)),
+         asi_10 = as.numeric(gsub("[a-zA-Z]", "", asi_10)),
+         asi_11 = as.numeric(gsub("[a-zA-Z]", "", asi_11)),
+         asi_12 = as.numeric(gsub("[a-zA-Z]", "", asi_12)),
+         asi_13 = as.numeric(gsub("[a-zA-Z]", "", asi_13)),
+         asi_14 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_15 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_16 = as.numeric(gsub("[a-zA-Z]", "", asi_16)),
+         asi_17 = as.numeric(gsub("[a-zA-Z]", "", asi_17)),
+         asi_18 = as.numeric(gsub("[a-zA-Z]", "", asi_18)),
+         asi_19 = as.numeric(gsub("[a-zA-Z]", "", asi_19)),
+         asi_20 = as.numeric(gsub("[a-zA-Z]", "", asi_20)),
+         asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
+         asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
+
+#create a correlation matrix for the now numeric data
+corr.test(select(pre, asi_1:asi_22))$r
 ```
 
 ```{r}
