@@ -40,6 +40,9 @@ pre <- pre %>%
          asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
          asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
 
+#pull out for benevolent and pull out for hostile
+
+
 #create a correlation matrix for the now numeric data
 corr.test(select(pre, asi_1:asi_22))$r
 
