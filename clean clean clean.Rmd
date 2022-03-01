@@ -71,6 +71,9 @@ hostilebaby <- pre %>%
 
 #hostile correlation matrix
 corr.test(select(hostilebaby, asi_2:asi_21.r))$r
+#question 18 is still giving us problems :(, where in the actual qualtrics survey
+#the question should be reversed but maybe ppl just didnt understand the question
+#should we get rid of the question? idk
 ```
 
 # Daily
