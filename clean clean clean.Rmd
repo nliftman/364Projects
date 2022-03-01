@@ -55,7 +55,7 @@ pre <- pre %>%
 ```{r}
 #pull out for benevolent sexism
 benevbaby <- pre %>% 
-  select(asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+  select(dyadID, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
 
 #benevolent correlation matrix
 corr.test(select(benevbaby, asi_1:asi_22))$r
@@ -67,7 +67,7 @@ corr.test(select(benevbaby, asi_1:asi_22))$r
 ```{r}
 #pull out for hostile sexism
 hostilebaby <- pre %>% 
-  select(asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+  select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
 
 #hostile correlation matrix
 corr.test(select(hostilebaby, asi_2:asi_21.r))$r
@@ -86,6 +86,16 @@ alpha(select(benevbaby, asi_1:asi_22))
 alpha(select(hostilebaby, asi_2:asi_21.r))
 #raw alpha is 0.8549932
 ```
+
+# Actually Creating Scale Scores
+```{r}
+#the alpha for both of our variables is above .7, so we are swag
+#now we are going to merge the new datasets back together
+pre_fixed <- benevbaby %>% 
+  inner_join(hostilebaby, )
+
+```
+
 
 
 
