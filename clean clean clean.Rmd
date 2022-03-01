@@ -76,6 +76,19 @@ corr.test(select(hostilebaby, asi_2:asi_21.r))$r
 #should we get rid of the question? idk
 ```
 
+# Calculate reliability
+```{r}
+#reliability for the benevolent
+alpha(select(benevbaby, asi_1:asi_22))
+#raw alpha is 0.8001697
+
+#reliability for the hostile
+alpha(select(hostilebaby, asi_2:asi_21.r))
+#raw alpha is 0.8549932
+```
+
+
+
 # Daily
 ```{r}
 daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
