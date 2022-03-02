@@ -137,4 +137,15 @@ chores[, 4:15][is.na(chores[, 4:15])] <- 0
 chores <- chores %>%
   rowwise() %>%
   mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, cars, finances, events, calls, vacuum))
+
+
+chores <- chores %>% 
+  mutate(RecordedDate = substr(RecordedDate, 1, 7))
+
+total_chores <- chores %>%
+  group_by(dyadID, RecordedDate) %>%
+  summarize(cup_chores = sum(ind_chores))
+
+happy_happy_happy <- chores %>%
+  right_join(total_chores, by = c("dyadID", "RecordedDate"))
 ```
