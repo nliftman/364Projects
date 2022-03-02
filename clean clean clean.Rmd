@@ -95,8 +95,8 @@ pre_fixed <- benevbaby %>%
 #benevolent own variable
 pre_fixed$benevolaet <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
 
-#hostile own variable
-pre_fixed$hostile <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r))
+#hostile own variable not included 18, because it is fricked
+pre_fixed$hostile <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
 ```
 
 # Daily
