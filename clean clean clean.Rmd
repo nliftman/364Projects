@@ -116,6 +116,7 @@ chores <- daily %>%
 
 # Making chore data numeric
 chores <- chores %>%
+  select(-cars, -events) %>%
   mutate(beds = if_else(beds == "Yes", 1, 0),
          vacuum = if_else(vaccum == "Yes", 1, 0),
          food = if_else(food == "Yes", 1, 0),
@@ -125,19 +126,16 @@ chores <- chores %>%
          pets = if_else(pets == "Yes", 1, 0),
          laundry = if_else(laundry == "Yes", 1, 0),
          errands = if_else(errands == "Yes", 1, 0),
-         cars = if_else(cars == "Yes", 1, 0),
          finances = if_else(finances == "Yes", 1, 0),
-         events = if_else(events == "Yes", 1, 0),
          calls = if_else(calls == "Yes", 1, 0)) %>%
   select(-vaccum, sexualor) %>%
   distinct()
 
-chores[, 4:15][is.na(chores[, 4:15])] <- 0
+chores[, 4:13][is.na(chores[, 4:13])] <- 0
 
 chores <- chores %>%
   rowwise() %>%
-  mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, cars, finances, events, calls, vacuum))
-
+  mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum))
 
 chores <- chores %>% 
   mutate(RecordedDate = substr(RecordedDate, 1, 7))
