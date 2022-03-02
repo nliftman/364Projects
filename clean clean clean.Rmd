@@ -107,11 +107,11 @@ daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
 daily <- daily %>%
   select(dyadID, RecordedDate, gender, beds:calls, qmi4) 
 
-pre <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
-  select(dyadID, sexualor) %>%
+sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
+  select(dyadID, sexualor)
   
 chores <- daily %>%
-  left_join(pre, by = "dyadID") %>%
+  left_join(sexor, by = "dyadID") %>%
   filter(sexualor == "Heterosexual")
 
 # Making chore data numeric
@@ -129,6 +129,12 @@ chores <- chores %>%
          finances = if_else(finances == "Yes", 1, 0),
          events = if_else(events == "Yes", 1, 0),
          calls = if_else(calls == "Yes", 1, 0)) %>%
-  select(-vaccum) %>%
+  select(-vaccum, sexualor) %>%
   distinct()
+
+chores[, 4:15][is.na(chores[, 4:15])] <- 0
+
+chores <- chores %>%
+  rowwise() %>%
+  mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, cars, finances, events, calls, vacuum))
 ```
