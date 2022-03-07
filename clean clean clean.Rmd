@@ -167,9 +167,19 @@ final_chores <- final_chores %>%
 demographics <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
   filter(sexualor == "Heterosexual") %>%
   select(gender, race, parttime, people_4_TEXT, people_5_TEXT)
+
+hmmm <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
+  select(sexualor, gender)
+
+hmmm %>%
+  group_by(sexualor, gender) %>%
+  summarize(n = n())
+
 ```
 
-Since our analysis looks at division of labor based on gender, we restricted our sample to only include heterosexual couples. Since all of the couples are living together, it did not seem necessary to distinguish between committed relationships and marriage.
+While the original data set includes 364 participants of all identities, it predominantly consists of heterosexual individuals (n = 353). In order to look at division of labor along gender lines, it is necessary to restrict the data set to male-female couples. Due to the small number of male-female couples that included an individual who was not heterosexual, we decided to restrict our sample futher to only include heterosexual couples. This was done in order to prevent any confounds that sexual orientation may have caused. Additionally 
+
+- relationships
 
 - Describe any exclusion criteria used
 - Report sample size (number of individuals as well as number of dyads)
