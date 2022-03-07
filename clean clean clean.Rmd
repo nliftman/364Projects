@@ -164,6 +164,9 @@ happy_happy_happy <- chores %>%
 #longer <- longer %>%
  # unite(var_gender, variable, gender)
 
+final <- happy_happy_happy %>% 
+  group_by(dyadID, RecordedDate) %>% 
+  mutate(avg_percent = sum(percent)/14)
 
 ```
 
