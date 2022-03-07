@@ -147,6 +147,21 @@ total_chores <- chores %>%
 happy_happy_happy <- chores %>%
   right_join(total_chores, by = c("dyadID", "RecordedDate")) %>% 
   mutate(percent = ind_chores/cup_chores)
+
+#now add the variable _M and _W
+happy_happy_happy_ <- happy_happy_happy %>% 
+  mutate(gender = ifelse(gender == "Man", "M", "W"))
+
+#pivot longer
+longer <- happy_happy_happy_ %>% 
+  gather(variable, value, beds:percent)
+
+#smoosh them together so that we have a variable with the gender and the variable
+longer <- longer %>%
+  unite(var_gender, variable, gender)
+
+
+
 ```
 
 # Task 1
