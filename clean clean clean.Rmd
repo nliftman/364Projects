@@ -130,6 +130,13 @@ chores <- chores %>%
          calls = if_else(calls == "Yes", 1, 0)) %>%
   select(-vaccum, sexualor) %>%
   distinct()
+
+#replacing all the qmis 
+happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Mostly true about me', 1)
+happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Somewhat true about me', 2)
+happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'A little true about me', 3)
+happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Not true about me', 4)
+
 ``` 
 
 ```{r}
@@ -153,12 +160,18 @@ happy_chores <- happy_happy_happy %>%
   group_by(dyadID, RecordedDate, gender) %>%
   summarize(daily_per = ind_chores / cup_chores)
 
-final_chores <- final_chores %>%
+final_chores <- happy_chores %>%
   group_by(dyadID, gender) %>%
-  summarize(avg_per = sum(daily_per)/14)
+  summarize(avg_per = sum(daily_per)/14,
+            avg_team = sum(qmi)/14)
 
-#CRY CRY NAOMI TIME
+#CRY CRY NAOMI TIME and messing with qmi
+
+
+
 ```
+
+
 
 # Task 1
 
