@@ -145,7 +145,8 @@ total_chores <- chores %>%
   summarize(cup_chores = sum(ind_chores))
 
 happy_happy_happy <- chores %>%
-  right_join(total_chores, by = c("dyadID", "RecordedDate"))
+  right_join(total_chores, by = c("dyadID", "RecordedDate")) %>% 
+  mutate(percent = ind_chores/cup_chores)
 ```
 
 # Task 1
