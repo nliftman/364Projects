@@ -130,7 +130,9 @@ chores <- chores %>%
          calls = if_else(calls == "Yes", 1, 0)) %>%
   select(-vaccum, sexualor) %>%
   distinct()
+``` 
 
+```{r}
 chores[, 4:13][is.na(chores[, 4:13])] <- 0
 
 chores <- chores %>%
@@ -159,7 +161,6 @@ longer <- happy_happy_happy_ %>%
 #smoosh them together so that we have a variable with the gender and the variable
 longer <- longer %>%
   unite(var_gender, variable, gender)
-
 
 
 ```
