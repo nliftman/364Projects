@@ -132,11 +132,13 @@ chores <- chores %>%
   distinct()
 
 #replacing all the qmis 
-happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Mostly true about me', 1)
-happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Somewhat true about me', 2)
-happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'A little true about me', 3)
-happy_happy_happy$qmi4 <- replace(happy_happy_happy$qmi4, happy_happy_happy$qmi4 == 'Not true about me', 4)
+chores$qmi4 <- replace(chores$qmi4, chores$qmi4 == 'Mostly true about me', 1)
+chores$qmi4 <- replace(chores$qmi4, chores$qmi4 == 'Somewhat true about me', 2)
+chores$qmi4 <- replace(chores$qmi4, chores$qmi4 == 'A little true about me', 3)
+chores$qmi4 <- replace(chores$qmi4, chores$qmi4 == 'Not true about me', 4)
 
+chores <- chores %>% 
+  mutate(qmi4 = as.numeric(qmi4))
 ``` 
 
 ```{r}
