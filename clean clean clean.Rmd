@@ -151,3 +151,16 @@ happy_happy_happy <- chores %>%
 # Task 1
 
 # Task 2
+```{r}
+demographics <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
+  filter(sexualor == "Heterosexual") %>%
+  select(gender, race, parttime, people_4_TEXT, people_5_TEXT)
+```
+
+Since our analysis looks at division of labor based on gender, we restricted our sample to only include heterosexual couples. Since all of the couples are living together, it did not seem necessary to distinguish between committed relationships and marriage.
+
+- Describe any exclusion criteria used
+- Report sample size (number of individuals as well as number of dyads)
+- Report basic demographics for the sample. That is, percentages of gender, percentages of racial groups, participant age, major, income, age of children, adoption type, etc. This depends, of course, on what you have in your data
+- If working with distinguishable dyads, report the correlations among important study variables using the dyad dataset. I recommend doing this in a table, NOT by reporting each correlation in the text
+- If working with distinguishable dyads, you can run some paired-samples t-tests using the dyad dataset to test for basic differences
