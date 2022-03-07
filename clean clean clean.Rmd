@@ -130,7 +130,9 @@ chores <- chores %>%
          calls = if_else(calls == "Yes", 1, 0)) %>%
   select(-vaccum, sexualor) %>%
   distinct()
+``` 
 
+```{r}
 chores[, 4:13][is.na(chores[, 4:13])] <- 0
 
 chores <- chores %>%
@@ -145,7 +147,27 @@ total_chores <- chores %>%
   summarize(cup_chores = sum(ind_chores))
 
 happy_happy_happy <- chores %>%
-  right_join(total_chores, by = c("dyadID", "RecordedDate"))
+  right_join(total_chores, by = c("dyadID", "RecordedDate")) %>% 
+  mutate(percent = ind_chores/cup_chores)
+
+
+#CRY CRY NAOMI TIME
+#now add the variable _M and _W
+#happy_happy_happy_ <- happy_happy_happy %>% 
+  #mutate(gender = ifelse(gender == "Man", "M", "W"))
+
+#pivot longer
+#longer <- happy_happy_happy_ %>% 
+  #gather(variable, value, beds:percent)
+
+#smoosh them together so that we have a variable with the gender and the variable
+#longer <- longer %>%
+ # unite(var_gender, variable, gender)
+
+final <- happy_happy_happy %>% 
+  group_by(dyadID, RecordedDate) %>% 
+  mutate(avg_percent = sum(percent)/14)
+
 ```
 
 # Task 1
