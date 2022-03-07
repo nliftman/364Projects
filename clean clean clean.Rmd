@@ -150,17 +150,19 @@ happy_happy_happy <- chores %>%
   right_join(total_chores, by = c("dyadID", "RecordedDate")) %>% 
   mutate(percent = ind_chores/cup_chores)
 
+
+#CRY CRY NAOMI TIME
 #now add the variable _M and _W
-happy_happy_happy_ <- happy_happy_happy %>% 
-  mutate(gender = ifelse(gender == "Man", "M", "W"))
+#happy_happy_happy_ <- happy_happy_happy %>% 
+  #mutate(gender = ifelse(gender == "Man", "M", "W"))
 
 #pivot longer
-longer <- happy_happy_happy_ %>% 
-  gather(variable, value, beds:percent)
+#longer <- happy_happy_happy_ %>% 
+  #gather(variable, value, beds:percent)
 
 #smoosh them together so that we have a variable with the gender and the variable
-longer <- longer %>%
-  unite(var_gender, variable, gender)
+#longer <- longer %>%
+ # unite(var_gender, variable, gender)
 
 
 ```
