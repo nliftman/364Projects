@@ -9,6 +9,8 @@ output: pdf_document
 #load all necessary packages
 library(tidyverse)
 library(psych)
+library(mosaic)
+library(nlme)
 ```
 
 # Import Premeasures and Clean
