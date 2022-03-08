@@ -178,6 +178,16 @@ final_chores <- total_chores %>%
 
 
 # Task 1
+Scale for each variable: 
+
+We are using the Ambivalent Sexism Inventory to calculate scores for benevolent (BS) and hostile (HS) sexism. This scale has 22 questions with 11 pertaining to each type of sexism. We did remove one question which was supposed to be reverse scored; however, the participants clearly did not understand the question, and their responses were not what we would expect. For these reason we are omitting the question, "There are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances". (USE THE ASI)
+
+To calculate the division of household labor we are asking each person what chores they completed that day out of a 11 total possible chores. We asked them to indicate "Today, did you spend any time on the following household chores? If the item is not applicable (for example, you don't have any pets), please leave this item blank." and then gave them a list of chores, for which they had to answer no or yes below. We have only included chores that are completely routinely (around every day), which include items such as "made beds or changed bed linens" and "washed dishes today".
+
+Finally for our response variable of how much of a team the participant feels they are with their partner we asked them "Please indicate the degree to which you identify with the following statements about your romantic relationship today" and the question "Today, my partner and I are really a team". This was calculated on a four point scale with one being the answer 'mostly true about me' and four being the response "Not true about me". 
+
+
+
 
 # Task 2
 ```{r}
