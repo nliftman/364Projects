@@ -142,23 +142,23 @@ total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
 
 #makeing the character strings of numbers actually numeric
-total <- total %>% 
+allnumeric <- total %>% 
   mutate(qmi4 = as.numeric(qmi4))
 ``` 
 
 ```{r}
 #remove all the nas? 
-total[, 4:13][is.na(total[, 4:13])] <- 0
+allnumeric[, 4:13][is.na(allnumeric[, 4:13])] <- 0
 
 #creating the individual chore number by summing
 #get rid of other parts of the other parts of the recorded date so its only day
-total <- total %>%
+allnumeric <- allnumeric %>%
   rowwise() %>%
   mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum),
          RecordedDate = substr(RecordedDate, 1, 7))
 
 #creating a new dataset with only the couple chores
-couple_chores <- total %>%
+couple_chores <- allnumeric %>%
   group_by(dyadID, RecordedDate) %>%
   summarize(cup_chores = sum(ind_chores))
 
@@ -166,15 +166,15 @@ couple_chores <- total %>%
 total_chores <- couple_chores %>%
   right_join(couple_chores, by = c("dyadID", "RecordedDate"))
 
-happy_chores <- happy_happy_happy %>%
+#finding the daily chores performed per day
+total_chores <- total_chores %>%
   group_by(dyadID, RecordedDate, gender) %>%
-  summarize(daily_per = ind_chores / cup_chores,
-            qmi = qmi4)
+  summarize(daily_per = ind_chores / cup_chores)
 
+#finding the average amount of chores done over the 14 day period
 final_chores <- happy_chores %>%
   group_by(dyadID, gender) %>%
-  summarize(avg_per = sum(daily_per)/14,
-            avg_team = sum(qmi)/14)
+  summarize(avg_per = sum(daily_per)/14)
 
 #CRY CRY NAOMI TIME and messing with qmi
 
