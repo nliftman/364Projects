@@ -143,30 +143,21 @@ total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Somewhat true about me', 2)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
 
-#makeing the character strings of numbers actually numeric
-allnumeric <- total %>% 
-  mutate(qmi4 = as.numeric(qmi4))
-``` 
-
-```{r}
-#remove all the nas? 
-allnumeric[, 4:13][is.na(allnumeric[, 4:13])] <- 0
-
 #creating the individual chore number by summing
 #get rid of other parts of the other parts of the recorded date so its only day
-allnumeric <- allnumeric %>%
+total <- total %>%
   rowwise() %>%
   mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum),
          RecordedDate = substr(RecordedDate, 1, 7))
 
 #creating a new dataset with only the couple chores
-couple_chores <- allnumeric %>%
+couple_chores <- total %>%
   group_by(dyadID, RecordedDate) %>%
   summarize(cup_chores = sum(ind_chores))
 
 #a combination of both the chores the partner and the actor did
 total_chores <- couple_chores %>%
-  right_join(couple_chores, by = c("dyadID", "RecordedDate"))
+  right_join(total, by = c("dyadID", "RecordedDate"))
 
 #finding the daily chores performed per day
 total_chores <- total_chores %>%
@@ -174,7 +165,7 @@ total_chores <- total_chores %>%
   summarize(daily_per = ind_chores / cup_chores)
 
 #finding the average amount of chores done over the 14 day period
-final_chores <- happy_chores %>%
+final_chores <- total_chores %>%
   group_by(dyadID, gender) %>%
   summarize(avg_per = sum(daily_per)/14)
 
