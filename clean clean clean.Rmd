@@ -168,7 +168,8 @@ total_chores <- couple_chores %>%
 
 happy_chores <- happy_happy_happy %>%
   group_by(dyadID, RecordedDate, gender) %>%
-  summarize(daily_per = ind_chores / cup_chores)
+  summarize(daily_per = ind_chores / cup_chores,
+            qmi = qmi4)
 
 final_chores <- happy_chores %>%
   group_by(dyadID, gender) %>%
