@@ -102,11 +102,39 @@ temp <- temp %>%
 #other problematic cases to fix due to participant error:
 
 temp <- temp %>% 
-  mutate(if(ResponseID == 494)
-    replace(day = Friday))
+  mutate(day = ifelse(ResponseID == 494, "Friday", day),
+         day = ifelse(ResponseID == 771, "Friday", day),
+         day = ifelse(ResponseID == 873, "Friday", day),
+         day = ifelse(ResponseID == 894, "Friday", day),
+         day = ifelse(ResponseID == 1077, "Friday", day),
+         day = ifelse(ResponseID == 1111, "Friday", day),
+         day = ifelse(ResponseID == 1202, "Friday", day),
+         day = ifelse(ResponseID == 1219, "Friday", day),
+         day = ifelse(ResponseID == 1233, "Friday", day),
+         day = ifelse(ResponseID == 1247, "Friday", day),
+         day = ifelse(ResponseID == 1365, "Friday", day),
+         day = ifelse(ResponseID == 1771, "Friday", day),
+         day = ifelse(ResponseID == 1785, "Friday", day),
+         day = ifelse(ResponseID == 2328, "Friday", day),
+         day = ifelse(ResponseID == 2345, "Friday", day),
+         day = ifelse(ResponseID == 2393, "Friday", day),
+         day = ifelse(ResponseID == 2516, "Friday", day),
+         day = ifelse(ResponseID == 2680, "Friday", day),
+         day = ifelse(ResponseID == 2694, "Friday", day),
+         day = ifelse(ResponseID == 2821, "Friday", day),
+         day = ifelse(ResponseID == 2825, "Friday", day),
+         day = ifelse(ResponseID == 2859, "Friday", day),
+         day = ifelse(ResponseID == 2881, "Friday", day),
+         day = ifelse(ResponseID == 2940, "Friday", day),
+         day = ifelse(ResponseID == 3005, "Friday", day),
+         day = ifelse(ResponseID == 3025, "Friday", day),
+         day = ifelse(ResponseID == 3178, "Friday", day),
+         day = ifelse(ResponseID == 3192, "Friday", day),
+         day = ifelse(ResponseID == 3243, "Friday", day),
+         day = ifelse(ResponseID == 3385, "Friday", day),
+         day = ifelse(ResponseID == 3399, "Friday", day))
 
-yeehaw <- temp %>% 
-  filter(ResponseID == 494)
+
   
 #494 says thrusday but change to Friday
 #771 says thursday but change to Wednesday
