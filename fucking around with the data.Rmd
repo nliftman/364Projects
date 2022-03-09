@@ -86,7 +86,9 @@ temp <- dailydiary %>%
 ```
 
 ```{r}
-temp
+temp %>% 
+  rm(list = ls()[grepl(problems > 1, ls())])
+rm(list = ls()[grepl("_", ls())])
 #remove anyone with 
 #(problems > 1) | (problems == 1 & !is.na(partID_given)) 
 #other problematic cases or IDs to filter out completely: 
