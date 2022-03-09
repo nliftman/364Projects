@@ -1,0 +1,158 @@
+---
+title: "fuckin around with the data"
+author: "Naomi Liftman"
+date: "3/8/2022"
+output: pdf_document
+---
+```{r message = FALSE, warning = FALSE, error = FALSE}
+#load all the data
+library(tidyverse)
+library(psych)
+library(mosaic)
+library(nlme)
+```
+
+```{r}
+#loading in the premeasures and the daily 
+premeasures <- read_csv("TeleCom_Dyad_premeasures.csv")
+dailydiary <- read.csv("TeleCom_Dyad_dailydiary.csv")
+```
+```{r}
+premeasures <- premeasures %>%
+  group_by(dyadID) %>% #for longitudinal dataset use obsid
+  mutate(partnum = seq_along(ResponseId)) %>%
+  ungroup()
+```
+
+```{r}
+analysis_data <- premeasures %>%
+  select(ResponseId, dyadID, partnum, gender, asi_1:asi_22)
+```
+
+```{r}
+temp_A <- analysis_data %>%
+  mutate(partnum2 = 1, 
+    partnum = ifelse(partnum == 1, "A", "P")) %>%
+  gather(variable, value, gender:asi_22) %>%
+  unite(var_partnum, variable, partnum) %>%
+  spread(var_partnum, value)
+
+temp_B <- analysis_data %>%
+  mutate(partnum2 = 2, 
+         partnum = ifelse(partnum == 2, "A", "P")) %>%
+  gather(variable, value, gender:asi_22) %>%
+  unite(var_partnum, variable, partnum) %>%
+  spread(var_partnum, value)
+
+analysis_pair <- bind_rows(temp_A, temp_B) %>%
+  arrange(dyadID)
+```
+
+```{r}
+temp <- dailydiary %>%
+  mutate(RecordedDate = mdy_hm(RecordedDate)) %>%
+  arrange(dyadID, partID, day, RecordedDate) %>%
+  mutate(ResponseID = seq_along(RecordedDate)) %>%
+  group_by(partID, day) %>%
+  mutate(RecordedDate_lag = lag(RecordedDate), #so we can test if record for second tuesday are plausibly next week
+         dist = difftime(RecordedDate, RecordedDate_lag, units = "days"), #recoding as day between
+         first_sec = seq_along(RecordedDate), #first tuesday or second tuesday?
+         prob = ifelse(first_sec >= 2 & dist < 4, 1, 0)) %>% #second+ tuesday is problematic if it's NOT plausibly next week
+  group_by(dyadID, partID) %>%
+  arrange(dyadID, partID, RecordedDate) %>%
+  mutate(rec_num = seq_along(RecordedDate),
+         weekish = ifelse(rec_num > 7, 2, 1), #coding for days beyond 7, most are "week 2"
+         day_of_study = ifelse(weekish == 2 | (weekish==1 & first_sec>1), #for people who missed days in week 1
+                        (case_when(day == "Monday" ~ 8,
+                        day == "Tuesday" ~ 9,
+                        day == "Wednesday" ~ 10,
+                        day == "Thursday" ~ 11,
+                        day == "Friday" ~ 12,
+                        day == "Saturday" ~ 13,
+                        day == "Sunday" ~ 14)), 
+                      case_when(day == "Monday" ~ 1,
+                        day == "Tuesday" ~ 2,
+                        day == "Wednesday" ~ 3,
+                        day == "Thursday" ~ 4,
+                        day == "Friday" ~ 5,
+                        day == "Saturday" ~ 6,
+                        day == "Sunday" ~ 7)),
+         week = ifelse(day_of_study > 7, 2, 1)) %>%
+  group_by(partID) %>%
+  mutate(problems = sum(prob)) %>%
+  arrange(desc(problems), dyadID, partID, RecordedDate) %>%
+  select(ResponseID, partID_given:day, day_of_study, RecordedDate_lag, dist, first_sec, prob, rec_num,  
+          weekish, week, problems, gender:comments)
+```
+
+```{r}
+#remove anyone with 
+(problems > 1) | (problems == 1 & !is.na(partID_given)) 
+#other problematic cases or IDs to filter out completely: 
+146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
+#other problematic cases to fix due to participant error: 
+494 says thrusday but change to Friday
+771 says thursday but change to Wednesday
+873 says Tuesday but change to Monday
+887 say Tues but change to Mon
+894 is day 8 but it gets coded as day 1
+1077 says Thurs but it's Wed
+1111 says Fri but it's sat
+1202 says Thurs but it's Wed
+1219 says Wed but it's Tues
+1233 says Wed but it's Tues
+1247 says Wed but it's Tues
+1365 says Fri but it's sat
+1771 says sat but it's fri
+1785 says sat but it's fri
+2328 says Tues but it's Wed
+2345 says fri but it's sat
+2393 says thur but it's wed 
+2516 says wed but it's thurs
+2680 say Tues but it's mon
+2694 says tues but it's mon
+2821 says fri but it's sat
+2825 says sat but it's sun
+2859 says tues but it's wed
+2881 say sat but it's sun
+2940 says fri but it's thur
+3005 says tue but it mon
+3025 says fri but its thur
+3178 says Tue but its mon 
+3192 says tues but it's mon 
+3243 says sat but it's sun 
+3385 says tues but it's wed
+3399 says tues but it's wed
+```
+
+```{r}
+#run again after clean:
+temp <- temp %>%
+  arrange(dyadID, partID, day, RecordedDate) %>%
+  mutate(ResponseID = seq_along(RecordedDate)) %>%
+  group_by(partID, day) %>%
+  mutate(RecordedDate_lag = lag(RecordedDate), #so we can test if record for second tuesday are plausibly next week
+         dist = difftime(RecordedDate, RecordedDate_lag, units = "days"), #recoding as day between
+         first_sec = seq_along(RecordedDate), #first tuesday or second tuesday?
+         prob = ifelse(first_sec >= 2 & dist < 4, 1, 0)) %>% #second+ tuesday is problematic if it's NOT plausibly next week
+  group_by(dyadID, partID) %>%
+  arrange(dyadID, partID, RecordedDate) %>%
+  mutate(rec_num = seq_along(RecordedDate),
+         weekish = ifelse(rec_num > 7, 2, 1), 
+         day_of_study = ifelse(weekish == 2 | (weekish==1 & first_sec>1), 
+                        (case_when(day == "Monday" ~ 8,
+                        day == "Tuesday" ~ 9,
+                        day == "Wednesday" ~ 10,
+                        day == "Thursday" ~ 11,
+                        day == "Friday" ~ 12,
+                        day == "Saturday" ~ 13,
+                        day == "Sunday" ~ 14)), 
+                      case_when(day == "Monday" ~ 1,
+                        day == "Tuesday" ~ 2,
+                        day == "Wednesday" ~ 3,
+                        day == "Thursday" ~ 4,
+                        day == "Friday" ~ 5,
+                        day == "Saturday" ~ 6,
+                        day == "Sunday" ~ 7)),
+         week = ifelse(day_of_study > 7, 2, 1))
+```
