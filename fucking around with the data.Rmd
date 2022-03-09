@@ -101,7 +101,12 @@ temp <- temp %>%
 
 #other problematic cases to fix due to participant error:
 
+temp <- temp %>% 
+  mutate(if(ResponseID == 494)
+    replace(day = Friday))
 
+yeehaw <- temp %>% 
+  filter(ResponseID == 494)
   
 #494 says thrusday but change to Friday
 #771 says thursday but change to Wednesday
