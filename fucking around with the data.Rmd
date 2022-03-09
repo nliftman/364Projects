@@ -86,13 +86,28 @@ temp <- dailydiary %>%
 ```
 
 ```{r}
-temp %>% 
-  rm(list = ls()[grepl(problems > 1, ls())])
-rm(list = ls()[grepl("_", ls())])
 #remove anyone with 
 #(problems > 1) | (problems == 1 & !is.na(partID_given)) 
+temp <- temp %>% 
+  filter((problems <= 1) | (problems != 1) & (!is.na(partID_given)))
+
 #other problematic cases or IDs to filter out completely: 
 #146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
+#temp[-c(2800),]
+#temp[-c(1302),]
+#temp[-c(1282),]
+#temp[-c(1278),]
+#temp[-c(1266),]
+#temp[-c(146),]
+#temp <- temp %>% 
+ # filter(partID != 'R_1fiPEJydpvuaEEs',
+  #       partID != 'R_1jV9NyWEbelB76s',
+   #      partID != "R_1PTxhk4207mTHAb",
+    #     partID != "R_27kuznipTrWICLB")
+
+
+
+
 #other problematic cases to fix due to participant error: 
 #494 says thrusday but change to Friday
 #771 says thursday but change to Wednesday
