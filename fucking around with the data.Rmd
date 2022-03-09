@@ -6,10 +6,10 @@ output: pdf_document
 ---
 ```{r message = FALSE, warning = FALSE, error = FALSE}
 #load all the data
+library(papaja)
 library(tidyverse)
-library(psych)
-library(mosaic)
-library(nlme)
+library(readr)
+library(lubridate)
 ```
 
 ```{r}
@@ -86,43 +86,45 @@ temp <- dailydiary %>%
 ```
 
 ```{r}
+temp %>% 
+  
 #remove anyone with 
-(problems > 1) | (problems == 1 & !is.na(partID_given)) 
+#(problems > 1) | (problems == 1 & !is.na(partID_given)) 
 #other problematic cases or IDs to filter out completely: 
-146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
+#146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
 #other problematic cases to fix due to participant error: 
-494 says thrusday but change to Friday
-771 says thursday but change to Wednesday
-873 says Tuesday but change to Monday
-887 say Tues but change to Mon
-894 is day 8 but it gets coded as day 1
-1077 says Thurs but it's Wed
-1111 says Fri but it's sat
-1202 says Thurs but it's Wed
-1219 says Wed but it's Tues
-1233 says Wed but it's Tues
-1247 says Wed but it's Tues
-1365 says Fri but it's sat
-1771 says sat but it's fri
-1785 says sat but it's fri
-2328 says Tues but it's Wed
-2345 says fri but it's sat
-2393 says thur but it's wed 
-2516 says wed but it's thurs
-2680 say Tues but it's mon
-2694 says tues but it's mon
-2821 says fri but it's sat
-2825 says sat but it's sun
-2859 says tues but it's wed
-2881 say sat but it's sun
-2940 says fri but it's thur
-3005 says tue but it mon
-3025 says fri but its thur
-3178 says Tue but its mon 
-3192 says tues but it's mon 
-3243 says sat but it's sun 
-3385 says tues but it's wed
-3399 says tues but it's wed
+#494 says thrusday but change to Friday
+#771 says thursday but change to Wednesday
+#873 says Tuesday but change to Monday
+#887 say Tues but change to Mon
+#894 is day 8 but it gets coded as day 1
+#1077 says Thurs but it's Wed
+#1111 says Fri but it's sat
+#1202 says Thurs but it's Wed
+#1219 says Wed but it's Tues
+#1233 says Wed but it's Tues
+#1247 says Wed but it's Tues
+#1365 says Fri but it's sat
+#1771 says sat but it's fri
+#1785 says sat but it's fri
+#2328 says Tues but it's Wed
+#2345 says fri but it's sat
+#2393 says thur but it's wed 
+#2516 says wed but it's thurs
+#2680 say Tues but it's mon
+#2694 says tues but it's mon
+#2821 says fri but it's sat
+#2825 says sat but it's sun
+#2859 says tues but it's wed
+#2881 say sat but it's sun
+#2940 says fri but it's thur
+#3005 says tue but it mon
+#3025 says fri but its thur
+#3178 says Tue but its mon 
+#3192 says tues but it's mon 
+#3243 says sat but it's sun 
+#3385 says tues but it's wed
+#3399 says tues but it's wed
 ```
 
 ```{r}
