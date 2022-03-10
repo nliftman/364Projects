@@ -268,9 +268,15 @@ sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
   
 #creating a data with both premeasures and daily
 #remove all that are not heterosexual
-total <- daily %>%
-  left_join(sexor, by = "YEEHAW (participant id and time variable)") %>%
-  filter(sexualor == "Heterosexual")
+
+#//not quite sure why we are only combining the sexualor data, because we need
+#//the ambivelent and hostile sexism stuff, but i think we can actually do
+#//that after we figure out the pairwise data and just add it then
+#//bc it will be the same for each dyad over time
+
+#total <- daily %>%
+  #left_join(sexor, by = "YEEHAW (participant id and time variable)") %>%
+  #filter(sexualor == "Heterosexual")
 
 # Making chore data numeric
 total <- total %>%
