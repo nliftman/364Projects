@@ -340,5 +340,7 @@ pairwise2 <- pairwise %>%
 pairwise3 <- pairwise2 %>% 
   unite(var_gender, variable, gender)
 
-
+#spreading them out, cant quite figure this out 
+pairwise4 <- pairwise3 %>%
+  spread(var_gender, value)
 ```
