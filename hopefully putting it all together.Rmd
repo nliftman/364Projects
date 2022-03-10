@@ -336,5 +336,9 @@ pairwise <- pairwise %>%
 pairwise2 <- pairwise %>%
   gather(variable, value, beds:daily_per)
 
+#creating a new variable that adds the variable and gender
+pairwise3 <- pairwise2 %>% 
+  unite(var_gender, variable, gender)
+
 
 ```
