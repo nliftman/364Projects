@@ -312,9 +312,14 @@ total_chores <- couple_chores %>%
   right_join(total, by = c("dyadID", "day", "day_of_study")) 
 
 #finding the daily chores performed per day
-total_chores <- total_chores %>%
-  group_by(dyadID, YEEHAW (participant id and date, i took out gender bc of the id but it might need gender i f it doesnt work)) %>%
+finaltotal <- total_chores %>%
+  group_by(dyadID, day, day_of_study) %>% 
   summarize(daily_per = ind_chores / cup_chores)
+
+#creating one last big boy
+#this includes everything yay yay yay yay
+total_chores <- total_chores %>% 
+  right_join(finaltotal, by = c("dyadID", "day", "day_of_study"))
 ```
 
 # Making it Pairwise and Calculating Stuff!
