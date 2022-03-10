@@ -256,7 +256,7 @@ pre_fixed$hostile <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, as
 # Daily Data
 ```{r}
 #import data
-daily <- YEEHAW (Insert name of final data name from cleaned data here)
+daily <- temp
 
 #cleaning data to only include our sample size and the variables we are measuring
 daily <- daily %>%
