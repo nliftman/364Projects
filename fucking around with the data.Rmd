@@ -103,8 +103,8 @@ temp <- temp %>%
 
 temp <- temp %>% 
   mutate(day = ifelse(ResponseID == 494, "Friday", day),
-         day = ifelse(ResponseID == 771, "Friday", day),
-         day = ifelse(ResponseID == 873, "Friday", day),
+         day = ifelse(ResponseID == 771, "Wednesday", day),
+         day = ifelse(ResponseID == 873, "Monday", day),
          day = ifelse(ResponseID == 894, "Friday", day),
          day = ifelse(ResponseID == 1077, "Friday", day),
          day = ifelse(ResponseID == 1111, "Friday", day),
