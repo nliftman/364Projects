@@ -320,6 +320,10 @@ finaltotal <- total_chores %>%
 #this includes everything yay yay yay yay
 total_chores <- total_chores %>% 
   full_join(finaltotal, by = c("dyadID", "gender", "day", "day_of_study"))
+
+#creating a obsid
+total_chores <- total_chores %>%
+  mutate(obsid = day_of_study+14*(dyadID-1))
 ```
 
 # Making it Pairwise and Calculating Stuff!
@@ -330,17 +334,19 @@ pairwise <- total_chores %>%
 
 #rearranging the data
 pairwise <- pairwise %>% 
-  select(dyadID, partID, gender, day, day_of_study, beds:calls, vacuum, qmi4, ind_chores, cup_chores, daily_per)
+  select(dyadID, partID, obsid, gender, day, day_of_study, beds:calls, vacuum, qmi4, ind_chores, cup_chores, daily_per)
 
-#pivoting longer
-pairwise2 <- pairwise %>%
+#pivot longer baby
+pairwise2 <- pairwise %>% 
   gather(variable, value, beds:daily_per)
 
-#creating a new variable that adds the variable and gender
-pairwise3 <- pairwise2 %>% 
+#creating a variable that has both the variable and the gender
+pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender)
 
-#spreading them out, cant quite figure this out 
+#spreading them back out
 pairwise4 <- pairwise3 %>%
   spread(var_gender, value)
+
+
 ```
