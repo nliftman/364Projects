@@ -260,7 +260,7 @@ daily <- temp
 
 #cleaning data to only include our sample size and the variables we are measuring
 daily <- daily %>%
-  select(partID, RecordedDate, gender, beds:calls, qmi4) 
+  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4) 
 
 #loading the premeasures data, but only including the dyad ID and the sexualor
 sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
