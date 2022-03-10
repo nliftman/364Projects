@@ -7,7 +7,7 @@ output: html_document
 ***NOTE: Search for YEEHAWs. They are the things that need to be changed (with the variable I don't know the name of in parentheses)
 
 #Packages
-```{r}
+```{r message = FALSE, error = FALSE, warning = FALSE}
 library(tidyverse)
 library(lubridate)
 library(psych)
@@ -260,7 +260,7 @@ daily <- temp
 
 #cleaning data to only include our sample size and the variables we are measuring
 daily <- daily %>%
-  select(YEEHAW(participant id and time variable), gender, beds:calls, qmi4) 
+  select(partID, RecordedDate, gender, beds:calls, qmi4) 
 
 #loading the premeasures data, but only including the dyad ID and the sexualor
 sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
