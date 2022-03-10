@@ -270,11 +270,11 @@ sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
 #remove all that are not heterosexual
 
 total <- daily %>%
-  left_join(sexor, by = "YEEHAW (participant id and time variable)") %>%
+  left_join(sexor, by = "dyadID") %>%
   filter(sexualor == "Heterosexual")
 
 # Making chore data numeric
-daily <- daily %>%
+total <- total %>%
   select(-cars, -events) %>%
   mutate(beds = if_else(beds == "Yes", 1, 0),
          vacuum = if_else(vaccum == "Yes", 1, 0),
@@ -304,7 +304,7 @@ total <- total %>%
 
 #creating a new dataset with only the couple chores
 couple_chores <- total %>%
-  group_by(dyadID, YEEHAW (participant id and date)) %>%
+  group_by(dyadID, day, day_of_study) %>%
   summarize(cup_chores = sum(ind_chores))
 
 #a combination of both the chores the partner and the actor did
