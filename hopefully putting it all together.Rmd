@@ -324,5 +324,17 @@ total_chores <- total_chores %>%
 
 # Making it Pairwise and Calculating Stuff!
 ```{r}
+#making it so each has a easy gender thing to add to the end
+pairwise <- total_chores %>% 
+  mutate(gender = ifelse(gender == 'Woman', 'W', 'M'))
+
+#rearranging the data
+pairwise <- pairwise %>% 
+  select(dyadID, partID, gender, day, day_of_study, beds:calls, vacuum, qmi4, ind_chores, cup_chores, daily_per)
+
+#pivoting longer
+pairwise2 <- pairwise %>%
+  gather(variable, value, beds:daily_per)
+
 
 ```
