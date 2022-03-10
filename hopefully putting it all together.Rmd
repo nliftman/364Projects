@@ -307,9 +307,9 @@ couple_chores <- total %>%
   group_by(dyadID, day, day_of_study) %>%
   summarize(cup_chores = sum(ind_chores))
 
-#a combination of both the chores the partner and the actor did
+#a combination of both the chores the partner and the actor did 
 total_chores <- couple_chores %>%
-  right_join(total, by = c("dyadID")) #potential YEEHAW. I think this will work but it might not, in which case, add in participant id and date
+  right_join(total, by = c("dyadID", "day", "day_of_study")) 
 
 #finding the daily chores performed per day
 total_chores <- total_chores %>%
