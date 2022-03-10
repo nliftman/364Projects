@@ -1,0 +1,179 @@
+---
+title: "hopefully putting it all together"
+author: "Cara Krupnikoff-Salkin"
+date: "3/9/2022"
+output: html_document
+---
+***NOTE: Search for YEEHAWs. They are the things that need to be changed (with the variable I don't know the name of in parentheses)
+
+#Packages
+```{r}
+library(tidyverse)
+library(lubridate)
+library(psych)
+library(mosaic)
+library(nlme)
+```
+
+# Longitudinal Data Cleaning
+This can probably just be copy and pasted as is for tmrw and I'll clean everything over break I promise. 
+```{r}
+
+```
+
+# Premeasures
+```{r}
+#import the data
+pre <- read_csv("TeleCom_Dyad_premeasures.csv")
+
+#clean the data so it is numeric
+pre <- pre %>%
+  mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
+         asi_2 = as.numeric(gsub("[a-zA-Z]", "", asi_2)),
+         asi_3 = as.numeric(gsub("[a-zA-Z]", "", asi_3)),
+         asi_4 = as.numeric(gsub("[a-zA-Z]", "", asi_4)),
+         asi_5 = as.numeric(gsub("[a-zA-Z]", "", asi_5)),
+         asi_6 = as.numeric(gsub("[a-zA-Z]", "", asi_6)),
+         asi_7 = as.numeric(gsub("[a-zA-Z]", "", asi_7)),
+         asi_8 = as.numeric(gsub("[a-zA-Z]", "", asi_8)),
+         asi_9 = as.numeric(gsub("[a-zA-Z]", "", asi_9)),
+         asi_10 = as.numeric(gsub("[a-zA-Z]", "", asi_10)),
+         asi_11 = as.numeric(gsub("[a-zA-Z]", "", asi_11)),
+         asi_12 = as.numeric(gsub("[a-zA-Z]", "", asi_12)),
+         asi_13 = as.numeric(gsub("[a-zA-Z]", "", asi_13)),
+         asi_14 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_15 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_16 = as.numeric(gsub("[a-zA-Z]", "", asi_16)),
+         asi_17 = as.numeric(gsub("[a-zA-Z]", "", asi_17)),
+         asi_18 = as.numeric(gsub("[a-zA-Z]", "", asi_18)),
+         asi_19 = as.numeric(gsub("[a-zA-Z]", "", asi_19)),
+         asi_20 = as.numeric(gsub("[a-zA-Z]", "", asi_20)),
+         asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
+         asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
+
+#reversing all the variables that need it 
+pre <- pre %>% 
+  mutate(asi_3.r = (1+6) - asi_3,
+         asi_6.r = (1+6) - asi_6,
+         asi_7.r = (1+6) - asi_7,
+         asi_13.r = (1+6) - asi_13,
+         asi_18.r = (1+6) - asi_18,
+         asi_21.r = (1+6) - asi_21)
+```
+
+## Look at benevolent
+```{r}
+#pull out for benevolent sexism
+benevbaby <- pre %>% 
+  select(dyadID, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+
+#benevolent correlation matrix
+corr.test(select(benevbaby, asi_1:asi_22))$r
+```
+
+## Look at hostile
+```{r}
+#pull out for hostile sexism
+hostilebaby <- pre %>% 
+  select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+
+#hostile correlation matrix
+corr.test(select(hostilebaby, asi_2:asi_21.r))$r
+#question 18 is still giving us problems :(, where in the actual qualtrics survey
+#the question should be reversed but maybe ppl just didnt understand the question
+#should we get rid of the question? idk
+```
+
+## Calculate reliability
+```{r}
+#reliability for the benevolent
+alpha(select(benevbaby, asi_1:asi_22))
+#raw alpha is 0.8001697
+
+#reliability for the hostile
+alpha(select(hostilebaby, asi_2:asi_21.r))
+#raw alpha is 0.8549932
+```
+
+## Actually Creating Scale Scores
+```{r}
+#the alpha for both of our variables is above .7, so we are swag
+#now we are going to merge the new datasets back together
+pre_fixed <- benevbaby %>% 
+  inner_join(hostilebaby, by = "dyadID")
+
+#benevolent own variable
+pre_fixed$benevolaet <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
+
+#hostile own variable not included 18, because it is fricked
+pre_fixed$hostile <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
+```
+
+
+# Daily Data
+```{r}
+#import data
+daily <- YEEHAW (Insert name of final data name from cleaned data here)
+
+#cleaning data to only include our sample size and the variables we are measuring
+daily <- daily %>%
+  select(YEEHAW(participant id and time variable), gender, beds:calls, qmi4) 
+
+#loading the premeasures data, but only including the dyad ID and the sexualor
+sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
+  select(dyadID, sexualor)
+  
+#creating a data with both premeasures and daily
+#remove all that are not heterosexual
+total <- daily %>%
+  left_join(sexor, by = "YEEHAW (participant id and time variable)") %>%
+  filter(sexualor == "Heterosexual")
+
+# Making chore data numeric
+total <- total %>%
+  select(-cars, -events) %>%
+  mutate(beds = if_else(beds == "Yes", 1, 0),
+         vacuum = if_else(vaccum == "Yes", 1, 0),
+         food = if_else(food == "Yes", 1, 0),
+         dishes = if_else(dishes == "Yes", 1, 0),
+         garbage = if_else(garbage == "Yes", 1, 0),
+         yardwork = if_else(yardwork == "Yes", 1, 0),
+         pets = if_else(pets == "Yes", 1, 0),
+         laundry = if_else(laundry == "Yes", 1, 0),
+         errands = if_else(errands == "Yes", 1, 0),
+         finances = if_else(finances == "Yes", 1, 0),
+         calls = if_else(calls == "Yes", 1, 0)) %>%
+  select(-vaccum, sexualor) %>%
+  distinct()
+
+#replacing all the qmis with character strings of numbers
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Mostly true about me', 1)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Somewhat true about me', 2)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
+
+#creating the individual chore number by summing
+#get rid of other parts of the other parts of the recorded date so its only day
+total <- total %>%
+  rowwise() %>%
+  mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum))
+
+#creating a new dataset with only the couple chores
+couple_chores <- total %>%
+  group_by(dyadID, YEEHAW (participant id and date)) %>%
+  summarize(cup_chores = sum(ind_chores))
+
+#a combination of both the chores the partner and the actor did
+total_chores <- couple_chores %>%
+  right_join(total, by = c("dyadID")) #potential YEEHAW. I think this will work but it might not, in which case, add in participant id and date
+
+#finding the daily chores performed per day
+total_chores <- total_chores %>%
+  group_by(dyadID, YEEHAW (participant id and date, i took out gender bc of the id but it might need gender i f it doesnt work)) %>%
+  summarize(daily_per = ind_chores / cup_chores)
+```
+
+# Making it Pairwise and Calculating Stuff!
+```{r}
+
+```
