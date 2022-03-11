@@ -346,7 +346,6 @@ pairwise3 <- pairwise2 %>%
 
 #spreading them back out
 pairwise4 <- pairwise3 %>%
-  spread(var_gender, value)
-
-
+  select(-partID) %>%
+  pivot_wider(names_from = var_gender, values_from = value)
 ```
