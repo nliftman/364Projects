@@ -6,48 +6,118 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-***NOTE: Search for YEEHAWs. They are the things that need to be changed (with the variable I don't know the name of in parentheses)
-
-#Packages
-```{r message = FALSE, error = FALSE, warning = FALSE}
+```{r packages, include = FALSE}
 library(tidyverse)
 library(lubridate)
 library(psych)
 library(mosaic)
 library(nlme)
 ```
+```{r ASI, include = FALSE}
+# Loading the data 
+pre <- read_csv("TeleCom_Dyad_premeasures.csv")
 
-# Longitudinal Data Cleaning
-This can probably just be copy and pasted as is for tmrw and I'll clean everything over break I promise. 
-```{r}
-#loading in the premeasures and the daily 
-premeasures <- read_csv("TeleCom_Dyad_premeasures.csv")
-dailydiary <- read.csv("TeleCom_Dyad_dailydiary.csv")
+# Making ASI numeric
+pre <- pre %>%
+  mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
+         asi_2 = as.numeric(gsub("[a-zA-Z]", "", asi_2)),
+         asi_3 = as.numeric(gsub("[a-zA-Z]", "", asi_3)),
+         asi_4 = as.numeric(gsub("[a-zA-Z]", "", asi_4)),
+         asi_5 = as.numeric(gsub("[a-zA-Z]", "", asi_5)),
+         asi_6 = as.numeric(gsub("[a-zA-Z]", "", asi_6)),
+         asi_7 = as.numeric(gsub("[a-zA-Z]", "", asi_7)),
+         asi_8 = as.numeric(gsub("[a-zA-Z]", "", asi_8)),
+         asi_9 = as.numeric(gsub("[a-zA-Z]", "", asi_9)),
+         asi_10 = as.numeric(gsub("[a-zA-Z]", "", asi_10)),
+         asi_11 = as.numeric(gsub("[a-zA-Z]", "", asi_11)),
+         asi_12 = as.numeric(gsub("[a-zA-Z]", "", asi_12)),
+         asi_13 = as.numeric(gsub("[a-zA-Z]", "", asi_13)),
+         asi_14 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_15 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_16 = as.numeric(gsub("[a-zA-Z]", "", asi_16)),
+         asi_17 = as.numeric(gsub("[a-zA-Z]", "", asi_17)),
+         asi_18 = as.numeric(gsub("[a-zA-Z]", "", asi_18)),
+         asi_19 = as.numeric(gsub("[a-zA-Z]", "", asi_19)),
+         asi_20 = as.numeric(gsub("[a-zA-Z]", "", asi_20)),
+         asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
+         asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
 
-premeasures <- premeasures %>%
-  group_by(dyadID) %>% #for longitudinal dataset use obsid
+# Reverse-coding relevant questions 
+pre <- pre %>% 
+  mutate(asi_3.r = (1+6) - asi_3,
+         asi_6.r = (1+6) - asi_6,
+         asi_7.r = (1+6) - asi_7,
+         asi_13.r = (1+6) - asi_13,
+         asi_18.r = (1+6) - asi_18,
+         asi_21.r = (1+6) - asi_21)
+
+# Benevolent sexism
+benevolent <- pre %>% 
+  select(dyadID, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+# Benevolent correlation matrix
+corr.test(select(benevolent, asi_1:asi_22))$r
+
+# Hostile sexism
+hostilebaby <- pre %>% 
+  select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+# Hostile correlation matrix
+corr.test(select(hostilebaby, asi_2:asi_21.r))$r
+#question 18 is still giving us problems :(, where in the actual qualtrics survey
+#the question should be reversed but maybe ppl just didnt understand the question
+#should we get rid of the question? idk
+
+# ASI reliability
+# Reliability for the benevolent
+alpha(select(benevolent, asi_1:asi_22))
+#raw alpha is 0.8001697
+
+# Reliability for the hostile
+alpha(select(hostile, asi_2:asi_21.r))
+#raw alpha is 0.8549932
+
+# Creating scale scors
+# The alpha for both of our variables is above .7
+# Merging the new datasets back together
+pre_fixed <- benevolent %>% 
+  inner_join(hostile, by = "dyadID")
+
+# Benevolent own variable
+pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
+
+# Hostile own variable, without question 18
+pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
+```
+```{r pairwise-premeasures, include = FALSE}
+# Adding participant numbers for each dyad and selecting the variables
+analysis_data <- pre-fixed %>%
+  group_by(dyadID) %>% 
   mutate(partnum = seq_along(ResponseId)) %>%
-  ungroup()
+  ungroup() %>%
+  select(ResponseId, dyadID, partnum, gender, asi_1:hs)
 
-analysis_data <- premeasures %>%
-  select(ResponseId, dyadID, partnum, gender, asi_1:asi_22)
-
+# Person 1 is actor
 temp_A <- analysis_data %>%
   mutate(partnum2 = 1, 
     partnum = ifelse(partnum == 1, "A", "P")) %>%
-  gather(variable, value, gender:asi_22) %>%
+  gather(variable, value, gender:hs) %>%
   unite(var_partnum, variable, partnum) %>%
   spread(var_partnum, value)
 
+# Person 2 is actor
 temp_B <- analysis_data %>%
   mutate(partnum2 = 2, 
          partnum = ifelse(partnum == 2, "A", "P")) %>%
-  gather(variable, value, gender:asi_22) %>%
+  gather(variable, value, gender:hs) %>%
   unite(var_partnum, variable, partnum) %>%
   spread(var_partnum, value)
 
+# Stacking the rows
 analysis_pair <- bind_rows(temp_A, temp_B) %>%
   arrange(dyadID)
+```
+```{r cleaning-daily, include = FALSE}
+# Loading the data
+dailydiary <- read.csv("TeleCom_Dyad_dailydiary.csv")
 
 temp <- dailydiary %>%
   mutate(RecordedDate = mdy_hm(RecordedDate)) %>%
@@ -165,112 +235,18 @@ temp <- temp %>%
                         day == "Sunday" ~ 7)),
          week = ifelse(day_of_study > 7, 2, 1))
 ```
-
-# Premeasures
-```{r}
-#import the data
-pre <- read_csv("TeleCom_Dyad_premeasures.csv")
-
-#clean the data so it is numeric
-pre <- pre %>%
-  mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
-         asi_2 = as.numeric(gsub("[a-zA-Z]", "", asi_2)),
-         asi_3 = as.numeric(gsub("[a-zA-Z]", "", asi_3)),
-         asi_4 = as.numeric(gsub("[a-zA-Z]", "", asi_4)),
-         asi_5 = as.numeric(gsub("[a-zA-Z]", "", asi_5)),
-         asi_6 = as.numeric(gsub("[a-zA-Z]", "", asi_6)),
-         asi_7 = as.numeric(gsub("[a-zA-Z]", "", asi_7)),
-         asi_8 = as.numeric(gsub("[a-zA-Z]", "", asi_8)),
-         asi_9 = as.numeric(gsub("[a-zA-Z]", "", asi_9)),
-         asi_10 = as.numeric(gsub("[a-zA-Z]", "", asi_10)),
-         asi_11 = as.numeric(gsub("[a-zA-Z]", "", asi_11)),
-         asi_12 = as.numeric(gsub("[a-zA-Z]", "", asi_12)),
-         asi_13 = as.numeric(gsub("[a-zA-Z]", "", asi_13)),
-         asi_14 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
-         asi_15 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
-         asi_16 = as.numeric(gsub("[a-zA-Z]", "", asi_16)),
-         asi_17 = as.numeric(gsub("[a-zA-Z]", "", asi_17)),
-         asi_18 = as.numeric(gsub("[a-zA-Z]", "", asi_18)),
-         asi_19 = as.numeric(gsub("[a-zA-Z]", "", asi_19)),
-         asi_20 = as.numeric(gsub("[a-zA-Z]", "", asi_20)),
-         asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
-         asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
-
-#reversing all the variables that need it 
-pre <- pre %>% 
-  mutate(asi_3.r = (1+6) - asi_3,
-         asi_6.r = (1+6) - asi_6,
-         asi_7.r = (1+6) - asi_7,
-         asi_13.r = (1+6) - asi_13,
-         asi_18.r = (1+6) - asi_18,
-         asi_21.r = (1+6) - asi_21)
-```
-
-## Look at benevolent
-```{r}
-#pull out for benevolent sexism
-benevbaby <- pre %>% 
-  select(dyadID, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
-
-#benevolent correlation matrix
-corr.test(select(benevbaby, asi_1:asi_22))$r
-```
-
-## Look at hostile
-```{r}
-#pull out for hostile sexism
-hostilebaby <- pre %>% 
-  select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
-
-#hostile correlation matrix
-corr.test(select(hostilebaby, asi_2:asi_21.r))$r
-#question 18 is still giving us problems :(, where in the actual qualtrics survey
-#the question should be reversed but maybe ppl just didnt understand the question
-#should we get rid of the question? idk
-```
-
-## Calculate reliability
-```{r}
-#reliability for the benevolent
-alpha(select(benevbaby, asi_1:asi_22))
-#raw alpha is 0.8001697
-
-#reliability for the hostile
-alpha(select(hostilebaby, asi_2:asi_21.r))
-#raw alpha is 0.8549932
-```
-
-## Actually Creating Scale Scores
-```{r}
-#the alpha for both of our variables is above .7, so we are swag
-#now we are going to merge the new datasets back together
-pre_fixed <- benevbaby %>% 
-  inner_join(hostilebaby, by = "dyadID")
-
-#benevolent own variable
-pre_fixed$benevolaet <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
-
-#hostile own variable not included 18, because it is fricked
-pre_fixed$hostile <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
-```
-
-
-# Daily Data
-```{r}
-#import data
+```{r calculating-daily-labor, include = FALSE}
 daily <- temp
 
-#cleaning data to only include our sample size and the variables we are measuring
+# Cleaning data to only include our sample size and the variables we are measuring
 daily <- daily %>%
   select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4) 
 
-#loading the premeasures data, but only including the dyad ID and the sexualor
+# Loading the premeasures data, but to filter the data based on sexualor
 sexor <- read_csv("TeleCom_Dyad_premeasures.csv") %>%
   select(dyadID, sexualor)
-  
-#creating a data with both premeasures and daily
-#remove all that are not heterosexual
 
+# Joining the data and filtering to only include heterosexual couples
 total <- daily %>%
   left_join(sexor, by = "dyadID") %>%
   filter(sexualor == "Heterosexual")
@@ -292,61 +268,55 @@ total <- total %>%
   select(-vaccum, sexualor) %>%
   distinct()
 
-#replacing all the qmis with character strings of numbers
+# Making qmi numeric
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Mostly true about me', 1)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Somewhat true about me', 2)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
 
-#creating the individual chore number by summing
-#get rid of other parts of the other parts of the recorded date so its only day
+# Summing individual daily chores
 total <- total %>%
   rowwise() %>%
   mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum))
 
-#creating a new dataset with only the couple chores
+# Creating a new dataset with the sum of couple chores
 couple_chores <- total %>%
   group_by(dyadID, day, day_of_study) %>%
   summarize(cup_chores = sum(ind_chores))
 
-#a combination of both the chores the partner and the actor did 
+# Joining the individual and couple chore calculations 
 total_chores <- couple_chores %>%
-  right_join(total, by = c("dyadID", "day", "day_of_study")) 
+  right_join(total, by = c("dyadID", "day", "day_of_study"))
 
-#finding the daily chores performed per day
+# Calculating the percentage of the total chores each individual did
 finaltotal <- total_chores %>%
   group_by(dyadID, day, day_of_study, gender) %>% 
   summarize(daily_per = ind_chores / cup_chores) 
 
-#creating one last big boy
-#this includes everything yay yay yay yay
+# Joining the individual, couple, and chore percentage calculations
 total_chores <- total_chores %>% 
   full_join(finaltotal, by = c("dyadID", "gender", "day", "day_of_study"))
-
-#creating a obsid
-total_chores <- total_chores %>%
-  mutate(obsid = day_of_study+14*(dyadID-1))
 ```
 
-# Making it Pairwise and Calculating Stuff!
-```{r}
-#making it so each has a easy gender thing to add to the end
-pairwise <- total_chores %>% 
-  mutate(gender = ifelse(gender == 'Woman', 'W', 'M'))
+```{r pairwise-daily, include = FALSE}
+# Creating a obsid
+total_chores <- total_chores %>%
+  mutate(obsid = day_of_study+14*(dyadID-1))
 
-#rearranging the data
-pairwise <- pairwise %>% 
+# Adding gender labels and rearranging the data
+pairwise <- total_chores %>% 
+  mutate(gender = ifelse(gender == 'Woman', 'W', 'M')) %>%
   select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
 
-#pivot longer baby
+# Pivoting longer
 pairwise2 <- pairwise %>% 
   gather(variable, value, qmi4:daily_per)
 
-#creating a variable that has both the variable and the gender
+# Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender)
 
-#spreading them back out
+# Spreading everything back out
 pairwise4 <- pairwise3 %>%
   select(-partID) %>%
   pivot_wider(names_from = var_gender, values_from = value)
