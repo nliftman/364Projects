@@ -3,6 +3,8 @@ title: "hopefully putting it all together"
 author: "Cara Krupnikoff-Salkin"
 date: "3/9/2022"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 ***NOTE: Search for YEEHAWs. They are the things that need to be changed (with the variable I don't know the name of in parentheses)
 
@@ -334,11 +336,11 @@ pairwise <- total_chores %>%
 
 #rearranging the data
 pairwise <- pairwise %>% 
-  select(dyadID, partID, obsid, gender, day, day_of_study, beds:calls, vacuum, qmi4, ind_chores, cup_chores, daily_per)
+  select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
 
 #pivot longer baby
 pairwise2 <- pairwise %>% 
-  gather(variable, value, beds:daily_per)
+  gather(variable, value, qmi4:daily_per)
 
 #creating a variable that has both the variable and the gender
 pairwise3 <- pairwise2 %>%
