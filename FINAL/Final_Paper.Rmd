@@ -105,7 +105,7 @@ benevolent <- pre %>%
 corr.test(select(benevolent, asi_1:asi_22))$r
 
 # Hostile sexism
-hostilebaby <- pre %>% 
+hostile <- pre %>% 
   select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
 # Hostile correlation matrix
 corr.test(select(hostilebaby, asi_2:asi_21.r))$r
@@ -282,6 +282,7 @@ temp <- temp %>%
                         day == "Sunday" ~ 7)),
          week = ifelse(day_of_study > 7, 2, 1))
 ```
+
 ```{r calculating-daily-labor, include = FALSE}
 daily <- temp
 
