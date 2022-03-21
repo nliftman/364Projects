@@ -145,11 +145,7 @@ pre_fixed <- pre_fixed %>%
 
 # Adding participant numbers for each dyad and selecting the variables
 analysis_data <- pre_fixed %>% 
-  mutate(partnum = ifelse(gender == 'Woman', '1', '2'))
-
-analysis_data <- pre_fixed %>%
-  group_by(dyadID) %>% 
-  mutate(partnum = seq_along(ResponseId)) %>%
+  mutate(partnum = ifelse(gender == 'Woman', '1', '2')) %>% 
   ungroup() %>%
   select(ResponseId, dyadID, partnum, gender, asi_1:hs)
 
