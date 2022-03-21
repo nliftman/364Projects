@@ -148,17 +148,17 @@ temp_A <- analysis_data %>%
   mutate(partnum2 = 1, partnum = ifelse(partnum == 1, "A", "P")) %>%
   gather(variable, value, asi_1:hs) %>%
   unite(var_partnum, variable, partnum) %>%
-  select(-partnum2)
-
-  spread(var_partnum, value)
+  select(-partnum2) %>%
+  pivot_wider(names_from = var_partnum, values_from = value)
 
 # Person 2 is actor
 temp_B <- analysis_data %>%
   mutate(partnum2 = 2, 
          partnum = ifelse(partnum == 2, "A", "P")) %>%
-  gather(variable, value, gender:hs) %>%
+  gather(variable, value, asi_1:hs) %>%
   unite(var_partnum, variable, partnum) %>%
-  spread(var_partnum, value)
+  select(-partnum2) %>%
+  pivot_wider(names_from = var_partnum, values_from = value)
 
 # Stacking the rows
 analysis_pair <- bind_rows(temp_A, temp_B) %>%
