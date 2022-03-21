@@ -137,7 +137,7 @@ pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10,
 ```
 ```{r pairwise-premeasures, include = FALSE}
 premeasure_id <- pre %>%
-  select(dyadID, ResponseId)
+  select(dyadID, ResponseId, gender)
 
 pre_fixed <- pre_fixed %>%
   left_join(premeasure_id, by = "dyadID")
