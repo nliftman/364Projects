@@ -108,7 +108,7 @@ corr.test(select(benevolent, asi_1:asi_22))$r
 hostile <- pre %>% 
   select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
 # Hostile correlation matrix
-corr.test(select(hostilebaby, asi_2:asi_21.r))$r
+corr.test(select(hostile, asi_2:asi_21.r))$r
 #question 18 is still giving us problems :(, where in the actual qualtrics survey
 #the question should be reversed but maybe ppl just didnt understand the question
 #should we get rid of the question? idk
