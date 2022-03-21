@@ -59,7 +59,8 @@ library(psych)
 library(mosaic)
 library(nlme)
 ```
-
+# Premeasures
+## Cleaning and Creating Scores for Hostile and Benevolent Sexism
 ```{r ASI, include = FALSE}
 # Loading the data 
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
@@ -135,7 +136,7 @@ pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9
 pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
 
 ```
-
+## Creating a Pairwise Dataset for the Premeasures Data
 ```{r pairwise-premeasures, include = FALSE}
 # Adding participant numbers for each dyad and selecting the variables
 analysis_data <- pre_fixed %>% 
@@ -164,6 +165,9 @@ temp_B <- analysis_data %>%
 analysis_pair <- bind_rows(temp_A, temp_B) %>%
   arrange(dyadID)
 ```
+
+# Daily 
+## Cleaning and Getting Rid of All the Problem Days 
 ```{r cleaning-daily, include = FALSE}
 # Loading the data
 dailydiary <- read.csv("TeleCom_Dyad_dailydiary.csv")
@@ -285,6 +289,7 @@ temp <- temp %>%
          week = ifelse(day_of_study > 7, 2, 1))
 ```
 
+## Creating the Scores For Chores Performed and Total
 ```{r calculating-daily-labor, include = FALSE}
 daily <- temp
 
@@ -348,6 +353,7 @@ total_chores <- total_chores %>%
   full_join(finaltotal, by = c("dyadID", "gender", "day", "day_of_study"))
 ```
 
+## Making the Daily Pairwise
 ```{r pairwise-daily, include = FALSE}
 # Creating a obsid
 total_chores <- total_chores %>%
