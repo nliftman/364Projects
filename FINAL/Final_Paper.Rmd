@@ -135,6 +135,7 @@ pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9
 pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
 
 ```
+
 ```{r pairwise-premeasures, include = FALSE}
 premeasure_id <- pre %>%
   select(dyadID, ResponseId, gender)
@@ -143,6 +144,9 @@ pre_fixed <- pre_fixed %>%
   left_join(premeasure_id, by = "dyadID")
 
 # Adding participant numbers for each dyad and selecting the variables
+analysis_data <- pre_fixed %>% 
+  mutate(partnum = ifelse(gender == 'Woman', '1', '2'))
+
 analysis_data <- pre_fixed %>%
   group_by(dyadID) %>% 
   mutate(partnum = seq_along(ResponseId)) %>%
