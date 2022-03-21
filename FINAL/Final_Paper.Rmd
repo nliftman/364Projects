@@ -100,13 +100,13 @@ pre <- pre %>%
 
 # Benevolent sexism
 benevolent <- pre %>% 
-  select(dyadID, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+  select(dyadID, gender, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
 # Benevolent correlation matrix
 corr.test(select(benevolent, asi_1:asi_22))$r
 
 # Hostile sexism
 hostile <- pre %>% 
-  select(dyadID, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+  select(dyadID, gender, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
 # Hostile correlation matrix
 corr.test(select(hostile, asi_2:asi_21.r))$r
 #question 18 is still giving us problems :(, where in the actual qualtrics survey
@@ -126,7 +126,7 @@ alpha(select(hostile, asi_2:asi_21.r))
 # The alpha for both of our variables is above .7
 # Merging the new datasets back together
 pre_fixed <- benevolent %>% 
-  inner_join(hostile, by = "dyadID")
+  inner_join(hostile, by = c("dyadID", "gender"))
 
 # Benevolent own variable
 pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
@@ -137,24 +137,19 @@ pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10,
 ```
 
 ```{r pairwise-premeasures, include = FALSE}
-premeasure_id <- pre %>%
-  select(dyadID, ResponseId, gender)
-
-pre_fixed <- pre_fixed %>%
-  left_join(premeasure_id, by = "dyadID")
-
 # Adding participant numbers for each dyad and selecting the variables
 analysis_data <- pre_fixed %>% 
   mutate(partnum = ifelse(gender == 'Woman', '1', '2')) %>% 
   ungroup() %>%
-  select(ResponseId, dyadID, partnum, gender, asi_1:hs)
+  select(dyadID, partnum, asi_1:hs)
 
 # Person 1 is actor
 temp_A <- analysis_data %>%
-  mutate(partnum2 = 1, 
-    partnum = ifelse(partnum == 1, "A", "P")) %>%
-  gather(variable, value, gender:hs) %>%
+  mutate(partnum2 = 1, partnum = ifelse(partnum == 1, "A", "P")) %>%
+  gather(variable, value, asi_1:hs) %>%
   unite(var_partnum, variable, partnum) %>%
+  select(-partnum2)
+
   spread(var_partnum, value)
 
 # Person 2 is actor
