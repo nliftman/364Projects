@@ -83,9 +83,9 @@ pre$hs <- rowMeans(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi
 ## Cleaning and Getting Rid of All the Problem Days 
 ```{r cleaning-daily, include = FALSE}
 # Loading the data
-dailydiary <- read_csv("TeleCom_Dyad_dailydiary.csv")
+daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
 
-temp <- dailydiary %>%
+temp <- daily %>%
   mutate(RecordedDate = mdy_hm(RecordedDate)) %>%
   arrange(dyadID, partID, day, RecordedDate) %>%
   mutate(ResponseID = seq_along(RecordedDate)) %>%
@@ -125,16 +125,13 @@ temp <- dailydiary %>%
 temp <- temp %>% 
   filter((problems <= 1) | (problems != 1) & (!is.na(partID_given)))
 
-
 #other problematic cases or IDs to filter out completely: 
 #146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
 temp <- temp %>% 
   filter(ResponseID != 146, ResponseID != 1266, ResponseID != 1278,  ResponseID != 1282, ResponseID != 1302, ResponseID != 2800) %>% 
   filter(partID != 'R_1fiPEJydpvuaEEs', partID != 'R_1jV9NyWEbelB76s', partID != 'R_1PTxhk4207mTHAb', partID != 'R_27kuznipTrWICLB')
 
-
 #other problematic cases to fix due to participant error:
-
 temp <- temp %>% 
   mutate(day = ifelse(ResponseID == 494, "Friday", day),
          day = ifelse(ResponseID == 771, "Wednesday", day),
