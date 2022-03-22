@@ -276,17 +276,14 @@ percent <- total_chores %>%
   summarize(daily_per = ind_chores / cup_chores) 
 
 # Joining the individual, couple, and chore percentage calculations
-final <- total_chores %>% 
-  full_join(finaltotal, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
+final_before_pairs <- total_chores %>% 
+  full_join(percent, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
 ```
-
-
 
 ## FINALLY MAKING EVERYTHING PAIRWISE
 ```{r pairwise-daily, include = FALSE}
 # Creating a obsid
-final <- final %>%
-  select(-daily_per.y) %>% 
+final <- final_before_pairs %>%
   mutate(obsid = day_of_study+14*(dyadID.x-1))
 
 filtered_chores <- final %>% 
