@@ -376,7 +376,15 @@ total_chores <- total_chores %>%
 total_chores <- total_chores %>%
   mutate(obsid = day_of_study+14*(dyadID-1))
 
-total_chores %>% group_by(obsid) %>% summarise(n=n()) %>% arrange(desc(n)) %>% View()
+filtered_chores <- total_chores %>% 
+  group_by(obsid) %>%
+  count()
+
+total_chores <- total_chores %>%
+  full_join(filtered_chores, by = "obsid")
+
+total_chores <- total_chores %>%
+  filter(n < 3)
 
 # Adding gender labels and rearranging the data
 pairwise <- total_chores %>% 
