@@ -3,6 +3,8 @@ title: "Yeehaw"
 author: "Naomi Liftman"
 date: "3/22/2022"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 # Load in the Files
 ```{r packages, include = FALSE}
@@ -226,12 +228,14 @@ daily <- daily %>%
 pre <- pre %>% 
   rename(partID = ResponseId)
 
-#merge the two data sets to prepare for pairwise
-total <- merge(daily, pre, by = 'partID')
+# filtering out couples
+pre <- pre %>%
+  filter(sexualor == "Heterosexual") %>%
+  select(-sexualor)
 
-#only including heterosexual couples
-total <- total %>% 
-  filter(sexualor == "Heterosexual")
+#merge the two data sets to prepare for pairwise
+total <- daily %>%
+  left_join(pre, by = c('partID', 'dyadID', 'gender'))
 
 # Making qmi numeric
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Mostly true about me', 1)
@@ -264,45 +268,39 @@ total <- total %>%
 
 # Creating a new dataset with the sum of couple chores
 couple_chores <- total %>%
-  group_by(dyadID.x, day, day_of_study) %>%
+  group_by(dyadID, day, day_of_study) %>%
   summarize(cup_chores = sum(ind_chores))
 
 # Joining the individual and couple chore calculations 
-total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_study'))
+total_chores <- merge(couple_chores, total, by = c('dyadID', 'day', 'day_of_study'))
 
 # Calculating the percentage of the total chores each individual did
 percent <- total_chores %>%
-  group_by(dyadID.x, day, day_of_study, gender.x) %>% 
-  summarize(daily_per = ind_chores / cup_chores) 
+  group_by(dyadID, day, day_of_study, gender) %>% 
+  summarize(daily_per = ifelse(cup_chores != 0, ind_chores / cup_chores, 2)) 
 
 # Joining the individual, couple, and chore percentage calculations
 final_before_pairs <- total_chores %>% 
-  full_join(percent, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
+  full_join(percent, by = c("dyadID", "gender", "day", "day_of_study"))
 ```
 
 ## FINALLY MAKING EVERYTHING PAIRWISE
 ```{r pairwise-daily, include = FALSE}
 # Creating a obsid
 final <- final_before_pairs %>%
-  mutate(obsid = day_of_study+14*(dyadID.x-1))
+  mutate(obsid = day_of_study+14*(dyadID-1))
 
 filtered_chores <- final %>% 
   group_by(obsid) %>%
   count()
 
-#Problems!!! we need there to only be obsid 2, anything less is fine, but anything
-#above is an issue!!!
-nomoreProblemshopefully <- filtered_chores %>% 
-  filter(n <= 2)
-
 #merging the set that has no problems left with the origional
-fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
+fixed <- merge(filtered_chores, final, by = 'obsid')
 
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
-  mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
-  select(dyadID.x, partID, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
-  rename(dyadID = dyadID.x)
+  mutate(gender = ifelse(gender == 'Woman', 'W', 'M')) %>%
+  select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
@@ -314,11 +312,7 @@ pairwise3 <- pairwise2 %>%
 
 #sprad baby
 pairwise4 <- pairwise3 %>%
+  select(-partID, -day) %>%
   group_by(obsid) %>% 
-  spread(var_gender, value)
-
-
+  pivot_wider(names_from = var_gender, values_from = value)
 ```
-
-
-
