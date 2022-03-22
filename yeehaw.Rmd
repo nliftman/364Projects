@@ -55,39 +55,27 @@ pre <- pre %>%
          asi_18.r = (1+6) - asi_18,
          asi_21.r = (1+6) - asi_21)
 
-# Benevolent sexism
-benevolent <- pre %>% 
-  select(dyadID, gender, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
 # Benevolent correlation matrix
-corr.test(select(benevolent, asi_1:asi_22))$r
+corr.test(select(pre, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))$r
 
-# Hostile sexism
-hostile <- pre %>% 
-  select(dyadID, gender, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r)
 # Hostile correlation matrix
-corr.test(select(hostile, asi_2:asi_21.r))$r
+corr.test(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))$r
 #we did not include question 18
 
 # ASI reliability
 # Reliability for the benevolent
-alpha(select(benevolent, asi_1:asi_22))
+alpha(select(pre, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
 #raw alpha is 0.8001697
 
 # Reliability for the hostile
-alpha(select(hostile, asi_2:asi_21.r))
-#raw alpha is 0.8549932
-
-# Creating scale scores
-# The alpha for both of our variables is above .7
-# Merging the new datasets back together
-pre_fixed <- benevolent %>% 
-  inner_join(hostile, by = c("dyadID", "gender"))
+alpha(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
+#raw alpha is 0.8743657 without question 18
 
 # Benevolent own variable
-pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
+pre$bs <- rowMeans(select(pre, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
 
 # Hostile own variable, without question 18
-pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
+pre$hs <- rowMeans(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
 ```
 
 
