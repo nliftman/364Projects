@@ -410,8 +410,7 @@ pairwise4 <- pairwise3 %>%
   pivot_wider(names_from = var_gender, values_from = value)
 
 # Cleaning it up
-daily_pairwise <- pairwise4 %>%
-  select(-qmi4_NA, -daily_per_NA)
+daily_pairwise <- pairwise4
 ```
 
 # Finding the Residual Error 
