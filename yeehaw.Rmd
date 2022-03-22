@@ -18,6 +18,9 @@ library(nlme)
 # Loading the data 
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
 
+pre <- pre %>% 
+  select(ResponseId, dyadID, Q138, cohabitation, wfh, gender, sexualor, race, religion, conservatism, indinc, asi_1:asi_22)
+
 # Making ASI numeric
 pre <- pre %>%
   mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
