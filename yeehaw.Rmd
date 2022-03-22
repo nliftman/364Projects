@@ -4,3 +4,211 @@ author: "Naomi Liftman"
 date: "3/22/2022"
 output: pdf_document
 ---
+# Load in the Files
+```{r packages, include = FALSE}
+library(tidyverse)
+library(lubridate)
+library(psych)
+library(mosaic)
+library(nlme)
+```
+
+# Premeasures
+```{r ASI, include = FALSE}
+# Loading the data 
+pre <- read_csv("TeleCom_Dyad_premeasures.csv")
+
+# Making ASI numeric
+pre <- pre %>%
+  mutate(asi_1 = as.numeric(gsub("[a-zA-Z]", "", asi_1)),
+         asi_2 = as.numeric(gsub("[a-zA-Z]", "", asi_2)),
+         asi_3 = as.numeric(gsub("[a-zA-Z]", "", asi_3)),
+         asi_4 = as.numeric(gsub("[a-zA-Z]", "", asi_4)),
+         asi_5 = as.numeric(gsub("[a-zA-Z]", "", asi_5)),
+         asi_6 = as.numeric(gsub("[a-zA-Z]", "", asi_6)),
+         asi_7 = as.numeric(gsub("[a-zA-Z]", "", asi_7)),
+         asi_8 = as.numeric(gsub("[a-zA-Z]", "", asi_8)),
+         asi_9 = as.numeric(gsub("[a-zA-Z]", "", asi_9)),
+         asi_10 = as.numeric(gsub("[a-zA-Z]", "", asi_10)),
+         asi_11 = as.numeric(gsub("[a-zA-Z]", "", asi_11)),
+         asi_12 = as.numeric(gsub("[a-zA-Z]", "", asi_12)),
+         asi_13 = as.numeric(gsub("[a-zA-Z]", "", asi_13)),
+         asi_14 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_15 = as.numeric(gsub("[a-zA-Z]", "", asi_15)),
+         asi_16 = as.numeric(gsub("[a-zA-Z]", "", asi_16)),
+         asi_17 = as.numeric(gsub("[a-zA-Z]", "", asi_17)),
+         asi_18 = as.numeric(gsub("[a-zA-Z]", "", asi_18)),
+         asi_19 = as.numeric(gsub("[a-zA-Z]", "", asi_19)),
+         asi_20 = as.numeric(gsub("[a-zA-Z]", "", asi_20)),
+         asi_21 = as.numeric(gsub("[a-zA-Z]", "", asi_21)),
+         asi_22 = as.numeric(gsub("[a-zA-Z]", "", asi_22)))
+
+# Reverse-coding relevant questions 
+pre <- pre %>% 
+  mutate(asi_3.r = (1+6) - asi_3,
+         asi_6.r = (1+6) - asi_6,
+         asi_7.r = (1+6) - asi_7,
+         asi_13.r = (1+6) - asi_13,
+         asi_18.r = (1+6) - asi_18,
+         asi_21.r = (1+6) - asi_21)
+
+# Benevolent sexism
+benevolent <- pre %>% 
+  select(dyadID, gender, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22)
+# Benevolent correlation matrix
+corr.test(select(benevolent, asi_1:asi_22))$r
+
+# Hostile sexism
+hostile <- pre %>% 
+  select(dyadID, gender, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r)
+# Hostile correlation matrix
+corr.test(select(hostile, asi_2:asi_21.r))$r
+#we did not include question 18
+
+# ASI reliability
+# Reliability for the benevolent
+alpha(select(benevolent, asi_1:asi_22))
+#raw alpha is 0.8001697
+
+# Reliability for the hostile
+alpha(select(hostile, asi_2:asi_21.r))
+#raw alpha is 0.8549932
+
+# Creating scale scores
+# The alpha for both of our variables is above .7
+# Merging the new datasets back together
+pre_fixed <- benevolent %>% 
+  inner_join(hostile, by = c("dyadID", "gender"))
+
+# Benevolent own variable
+pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
+
+# Hostile own variable, without question 18
+pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
+```
+
+
+# Daily 
+## Cleaning and Getting Rid of All the Problem Days 
+```{r cleaning-daily, include = FALSE}
+# Loading the data
+dailydiary <- read_csv("TeleCom_Dyad_dailydiary.csv")
+
+temp <- dailydiary %>%
+  mutate(RecordedDate = mdy_hm(RecordedDate)) %>%
+  arrange(dyadID, partID, day, RecordedDate) %>%
+  mutate(ResponseID = seq_along(RecordedDate)) %>%
+  group_by(partID, day) %>%
+  mutate(RecordedDate_lag = lag(RecordedDate), #so we can test if record for second tuesday are plausibly next week
+         dist = difftime(RecordedDate, RecordedDate_lag, units = "days"), #recoding as day between
+         first_sec = seq_along(RecordedDate), #first tuesday or second tuesday?
+         prob = ifelse(first_sec >= 2 & dist < 4, 1, 0)) %>% #second+ tuesday is problematic if it's NOT plausibly next week
+  group_by(dyadID, partID) %>%
+  arrange(dyadID, partID, RecordedDate) %>%
+  mutate(rec_num = seq_along(RecordedDate),
+         weekish = ifelse(rec_num > 7, 2, 1), #coding for days beyond 7, most are "week 2"
+         day_of_study = ifelse(weekish == 2 | (weekish==1 & first_sec>1), #for people who missed days in week 1
+                        (case_when(day == "Monday" ~ 8,
+                        day == "Tuesday" ~ 9,
+                        day == "Wednesday" ~ 10,
+                        day == "Thursday" ~ 11,
+                        day == "Friday" ~ 12,
+                        day == "Saturday" ~ 13,
+                        day == "Sunday" ~ 14)), 
+                      case_when(day == "Monday" ~ 1,
+                        day == "Tuesday" ~ 2,
+                        day == "Wednesday" ~ 3,
+                        day == "Thursday" ~ 4,
+                        day == "Friday" ~ 5,
+                        day == "Saturday" ~ 6,
+                        day == "Sunday" ~ 7)),
+         week = ifelse(day_of_study > 7, 2, 1)) %>%
+  group_by(partID) %>%
+  mutate(problems = sum(prob)) %>%
+  arrange(desc(problems), dyadID, partID, RecordedDate) %>%
+  select(ResponseID, partID_given:day, day_of_study, RecordedDate_lag, dist, first_sec, prob, rec_num,  
+          weekish, week, problems, gender:comments)
+
+#remove anyone with 
+#(problems > 1) | (problems == 1 & !is.na(partID_given)) 
+temp <- temp %>% 
+  filter((problems <= 1) | (problems != 1) & (!is.na(partID_given)))
+
+
+#other problematic cases or IDs to filter out completely: 
+#146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
+temp <- temp %>% 
+  filter(ResponseID != 146, ResponseID != 1266, ResponseID != 1278,  ResponseID != 1282, ResponseID != 1302, ResponseID != 2800) %>% 
+  filter(partID != 'R_1fiPEJydpvuaEEs', partID != 'R_1jV9NyWEbelB76s', partID != 'R_1PTxhk4207mTHAb', partID != 'R_27kuznipTrWICLB')
+
+
+#other problematic cases to fix due to participant error:
+
+temp <- temp %>% 
+  mutate(day = ifelse(ResponseID == 494, "Friday", day),
+         day = ifelse(ResponseID == 771, "Wednesday", day),
+         day = ifelse(ResponseID == 873, "Monday", day),
+         day = ifelse(ResponseID == 887, "Monday", day),
+         day = ifelse(ResponseID == 1077, "Wednesday", day),
+         day = ifelse(ResponseID == 1111, "Saturday", day),
+         day = ifelse(ResponseID == 1202, "Wednesday", day),
+         day = ifelse(ResponseID == 1219, "Tuesday", day),
+         day = ifelse(ResponseID == 1233, "Tuesday", day),
+         day = ifelse(ResponseID == 1247, "Tuesday", day),
+         day = ifelse(ResponseID == 1365, "Saturday", day),
+         day = ifelse(ResponseID == 1771, "Friday", day),
+         day = ifelse(ResponseID == 1785, "Friday", day),
+         day = ifelse(ResponseID == 2328, "Wednesday", day),
+         day = ifelse(ResponseID == 2345, "Saturday", day),
+         day = ifelse(ResponseID == 2393, "Wednesday", day),
+         day = ifelse(ResponseID == 2516, "Thursday", day),
+         day = ifelse(ResponseID == 2680, "Monday", day),
+         day = ifelse(ResponseID == 2694, "Monday", day),
+         day = ifelse(ResponseID == 2821, "Saturday", day),
+         day = ifelse(ResponseID == 2825, "Sunday", day),
+         day = ifelse(ResponseID == 2859, "Wednesday", day),
+         day = ifelse(ResponseID == 2881, "Sunday", day),
+         day = ifelse(ResponseID == 2940, "Thursday", day),
+         day = ifelse(ResponseID == 3005, "Monday", day),
+         day = ifelse(ResponseID == 3025, "Thursday", day),
+         day = ifelse(ResponseID == 3178, "Monday", day),
+         day = ifelse(ResponseID == 3192, "Monday", day),
+         day = ifelse(ResponseID == 3243, "Sunday", day),
+         day = ifelse(ResponseID == 3385, "Wednesday", day),
+         day = ifelse(ResponseID == 3399, "Wednesday", day))
+
+temp <- temp %>% 
+  mutate(day_of_study = ifelse(ResponseID == 894, 8, day_of_study))
+
+#run again after clean:
+temp <- temp %>%
+  arrange(dyadID, partID, day, RecordedDate) %>%
+  mutate(ResponseID = seq_along(RecordedDate)) %>%
+  group_by(partID, day) %>%
+  mutate(RecordedDate_lag = lag(RecordedDate), #so we can test if record for second tuesday are plausibly next week
+         dist = difftime(RecordedDate, RecordedDate_lag, units = "days"), #recoding as day between
+         first_sec = seq_along(RecordedDate), #first tuesday or second tuesday?
+         prob = ifelse(first_sec >= 2 & dist < 4, 1, 0)) %>% #second+ tuesday is problematic if it's NOT plausibly next week
+  group_by(dyadID, partID) %>%
+  arrange(dyadID, partID, RecordedDate) %>%
+  mutate(rec_num = seq_along(RecordedDate),
+         weekish = ifelse(rec_num > 7, 2, 1), 
+         day_of_study = ifelse(weekish == 2 | (weekish==1 & first_sec>1), 
+                        (case_when(day == "Monday" ~ 8,
+                        day == "Tuesday" ~ 9,
+                        day == "Wednesday" ~ 10,
+                        day == "Thursday" ~ 11,
+                        day == "Friday" ~ 12,
+                        day == "Saturday" ~ 13,
+                        day == "Sunday" ~ 14)), 
+                      case_when(day == "Monday" ~ 1,
+                        day == "Tuesday" ~ 2,
+                        day == "Wednesday" ~ 3,
+                        day == "Thursday" ~ 4,
+                        day == "Friday" ~ 5,
+                        day == "Saturday" ~ 6,
+                        day == "Sunday" ~ 7)),
+         week = ifelse(day_of_study > 7, 2, 1))
+```
+
+
