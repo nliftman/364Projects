@@ -197,22 +197,91 @@ daily <- daily %>%
                         day == "Saturday" ~ 6,
                         day == "Sunday" ~ 7)),
          week = ifelse(day_of_study > 7, 2, 1))
+
+#selecting just what we want from daily
+daily <- daily %>%
+  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4)
+
+#making if they did the chore or not numeric
+daily <- daily %>%
+  select(-cars, -events) %>%
+  mutate(beds = if_else(beds == "Yes", 1, 0),
+         vacuum = if_else(vaccum == "Yes", 1, 0),
+         food = if_else(food == "Yes", 1, 0),
+         dishes = if_else(dishes == "Yes", 1, 0),
+         garbage = if_else(garbage == "Yes", 1, 0),
+         yardwork = if_else(yardwork == "Yes", 1, 0),
+         pets = if_else(pets == "Yes", 1, 0),
+         laundry = if_else(laundry == "Yes", 1, 0),
+         errands = if_else(errands == "Yes", 1, 0),
+         finances = if_else(finances == "Yes", 1, 0),
+         calls = if_else(calls == "Yes", 1, 0)) %>%
+  select(-vaccum) %>%
+  distinct()
 ```
 
 # Cleaning the Daily
 ## Prepairing for the merge
 ```{r}
-#selecting just what we want from daily
-daily <- daily %>%
-  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4)
-
 #rename the pre so that we can merge them
 pre <- pre %>% 
   rename(partID = ResponseId)
 
-#merge the two data sets to prepair for pairwise
+#merge the two data sets to prepare for pairwise
 total <- merge(daily, pre, by = 'partID')
-
 ```
+
+# Chores Numeric and Finding the Sums n Stuff
+
+```{r}
+#only including heterosexual couples
+total <- total %>% 
+  filter(sexualor == "Heterosexual")
+
+# Making qmi numeric
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Mostly true about me', 1)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Somewhat true about me', 2)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
+total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
+total <- total %>%
+  mutate(qmi4 = as.numeric(qmi4))
+
+#getting rid of any NAs and making them 0
+total$beds[is.na(total$beds)] = 0
+total$food[is.na(total$food)] = 0
+total$dishes[is.na(total$dishes)] = 0
+total$garbage[is.na(total$garbage)] = 0
+total$yardwork[is.na(total$yardwork)] = 0
+total$pets[is.na(total$pets)] = 0
+total$laundry[is.na(total$laundry)] = 0
+total$errands[is.na(total$errands)] = 0
+total$finances[is.na(total$finances)] = 0
+total$calls[is.na(total$calls)] = 0
+total$vacuum[is.na(total$vacuum)] = 0
+
+
+# Summing individual daily chores
+total <- total %>%
+  rowwise() %>%
+  mutate(ind_chores = sum(beds, food, dishes, garbage, yardwork, pets, laundry, errands, finances, calls, vacuum))
+
+# Creating a new dataset with the sum of couple chores
+couple_chores <- total %>%
+  group_by(dyadID.x, day, day_of_study) %>%
+  summarize(cup_chores = sum(ind_chores))
+
+# Joining the individual and couple chore calculations 
+total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_study'))
+
+# Calculating the percentage of the total chores each individual did
+finaltotal <- total_chores %>%
+  group_by(dyadID.x, day, day_of_study, gender.x) %>% 
+  summarize(daily_per = ind_chores / cup_chores) 
+
+# Joining the individual, couple, and chore percentage calculations
+final <- total_chores %>% 
+  full_join(finaltotal, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
+```
+
 
 
