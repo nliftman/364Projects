@@ -329,6 +329,9 @@ total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Somewhat true about me', 2)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'A little true about me', 3)
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Not true about me', 4)
 
+total <- total %>%
+  mutate(qmi4 = as.numeric(qmi4))
+
 # Summing individual daily chores
 total <- total %>%
   rowwise() %>%
@@ -358,6 +361,8 @@ total_chores <- total_chores %>%
 # Creating a obsid
 total_chores <- total_chores %>%
   mutate(obsid = day_of_study+14*(dyadID-1))
+
+total_chores %>% group_by(obsid) %>% summarise(n=n()) %>% arrange(desc(n)) %>% View()
 
 # Adding gender labels and rearranging the data
 pairwise <- total_chores %>% 
