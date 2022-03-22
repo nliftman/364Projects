@@ -220,8 +220,7 @@ daily <- daily %>%
   distinct()
 ```
 
-# Cleaning the Daily
-## Prepairing for the merge
+# Cleaning the Daily and Preparing for the Merge
 ```{r}
 #rename the pre so that we can merge them
 pre <- pre %>% 
@@ -229,11 +228,7 @@ pre <- pre %>%
 
 #merge the two data sets to prepare for pairwise
 total <- merge(daily, pre, by = 'partID')
-```
 
-# Chores Numeric and Finding the Sums n Stuff
-
-```{r}
 #only including heterosexual couples
 total <- total %>% 
   filter(sexualor == "Heterosexual")
@@ -258,8 +253,10 @@ total$errands[is.na(total$errands)] = 0
 total$finances[is.na(total$finances)] = 0
 total$calls[is.na(total$calls)] = 0
 total$vacuum[is.na(total$vacuum)] = 0
+```
 
-
+# Trying to Get the Sums
+```{r}
 # Summing individual daily chores
 total <- total %>%
   rowwise() %>%
@@ -274,13 +271,51 @@ couple_chores <- total %>%
 total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_study'))
 
 # Calculating the percentage of the total chores each individual did
-finaltotal <- total_chores %>%
+percent <- total_chores %>%
   group_by(dyadID.x, day, day_of_study, gender.x) %>% 
   summarize(daily_per = ind_chores / cup_chores) 
 
 # Joining the individual, couple, and chore percentage calculations
 final <- total_chores %>% 
   full_join(finaltotal, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
+```
+
+
+
+## FINALLY MAKING EVERYTHING PAIRWISE
+```{r pairwise-daily, include = FALSE}
+# Creating a obsid
+final <- final %>%
+  select(-daily_per.y) %>% 
+  mutate(obsid = day_of_study+14*(dyadID.x-1))
+
+filtered_chores <- final %>% 
+  group_by(obsid) %>%
+  count()
+
+#Problems!!! we need there to only be obsid 2, anything less is fine, but anything
+#above is an issue!!!
+filtered_chores <- filtered_chores %>% 
+  filter(n <= 2)
+
+total_chores <- total_chores %>%
+  full_join(filtered_chores, by = "obsid")
+
+total_chores <- total_chores %>%
+  filter(n < 3)
+
+# Adding gender labels and rearranging the data
+pairwise <- total_chores %>% 
+  mutate(gender = ifelse(gender == 'Woman', 'W', 'M')) %>%
+  select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
+
+# Pivoting longer
+pairwise2 <- pairwise %>% 
+  gather(variable, value, qmi4:daily_per)
+
+# Combining the gender and variable labels
+pairwise3 <- pairwise2 %>%
+  unite(var_gender, variable, gender)
 ```
 
 
