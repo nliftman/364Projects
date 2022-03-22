@@ -85,7 +85,7 @@ pre$hs <- rowMeans(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi
 # Loading the data
 daily <- read_csv("TeleCom_Dyad_dailydiary.csv")
 
-temp <- daily %>%
+daily <- daily %>%
   mutate(RecordedDate = mdy_hm(RecordedDate)) %>%
   arrange(dyadID, partID, day, RecordedDate) %>%
   mutate(ResponseID = seq_along(RecordedDate)) %>%
@@ -122,17 +122,17 @@ temp <- daily %>%
 
 #remove anyone with 
 #(problems > 1) | (problems == 1 & !is.na(partID_given)) 
-temp <- temp %>% 
+daily <- daily %>% 
   filter((problems <= 1) | (problems != 1) & (!is.na(partID_given)))
 
 #other problematic cases or IDs to filter out completely: 
 #146, 1266, 1278, 1282, 1302, partID == R_1fiPEJydpvuaEEs, R_1jV9NyWEbelB76s,R_1PTxhk4207mTHAb, R_27kuznipTrWICLB, 2800
-temp <- temp %>% 
+daily <- daily %>% 
   filter(ResponseID != 146, ResponseID != 1266, ResponseID != 1278,  ResponseID != 1282, ResponseID != 1302, ResponseID != 2800) %>% 
   filter(partID != 'R_1fiPEJydpvuaEEs', partID != 'R_1jV9NyWEbelB76s', partID != 'R_1PTxhk4207mTHAb', partID != 'R_27kuznipTrWICLB')
 
 #other problematic cases to fix due to participant error:
-temp <- temp %>% 
+daily <- daily %>% 
   mutate(day = ifelse(ResponseID == 494, "Friday", day),
          day = ifelse(ResponseID == 771, "Wednesday", day),
          day = ifelse(ResponseID == 873, "Monday", day),
@@ -165,11 +165,11 @@ temp <- temp %>%
          day = ifelse(ResponseID == 3385, "Wednesday", day),
          day = ifelse(ResponseID == 3399, "Wednesday", day))
 
-temp <- temp %>% 
+daily <- daily %>% 
   mutate(day_of_study = ifelse(ResponseID == 894, 8, day_of_study))
 
 #run again after clean:
-temp <- temp %>%
+daily <- daily %>%
   arrange(dyadID, partID, day, RecordedDate) %>%
   mutate(ResponseID = seq_along(RecordedDate)) %>%
   group_by(partID, day) %>%
@@ -197,6 +197,13 @@ temp <- temp %>%
                         day == "Saturday" ~ 6,
                         day == "Sunday" ~ 7)),
          week = ifelse(day_of_study > 7, 2, 1))
+```
+
+# Cleaning the Daily
+## Prepairing for the merge
+```{r}
+daily <- daily %>%
+  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4) 
 ```
 
 
