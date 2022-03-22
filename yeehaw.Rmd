@@ -1,0 +1,6 @@
+---
+title: "Yeehaw"
+author: "Naomi Liftman"
+date: "3/22/2022"
+output: pdf_document
+---
