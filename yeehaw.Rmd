@@ -292,19 +292,17 @@ filtered_chores <- final %>%
 
 #Problems!!! we need there to only be obsid 2, anything less is fine, but anything
 #above is an issue!!!
-filtered_chores <- filtered_chores %>% 
+nomoreProblemshopefully <- filtered_chores %>% 
   filter(n <= 2)
 
-total_chores <- total_chores %>%
-  full_join(filtered_chores, by = "obsid")
-
-total_chores <- total_chores %>%
-  filter(n < 3)
+#merging the set that has no problems left with the origional
+fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
 
 # Adding gender labels and rearranging the data
-pairwise <- total_chores %>% 
-  mutate(gender = ifelse(gender == 'Woman', 'W', 'M')) %>%
-  select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
+pairwise <- fixed %>% 
+  mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
+  select(dyadID.x, partID, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
+  rename(dyadID = dyadID.x)
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
@@ -313,6 +311,9 @@ pairwise2 <- pairwise %>%
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender)
+
+#
+
 ```
 
 
