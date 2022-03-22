@@ -284,38 +284,6 @@ final_before_pairs <- total_chores %>%
   full_join(percent, by = c("dyadID", "gender", "day", "day_of_study"))
 ```
 
-## FINALLY MAKING EVERYTHING PAIRWISE
-```{r pairwise-daily, include = FALSE}
-# Creating a obsid
-final <- final_before_pairs %>%
-  mutate(obsid = day_of_study+14*(dyadID-1))
-
-filtered_chores <- final %>% 
-  group_by(obsid) %>%
-  count()
-
-#merging the set that has no problems left with the origional
-fixed <- merge(filtered_chores, final, by = 'obsid')
-
-# Adding gender labels and rearranging the data
-pairwise <- fixed %>% 
-  mutate(gender = ifelse(gender == 'Woman', 'W', 'M')) %>%
-  select(dyadID, partID, obsid, gender, day, day_of_study, qmi4, daily_per)
-
-# Pivoting longer
-pairwise2 <- pairwise %>% 
-  gather(variable, value, qmi4:daily_per)
-
-# Combining the gender and variable labels
-pairwise3 <- pairwise2 %>%
-  unite(var_gender, variable, gender)
-
-#sprad baby
-pairwise4 <- pairwise3 %>%
-  select(-partID, -day) %>%
-  group_by(obsid) %>% 
-  pivot_wider(names_from = var_gender, values_from = value)
-```
 # Finally making everything pairwise but trying a different method
 ```{r}
 # Creating a obsid
