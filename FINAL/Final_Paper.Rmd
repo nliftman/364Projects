@@ -107,12 +107,10 @@ corr.test(select(benevolent, asi_1:asi_22))$r
 
 # Hostile sexism
 hostile <- pre %>% 
-  select(dyadID, gender, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_18.r, asi_21.r)
+  select(dyadID, gender, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r)
 # Hostile correlation matrix
 corr.test(select(hostile, asi_2:asi_21.r))$r
-#question 18 is still giving us problems :(, where in the actual qualtrics survey
-#the question should be reversed but maybe ppl just didnt understand the question
-#should we get rid of the question? idk
+#we did not include question 18
 
 # ASI reliability
 # Reliability for the benevolent
@@ -135,6 +133,22 @@ pre_fixed$bs <- rowMeans(select(pre_fixed, asi_1, asi_3.r, asi_6.r, asi_8, asi_9
 # Hostile own variable, without question 18
 pre_fixed$hs <- rowMeans(select(pre_fixed, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
 
+#Now that we have our own variables we need to make it into pairwise
+pre_fixed2 <- pre_fixed %>% 
+  mutate(gender = ifelse(gender == "Woman", "W", "M"))
+
+#now we want to gather
+pre_fixed3 <- pre_fixed2 %>% 
+  select(dyadID, gender, bs, hs) %>% 
+  gather(variable, value, bs:hs)
+
+#smoosh
+pre4 <- pre_fixed3 %>%
+  unite(var_gender, variable, gender)
+
+#spread it baby!!! HAVING ISSUES :(
+pre5 <- pre4 %>%
+  pivot_wider(names_from = var_gender, values_from = value)
 ```
 ## Creating a Pairwise Dataset for the Premeasures Data
 ```{r pairwise-premeasures, include = FALSE}
