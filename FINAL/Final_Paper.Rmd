@@ -145,6 +145,11 @@ pre_fixed3 <- pre_fixed2 %>%
 #smoosh
 pre4 <- pre_fixed3 %>%
   unite(var_gender, variable, gender)
+# 
+# pre4 %>%
+#   group_by(dyadID) %>%
+#   summarise(n=n()) %>%
+#   View()
 
 #spread it baby!!! HAVING ISSUES :(
 pre5 <- pre4 %>%
@@ -399,7 +404,7 @@ daily_pairwise <- pairwise4 %>%
 # Finding the Residual Error 
 ```{r}
 #special additional argument that is added for distinguishable dyads
-apim_di_int <- gls(qmi4 ~ hs*bs*,
+apim_di_int <- gls(qmi4 ~ 1,
                    data = acitelli_pair,
                    correlation = corCompSymm(form=~1|cuplid), 
                    weights = varIdent(form=~1|genderE_A), 
@@ -408,6 +413,18 @@ apim_di_int <- gls(qmi4 ~ hs*bs*,
 #to find mans residual error, you look to the bottom, but to find woman, you 
 #take the estimate at -1 and multiply it by the mans
 summary(apim_di_int)
+
+apim_di_int <- gls(hs ~ 1,
+                   data = acitelli_pair,
+                   correlation = corCompSymm(form=~1|cuplid), 
+                   weights = varIdent(form=~1|genderE_A), 
+                   na.action = na.omit)
+
+apim_di_int <- gls(bs ~ 1,
+                   data = acitelli_pair,
+                   correlation = corCompSymm(form=~1|cuplid), 
+                   weights = varIdent(form=~1|genderE_A), 
+                   na.action = na.omit)
 ```
 
 
