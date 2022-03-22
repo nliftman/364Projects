@@ -378,6 +378,22 @@ pairwise4 <- pairwise3 %>%
   pivot_wider(names_from = var_gender, values_from = value)
 ```
 
+# Finding the Residual Error 
+```{r}
+#special additional argument that is added for distinguishable dyads
+apim_di_int <- gls(qmi4 ~ hs*bs*,
+                   data = acitelli_pair,
+                   correlation = corCompSymm(form=~1|cuplid), 
+                   weights = varIdent(form=~1|genderE_A), 
+                   na.action = na.omit)
+
+#to find mans residual error, you look to the bottom, but to find woman, you 
+#take the estimate at -1 and multiply it by the mans
+summary(apim_di_int)
+```
+
+
+
 
 # Methods
 
