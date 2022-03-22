@@ -202,8 +202,17 @@ daily <- daily %>%
 # Cleaning the Daily
 ## Prepairing for the merge
 ```{r}
+#selecting just what we want from daily
 daily <- daily %>%
-  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4) 
+  select(partID, dyadID, RecordedDate, day, day_of_study, gender, beds:calls, qmi4)
+
+#rename the pre so that we can merge them
+pre <- pre %>% 
+  rename(partID = ResponseId)
+
+#merge the two data sets to prepair for pairwise
+total <- merge(daily, pre, by = 'partID')
+
 ```
 
 
