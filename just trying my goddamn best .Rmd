@@ -228,16 +228,13 @@ daily <- daily %>%
 
 # Cleaning the Daily and Preparing for the Merge
 ```{r}
-#rename the pre so that we can merge them
+#rename the pre so that we can merge them and only include het
 pre <- pre %>% 
-  rename(partID = ResponseId)
+  rename(partID = ResponseId) %>% 
+  filter(sexualor == 'Heterosexual')
 
 #merge the two data sets to prepare for pairwise
 total <- merge(daily, pre, by = 'partID')
-
-#only including heterosexual couples
-total <- total %>% 
-  filter(sexualor == "Heterosexual")
 
 # Making qmi numeric
 total$qmi4 <- replace(total$qmi4, total$qmi4 == 'Mostly true about me', 1)
@@ -279,7 +276,7 @@ total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_st
 # Calculating the percentage of the total chores each individual did
 percent <- total_chores %>%
   group_by(dyadID.x, day, day_of_study, gender.x) %>% 
-  summarize(daily_per = ind_chores / cup_chores) 
+  summarize(daily_per = ifelse(cup_chores != 0, ind_chores / cup_chores, 999)) 
 
 # Joining the individual, couple, and chore percentage calculations
 final_before_pairs <- total_chores %>% 
@@ -307,20 +304,17 @@ fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
-  select(dyadID.x, partID, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
+  select(dyadID.x, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
   rename(dyadID = dyadID.x)
-
-filtered_chores <- pairwise %>% 
-  group_by(partID) %>%
-  count()
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
-  gather(variable, value, qmi4:daily_per)
+  mutate(gender2 = gender) %>%
+  gather(variable, value, qmi4:gender2)
 
-filtered_chores <- pairwise2 %>% 
-  group_by(partID) %>%
-  count()
+# filtered_chores <- pairwise2 %>% 
+#   group_by(partID) %>%
+#   count()
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
@@ -330,6 +324,9 @@ pairwise3 <- pairwise2 %>%
 #sprad baby
 pairwise4 <- pairwise3 %>%
   spread(var_gender, value)
+
+pairwise4 <- pairwise4 %>% 
+  filter()
 
 
 ```
