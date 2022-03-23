@@ -299,13 +299,6 @@ nomoreProblemshopefully <- filtered_chores %>%
 fixed <- merge(nomoreProblemshopefully, final, by = 'obsid') %>% 
   select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per)
 
-fixed_dyad <- fixed %>% 
-  mutate(gender = ifelse(gender.x == "Woman", "W", "M")) %>%
-  gather(variable, value, qmi4:daily_per) %>%
-  unite(var_gender, variable, gender) %>%
-  spread(var_gender, value)
-
-
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
@@ -321,8 +314,14 @@ pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender.x) 
 
 pairwise3 <- pairwise3 %>% 
-  filter(obsid != )
+  filter(obsid != 411584461, obsid != 411584462, obsid != 411584463, 
+         obsid != 411584464, obsid != 411584465, obsid != 411584466,
+         obsid != 411584467, obsid != 411584474, obsid != 411584468,
+         obsid != 411584469, obsid != 411584470, obsid != 411584471,
+         obsid != 411584472, obsid != 411584473)
 
+POOPwise <- pairwise3 %>% 
+  spread(var_gender, value)
 
 #spread baby
 pairwise4 <- pairwise3 %>%
