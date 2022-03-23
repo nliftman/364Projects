@@ -321,12 +321,13 @@ pairwise2 <- pairwise %>%
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
-  unite(var_gender, variable, gender)
+  unite(var_gender, variable, gender) %>%
+  select(-partID)
 
 
 #sprad baby
 pairwise4 <- pairwise3 %>%
-  spread(var_gender, value)
+  pivot_wider(names_from = "var_gender", values_from = "value")
 
 pairwise4 <- pairwise4 %>% 
   filter()
