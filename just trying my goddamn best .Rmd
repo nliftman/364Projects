@@ -327,7 +327,7 @@ pairwise4 <- pairwise3 %>%
 
 # Adding gender labels and rearranging the data
 pairwise5 <- fixed %>% 
-  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
+  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'P', 'A')) %>%
   select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, gender2) %>% 
   rename(dyadID = dyadID.x)
 
