@@ -324,6 +324,25 @@ pairwise3 <- pairwise2 %>%
 pairwise4 <- pairwise3 %>%
   pivot_wider(names_from = "var_gender", values_from = "value")
 
+
+# Adding gender labels and rearranging the data
+pairwise5 <- fixed %>% 
+  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, gender2) %>% 
+  rename(dyadID = dyadID.x)
+
+# Pivoting longer
+pairwise6 <- pairwise5 %>% 
+  gather(variable, value, qmi4:gender2)
+
+# Combining the gender and variable labels
+pairwise7 <- pairwise6 %>%
+  unite(var_gender, variable, gender.x)
+
+#spread baby
+pairwise8 <- pairwise7 %>%
+  pivot_wider(names_from = "var_gender", values_from = "value")
+
 ```
 
 
