@@ -318,7 +318,11 @@ pairwise2 <- pairwise %>%
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
-  unite(var_gender, variable, gender.x)
+  unite(var_gender, variable, gender.x) 
+
+pairwise3 <- pairwise3 %>% 
+  filter(obsid != )
+
 
 #spread baby
 pairwise4 <- pairwise3 %>%
