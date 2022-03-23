@@ -307,20 +307,28 @@ fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
-  select(dyadID.x, partID, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
+  select(dyadID.x, obsid, gender, day, day_of_study, qmi4, partID, daily_per) %>% 
   rename(dyadID = dyadID.x)
+
+filtered_chores <- pairwise %>% 
+  group_by(partID) %>%
+  count()
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
   gather(variable, value, qmi4:daily_per)
 
+filtered_chores <- pairwise2 %>% 
+  group_by(partID) %>%
+  count()
+
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender)
 
+
 #sprad baby
 pairwise4 <- pairwise3 %>%
-  group_by(obsid, partID, day, day_of_study) %>% 
   spread(var_gender, value)
 
 
