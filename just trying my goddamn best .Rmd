@@ -233,6 +233,9 @@ pre <- pre %>%
   rename(partID = ResponseId) %>% 
   filter(sexualor == 'Heterosexual')
 
+pre$gender <- replace(pre$gender, pre$gender == "Woman,Cis gendered", "Woman")
+pre$gender <- replace(pre$gender, pre$gender == "Man,Cis gendered", "Man")
+
 #merge the two data sets to prepare for pairwise
 total <- merge(daily, pre, by = 'partID')
 
