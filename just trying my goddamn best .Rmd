@@ -307,7 +307,7 @@ fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
-  select(dyadID.x, obsid, gender, day, day_of_study, qmi4, partID, daily_per) %>% 
+  select(dyadID.x, partID, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
   rename(dyadID = dyadID.x)
 
 filtered_chores <- pairwise %>% 
