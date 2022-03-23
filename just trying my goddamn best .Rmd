@@ -320,15 +320,15 @@ pairwise3 <- pairwise3 %>%
          obsid != 411584469, obsid != 411584470, obsid != 411584471,
          obsid != 411584472, obsid != 411584473)
 
-POOPwise <- pairwise3 %>% 
+#spread baby
+pairwise4 <- pairwise3 %>% 
   spread(var_gender, value)
 
-
-
-#spread baby
-pairwise4 <- pairwise3 %>%
-  pivot_wider(names_from = "var_gender", values_from = "value")
-
+#filling in the categories where we know what they should be 
+pairwise4$daily_per_A[is.na(pairwise4$daily_per_A)] = 0
+pairwise4$daily_per_P[is.na(pairwise4$daily_per_P)] = 0
+pairwise4$gender2_A[is.na(pairwise4$gender2_A)] = "Woman"
+pairwise4$gender2_P[is.na(pairwise4$gender2_P)] = "Man"
 
 # Adding gender labels and rearranging the data
 pairwise5 <- fixed %>% 
@@ -344,10 +344,22 @@ pairwise6 <- pairwise5 %>%
 pairwise7 <- pairwise6 %>%
   unite(var_gender, variable, gender.x)
 
+pairwise7 <- pairwise7 %>% 
+  filter(obsid != 411584461, obsid != 411584462, obsid != 411584463, 
+         obsid != 411584464, obsid != 411584465, obsid != 411584466,
+         obsid != 411584467, obsid != 411584474, obsid != 411584468,
+         obsid != 411584469, obsid != 411584470, obsid != 411584471,
+         obsid != 411584472, obsid != 411584473)
+
 #spread baby
 pairwise8 <- pairwise7 %>%
-  pivot_wider(names_from = "var_gender", values_from = "value")
+  spread(var_gender, value)
 
+#filling in the categories where we know what they should be 
+pairwise8$daily_per_A[is.na(pairwise8$daily_per_A)] = 0
+pairwise8$daily_per_P[is.na(pairwise8$daily_per_P)] = 0
+pairwise8$gender2_A[is.na(pairwise8$gender2_A)] = "Man"
+pairwise8$gender2_P[is.na(pairwise8$gender2_P)] = "Woman"
 ```
 
 
