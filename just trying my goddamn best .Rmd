@@ -302,7 +302,15 @@ nomoreProblemshopefully <- filtered_chores %>%
   filter(n <= 2)
 
 #merging the set that has no problems left with the origional
-fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
+fixed <- merge(nomoreProblemshopefully, final, by = 'obsid') %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per)
+
+fixed_dyad <- fixed %>% 
+  mutate(gender = ifelse(gender.x == "Woman", "W", "M")) %>%
+  gather(variable, value, qmi4:daily_per) %>%
+  unite(var_gender, variable, gender) %>%
+  spread(var_gender, value)
+
 
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
@@ -321,9 +329,11 @@ pairwise2 <- pairwise %>%
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
-  unite(var_gender, variable, gender) %>%
-  select(-partID)
+  unite(var_gender, variable, gender)
 
+
+pairwise4 <- pairwise3 %>% 
+  spread(var_gender, value)
 
 #sprad baby
 pairwise4 <- pairwise3 %>%
