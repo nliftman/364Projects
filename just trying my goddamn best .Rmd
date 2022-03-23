@@ -273,7 +273,7 @@ total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_st
 # Calculating the percentage of the total chores each individual did
 percent <- total_chores %>%
   group_by(dyadID.x, day, day_of_study, gender.x) %>% 
-  summarize(daily_per = ifelse(cup_chores != 0, ind_chores / cup_chores, 999)) 
+  summarize(daily_per = ifelse(cup_chores != 0, ind_chores / cup_chores, 0)) 
 
 # Joining the individual, couple, and chore percentage calculations
 final_before_pairs <- total_chores %>% 
@@ -322,6 +322,8 @@ pairwise3 <- pairwise3 %>%
 
 POOPwise <- pairwise3 %>% 
   spread(var_gender, value)
+
+
 
 #spread baby
 pairwise4 <- pairwise3 %>%
