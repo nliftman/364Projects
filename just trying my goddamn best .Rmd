@@ -280,7 +280,7 @@ final_before_pairs <- total_chores %>%
   full_join(percent, by = c("dyadID.x", "gender.x", "day", "day_of_study"))
 ```
 
-## FINALLY MAKING EVERYTHING PAIRWISE
+## FINALLY MAKING EVERYTHING DYADIC
 ```{r pairwise-daily, include = FALSE}
 # Creating a obsid
 final <- final_before_pairs %>%
@@ -360,6 +360,12 @@ pairwise8$daily_per_A[is.na(pairwise8$daily_per_A)] = 0
 pairwise8$daily_per_P[is.na(pairwise8$daily_per_P)] = 0
 pairwise8$gender2_A[is.na(pairwise8$gender2_A)] = "Man"
 pairwise8$gender2_P[is.na(pairwise8$gender2_P)] = "Woman"
+```
+
+# Finally Making Everything Pairwise
+```{r}
+dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
+  arrange(obsid)
 ```
 
 
