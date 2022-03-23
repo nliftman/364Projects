@@ -314,13 +314,12 @@ fixed_dyad <- fixed %>%
 
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
-  mutate(gender = ifelse(gender.x == 'Woman', 'W', 'M')) %>%
-  select(dyadID.x, obsid, gender, day, day_of_study, qmi4, daily_per) %>% 
+  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, gender2) %>% 
   rename(dyadID = dyadID.x)
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
-  mutate(gender2 = gender) %>%
   gather(variable, value, qmi4:gender2)
 
 # filtered_chores <- pairwise2 %>% 
@@ -329,8 +328,12 @@ pairwise2 <- pairwise %>%
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
+<<<<<<< HEAD
   unite(var_gender, variable, gender)
 
+=======
+  unite(var_gender, variable, gender.x)
+>>>>>>> 3d69515430606bfef458520f55c422fb1c27b9ee
 
 pairwise4 <- pairwise3 %>% 
   spread(var_gender, value)
@@ -341,8 +344,6 @@ pairwise4 <- pairwise3 %>%
 
 pairwise4 <- pairwise4 %>% 
   filter()
-
-
 ```
 
 
