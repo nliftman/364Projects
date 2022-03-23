@@ -316,24 +316,14 @@ pairwise <- fixed %>%
 pairwise2 <- pairwise %>% 
   gather(variable, value, qmi4:gender2)
 
-# filtered_chores <- pairwise2 %>% 
-#   group_by(partID) %>%
-#   count()
-
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
   unite(var_gender, variable, gender.x)
 
-
-pairwise4 <- pairwise3 %>% 
-  spread(var_gender, value)
-
-#sprad baby
+#spread baby
 pairwise4 <- pairwise3 %>%
   pivot_wider(names_from = "var_gender", values_from = "value")
 
-pairwise4 <- pairwise4 %>% 
-  filter()
 ```
 
 
