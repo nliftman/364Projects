@@ -4,12 +4,6 @@ author: "Naomi Liftman"
 date: "3/22/2022"
 output: html_document
 ---
----
-title: "Yeehaw"
-author: "Naomi Liftman"
-date: "3/22/2022"
-output: pdf_document
----
 # Load in the Files
 ```{r packages, include = FALSE}
 library(tidyverse)
@@ -328,12 +322,8 @@ pairwise2 <- pairwise %>%
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise2 %>%
-<<<<<<< HEAD
-  unite(var_gender, variable, gender)
-
-=======
   unite(var_gender, variable, gender.x)
->>>>>>> 3d69515430606bfef458520f55c422fb1c27b9ee
+
 
 pairwise4 <- pairwise3 %>% 
   spread(var_gender, value)
