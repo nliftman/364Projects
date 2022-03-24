@@ -391,6 +391,14 @@ dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
 newbaby <- dyad_pair %>% 
   right_join(forlater, by = c('dyadID', 'obsid', 'day'))
   
+#looking at whats the deal with the repeating
+letsdosomecounting <- newbaby %>% 
+  group_by(obsid) %>% 
+  count()
+
+#looking at this specifc to try to learn more
+newbaby <- newbaby %>% 
+  filter(obsid == 13136524)
 
 View(dyad_pair)
 View(forlater)
