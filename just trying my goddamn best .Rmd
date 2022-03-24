@@ -367,10 +367,8 @@ pairwise8$gender2_P[is.na(pairwise8$gender2_P)] = "Woman"
 #just trying to join them together
 #cant quite get this to work and not quite sure why
 dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
-  arrange(dyadID)
+  arrange(obsid)
 
-#wrong :(
-dyad_pair <- merge(pairwise4, pairwise8, by = 'dyadID')
 
 ```
 
