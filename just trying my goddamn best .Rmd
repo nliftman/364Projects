@@ -286,6 +286,7 @@ final_before_pairs <- total_chores %>%
 final <- final_before_pairs %>%
   mutate(obsid = day_of_study+14*(dyadID.x-1))
 
+#finding whcih ones are greater than 2
 filtered_chores <- final %>% 
   group_by(obsid) %>%
   count()
@@ -296,13 +297,21 @@ nomoreProblemshopefully <- filtered_chores %>%
   filter(n <= 2)
 
 #merging the set that has no problems left with the origional
-fixed <- merge(nomoreProblemshopefully, final, by = 'obsid') %>% 
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per)
+fixed <- merge(nomoreProblemshopefully, final, by = 'obsid')
+
+#putting everything in the correct order
+fixed <- fixed %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, everything())
+
+#creating a set with just the premeasures info 
+forlater <- fixed %>% 
+  select(dyadID.x, obsid, day, gender.x, Q138:indinc) %>% 
+  rename(dyadID = dyadID.x)
 
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, gender2) %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
   rename(dyadID = dyadID.x)
 
 # Pivoting longer
@@ -322,7 +331,8 @@ pairwise3 <- pairwise3 %>%
 
 #spread baby
 pairwise4 <- pairwise3 %>% 
-  spread(var_gender, value)
+  pivot_wider(names_from = var_gender, values_from = value)
+
 
 #filling in the categories where we know what they should be 
 pairwise4$daily_per_A[is.na(pairwise4$daily_per_A)] = 0
@@ -333,7 +343,7 @@ pairwise4$gender2_P[is.na(pairwise4$gender2_P)] = "Man"
 # Adding gender labels and rearranging the data
 pairwise5 <- fixed %>% 
   mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'P', 'A')) %>%
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, gender2) %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
   rename(dyadID = dyadID.x)
 
 # Pivoting longer
@@ -364,12 +374,43 @@ pairwise8$gender2_P[is.na(pairwise8$gender2_P)] = "Woman"
 
 # Finally Making Everything Pairwise
 ```{r}
-#just trying to join them together
-#cant quite get this to work and not quite sure why
+#joining the datasets together
 dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
   arrange(obsid)
 
+#THIS IS AN AWESOME ACCOMPLISHMENT, however it doesnt have the data about the 
+#descriptive statistics, but I am having wicked issues figuring that out and 
+#theres other stuff I need to do today, so I'm gonna come back to this 
+#later with a fresh mind and a phat ass
+```
 
+
+# I EITHER BECAME GOD OR I KILLED HIM
+```{r}
+apim_di_int <- gls(qmi4 ~ 1,
+                   data = dyad_pair,
+                   correlation = corCompSymm(form=~1|cuplid), 
+                   weights = varIdent(form=~1|genderE_A), 
+                   na.action = na.omit)
+
+#to find mans residual error, you look to the bottom, but to find woman, you 
+#take the estimate at -1 and multiply it by the mans
+summary(apim_di_int)
+
+#groupby dyad and gender and then just pull out the first day 
+#first row function, not eveyrone has day one 
+
+apim_di_int <- gls(hs ~ 1,
+                   data = acitelli_pair,
+                   correlation = corCompSymm(form=~1|dyadID), 
+                   weights = varIdent(form=~1|gender2_A), 
+                   na.action = na.omit)
+
+apim_di_int <- gls(bs ~ 1,
+                   data = acitelli_pair,
+                   correlation = corCompSymm(form=~1|cuplid), 
+                   weights = varIdent(form=~1|genderE_A), 
+                   na.action = na.omit)
 ```
 
 
