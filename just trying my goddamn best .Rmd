@@ -306,7 +306,8 @@ fixed <- fixed %>%
 #creating a set with just the premeasures info 
 forlater <- fixed %>% 
   select(dyadID.x, obsid, day, gender.x, Q138:indinc) %>% 
-  rename(dyadID = dyadID.x)
+  rename(dyadID = dyadID.x, 
+         gender = gender.x)
 
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
@@ -383,6 +384,19 @@ dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
 #theres other stuff I need to do today, so I'm gonna come back to this 
 #later with a fresh mind and a phat ass
 ```
+
+# Now That Everything Is Pairwise We Gotta Bring it All Back Together Again
+```{r}
+#attempting to bring it all together pls pls pls pls pls pls pls work
+newbaby <- dyad_pair %>% 
+  right_join(forlater, by = c('dyadID', 'obsid', 'day'))
+  
+
+View(dyad_pair)
+View(forlater)
+```
+
+
 
 
 # I EITHER BECAME GOD OR I KILLED HIM
