@@ -312,12 +312,12 @@ forlater <- fixed %>%
 # Adding gender labels and rearranging the data
 pairwise <- fixed %>% 
   mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'A', 'P')) %>%
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2, Q138:indinc) %>% 
   rename(dyadID = dyadID.x)
 
 # Pivoting longer
 pairwise2 <- pairwise %>% 
-  gather(variable, value, qmi4:gender2)
+  gather(variable, value, qmi4:Q138:indinc)
 
 # Combining the gender and variable labels
 pairwise2 <- pairwise2 %>%
@@ -344,12 +344,12 @@ pairwise2$gender2_P[is.na(pairwise2$gender2_P)] = "Man"
 # Adding gender labels and rearranging the data
 pairwise3 <- fixed %>% 
   mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'P', 'A')) %>%
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2, Q138:indinc) %>% 
   rename(dyadID = dyadID.x)
 
 # Pivoting longer
 pairwise3 <- pairwise3 %>% 
-  gather(variable, value, qmi4:gender2)
+  gather(variable, value, qmi4:indinc)
 
 # Combining the gender and variable labels
 pairwise3 <- pairwise3 %>%
@@ -384,28 +384,6 @@ dyad_pair <- bind_rows(pairwise2, pairwise3) %>%
 #theres other stuff I need to do today, so I'm gonna come back to this 
 #later with a fresh mind and a phat ass
 ```
-
-# Now That Everything Is Pairwise We Gotta Bring it All Back Together Again
-```{r}
-#attempting to bring it all together pls pls pls pls pls pls pls work
-newbaby <- dyad_pair %>% 
-  right_join(forlater, by = c('dyadID', 'obsid', 'day'))
-  
-#looking at whats the deal with the repeating
-letsdosomecounting <- newbaby %>% 
-  group_by(obsid) %>% 
-  count()
-
-#looking at this specifc to try to learn more
-newbaby <- newbaby %>% 
-  filter(obsid == 13136524)
-
-View(dyad_pair)
-View(forlater)
-```
-
-
-
 
 # I EITHER BECAME GOD OR I KILLED HIM
 ```{r}
