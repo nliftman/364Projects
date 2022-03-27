@@ -320,8 +320,40 @@ pairwise2 <- pairwise %>%
   gather(variable, value, qmi4:gender2)
 
 # Combining the gender and variable labels
-pairwise3 <- pairwise2 %>%
+pairwise2 <- pairwise2 %>%
   unite(var_gender, variable, gender.x) 
+
+pairwise2 <- pairwise2 %>% 
+  filter(obsid != 411584461, obsid != 411584462, obsid != 411584463, 
+         obsid != 411584464, obsid != 411584465, obsid != 411584466,
+         obsid != 411584467, obsid != 411584474, obsid != 411584468,
+         obsid != 411584469, obsid != 411584470, obsid != 411584471,
+         obsid != 411584472, obsid != 411584473)
+
+#spread baby
+pairwise2 <- pairwise2 %>% 
+  pivot_wider(names_from = var_gender, values_from = value)
+
+
+#filling in the categories where we know what they should be 
+pairwise2$daily_per_A[is.na(pairwise2$daily_per_A)] = 0
+pairwise2$daily_per_P[is.na(pairwise2$daily_per_P)] = 0
+pairwise2$gender2_A[is.na(pairwise2$gender2_A)] = "Woman"
+pairwise2$gender2_P[is.na(pairwise2$gender2_P)] = "Man"
+
+# Adding gender labels and rearranging the data
+pairwise3 <- fixed %>% 
+  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'P', 'A')) %>%
+  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
+  rename(dyadID = dyadID.x)
+
+# Pivoting longer
+pairwise3 <- pairwise3 %>% 
+  gather(variable, value, qmi4:gender2)
+
+# Combining the gender and variable labels
+pairwise3 <- pairwise3 %>%
+  unite(var_gender, variable, gender.x)
 
 pairwise3 <- pairwise3 %>% 
   filter(obsid != 411584461, obsid != 411584462, obsid != 411584463, 
@@ -331,52 +363,20 @@ pairwise3 <- pairwise3 %>%
          obsid != 411584472, obsid != 411584473)
 
 #spread baby
-pairwise4 <- pairwise3 %>% 
-  pivot_wider(names_from = var_gender, values_from = value)
-
-
-#filling in the categories where we know what they should be 
-pairwise4$daily_per_A[is.na(pairwise4$daily_per_A)] = 0
-pairwise4$daily_per_P[is.na(pairwise4$daily_per_P)] = 0
-pairwise4$gender2_A[is.na(pairwise4$gender2_A)] = "Woman"
-pairwise4$gender2_P[is.na(pairwise4$gender2_P)] = "Man"
-
-# Adding gender labels and rearranging the data
-pairwise5 <- fixed %>% 
-  mutate(gender2 = gender.x, gender.x = ifelse(gender.x == 'Woman', 'P', 'A')) %>%
-  select(dyadID.x, obsid, gender.x, day, day_of_study, qmi4, daily_per, bs, hs, gender2) %>% 
-  rename(dyadID = dyadID.x)
-
-# Pivoting longer
-pairwise6 <- pairwise5 %>% 
-  gather(variable, value, qmi4:gender2)
-
-# Combining the gender and variable labels
-pairwise7 <- pairwise6 %>%
-  unite(var_gender, variable, gender.x)
-
-pairwise7 <- pairwise7 %>% 
-  filter(obsid != 411584461, obsid != 411584462, obsid != 411584463, 
-         obsid != 411584464, obsid != 411584465, obsid != 411584466,
-         obsid != 411584467, obsid != 411584474, obsid != 411584468,
-         obsid != 411584469, obsid != 411584470, obsid != 411584471,
-         obsid != 411584472, obsid != 411584473)
-
-#spread baby
-pairwise8 <- pairwise7 %>%
+pairwise3 <- pairwise3 %>%
   spread(var_gender, value)
 
 #filling in the categories where we know what they should be 
-pairwise8$daily_per_A[is.na(pairwise8$daily_per_A)] = 0
-pairwise8$daily_per_P[is.na(pairwise8$daily_per_P)] = 0
-pairwise8$gender2_A[is.na(pairwise8$gender2_A)] = "Man"
-pairwise8$gender2_P[is.na(pairwise8$gender2_P)] = "Woman"
+pairwise3$daily_per_A[is.na(pairwise3$daily_per_A)] = 0
+pairwise3$daily_per_P[is.na(pairwise3$daily_per_P)] = 0
+pairwise3$gender2_A[is.na(pairwise3$gender2_A)] = "Man"
+pairwise3$gender2_P[is.na(pairwise3$gender2_P)] = "Woman"
 ```
 
 # Finally Making Everything Pairwise
 ```{r}
 #joining the datasets together
-dyad_pair <- bind_rows(pairwise4, pairwise8) %>%
+dyad_pair <- bind_rows(pairwise2, pairwise3) %>%
   arrange(obsid)
 
 #THIS IS AN AWESOME ACCOMPLISHMENT, however it doesnt have the data about the 
@@ -409,10 +409,20 @@ View(forlater)
 
 # I EITHER BECAME GOD OR I KILLED HIM
 ```{r}
-apim_di_int <- gls(qmi4 ~ 1,
+#need to make man and woman 1, woman 0
+workin <- dyad_pair %>% 
+  mutate(gender2_A = ifelse(gender2_A == 'Woman', 0, 1),
+         gender2_P = ifelse(gender2_P == 'Woman', 0, 1))
+#making sure thats numeric bc idk why its not working
+workin <- workin %>%
+  mutate(gender2_A = as.numeric(gender2_A),
+         gender2_P = as.numeric(gender2_P))
+
+
+apim_di_int <- gls(qmi4_A ~ 1,
                    data = dyad_pair,
-                   correlation = corCompSymm(form=~1|cuplid), 
-                   weights = varIdent(form=~1|genderE_A), 
+                   correlation = corCompSymm(form=~1|dyadID), 
+                   weights = varIdent(form=~1|gender2_A), 
                    na.action = na.omit)
 
 #to find mans residual error, you look to the bottom, but to find woman, you 
