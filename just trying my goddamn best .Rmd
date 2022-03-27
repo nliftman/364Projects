@@ -474,11 +474,17 @@ relationship <- demographics %>%
   group_by(Q138_A) %>%
   summarize(n = n())
 
+relationship %>%
+  summarize(total = sum(n))
+
 cohab <- demographics %>%
   select(dyadID, cohabitation_A) %>%
   distinct() %>%
   group_by(cohabitation_A) %>%
   summarize(n = n())
+
+cohab %>%
+    summarize(total = sum(n))
 
 children <- demographics %>%
   select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
@@ -491,21 +497,36 @@ children <- demographics %>%
   group_by(total_children) %>%
   summarize(n = n())
 
+children %>%
+  summarize(total = sum(n))
+
 ind_race <- demographics %>%
   group_by(race_A) %>%
   summarize(n = n())
+
+ind_race %>%
+  summarize(total = sum(n))
 
 mixed_race_couples <- demographics %>%
   filter(race_A != race_P) %>%
   select(dyadID) %>%
   distinct()
 
+mixed_race_couples %>%
+  summarize(n = n())
+
 religion <- demographics %>%
   group_by(religion_A) %>%
   summarize(n = n())
 
+religion %>%
+    summarize(total = sum(n))
+
 politics <- demographics %>%
   group_by(conservatism_A) %>%
   summarize(n = n())
+
+politics %>%
+  summarize(total = sum(n))
 ```
 
