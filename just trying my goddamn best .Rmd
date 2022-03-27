@@ -397,7 +397,7 @@ workin <- workin %>%
   mutate(gender2_A = as.numeric(gender2_A),
          gender2_P = as.numeric(gender2_P),
          qmi4_A = as.numeric(qmi4_A),
-         qmi4_P = as.numeric(qmi4_A))
+         qmi4_P = as.numeric(qmi4_P))
 
 #now we running this to find the ICC for qmi
 qmigls <- gls(qmi4_A ~ 1,
@@ -407,7 +407,13 @@ qmigls <- gls(qmi4_A ~ 1,
                    na.action = na.omit)
 summary(qmigls)
 
+#now finding the ICC for percent of chores
 
+workinpart2electricboogaloo <- workin %>%
+  mutate(gender2_A = as.numeric(gender2_A),
+         gender2_P = as.numeric(gender2_P),
+         daily_per_A = as.numeric(qmi4_A),
+         daily_per_P = as.numeric(qmi4_P))
 
 #now making something for just the first rows of HS 
 hsmodel <- dyad_pair %>% 
