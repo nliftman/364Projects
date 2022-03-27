@@ -420,7 +420,7 @@ workin <- workin %>%
 
 
 apim_di_int <- gls(qmi4_A ~ 1,
-                   data = dyad_pair,
+                   data = workin,
                    correlation = corCompSymm(form=~1|dyadID), 
                    weights = varIdent(form=~1|gender2_A), 
                    na.action = na.omit)
@@ -428,6 +428,24 @@ apim_di_int <- gls(qmi4_A ~ 1,
 #to find mans residual error, you look to the bottom, but to find woman, you 
 #take the estimate at -1 and multiply it by the mans
 summary(apim_di_int)
+
+
+dyad_pair <- dyad_pair%>% 
+  group_by(dyadID) %>% 
+  filter(day_of_study == 1) %>% 
+  summarise(n = n())
+
+fornewstuffbaby <- dyad_pair %>% 
+  group_by(dyadID, gender2_A) %>%
+  arrange(hs_A) %>%
+  filter(row_number()==1)
+
+GC_men_mod <- lme(hs_A~1,
+              data = fornewstuffbaby, 
+              random = ~ 1 |dyadID,
+              na.action = na.omit)
+  
+smallsummary(GC_men_mod)
 
 #groupby dyad and gender and then just pull out the first day 
 #first row function, not eveyrone has day one 
