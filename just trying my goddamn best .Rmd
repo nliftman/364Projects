@@ -19,7 +19,7 @@ library(nlme)
 pre <- read_csv("TeleCom_Dyad_premeasures.csv")
 
 pre <- pre %>% 
-  select(ResponseId, dyadID, Q138, cohabitation, wfh, gender, sexualor, race, religion, conservatism, indinc, asi_1:asi_22)
+  select(ResponseId, dyadID, Q138, cohabitation, wfh, gender, sexualor, race, religion, conservatism, people_4_TEXT, people_5_TEXT, indinc, asi_1:asi_22)
 
 # Making ASI numeric
 pre <- pre %>%
@@ -440,6 +440,5 @@ apim_di_int <- gls(bs ~ 1,
                    weights = varIdent(form=~1|genderE_A), 
                    na.action = na.omit)
 ```
-
 
 
