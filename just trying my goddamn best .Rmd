@@ -456,4 +456,50 @@ summary(bslme)
 
 ```
 
+# Demographics
+```{r}
+demographics <- dyad_pair %>%
+  filter(day_of_study == 1) %>%
+  select(dyadID, gender2_A, Q138_A, cohabitation_A, wfh_A, race_A, race_P, religion_A, conservatism_A, people_4_TEXT_A, people_5_TEXT_A, indinc_A)
+
+relationship <- demographics %>%
+  select(dyadID, Q138_A) %>%
+  distinct() %>%
+  group_by(Q138_A) %>%
+  summarize(n = n())
+
+cohab <- demographics %>%
+  select(dyadID, cohabitation_A) %>%
+  distinct() %>%
+  group_by(cohabitation_A) %>%
+  summarize(n = n())
+
+children <- demographics %>%
+  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
+  mutate(kids = as.numeric(people_4_TEXT_A),
+         teens = as.numeric(people_5_TEXT_A),
+         total_children = kids + teens) %>%
+  select(dyadID, kids, teens, total_children) %>%
+  replace(is.na(.), 0) %>%
+  distinct() %>%
+  group_by(total_children) %>%
+  summarize(n = n())
+
+ind_race <- demographics %>%
+  group_by(race_A) %>%
+  summarize(n = n())
+
+mixed_race_couples <- demographics %>%
+  filter(race_A != race_P) %>%
+  select(dyadID) %>%
+  distinct()
+
+religion <- demographics %>%
+  group_by(religion_A) %>%
+  summarize(n = n())
+
+politics <- demographics %>%
+  group_by(conservatism_A) %>%
+  summarize(n = n())
+```
 
