@@ -407,6 +407,8 @@ qmigls <- gls(qmi4_A ~ 1,
                    na.action = na.omit)
 summary(qmigls)
 
+
+
 #now making something for just the first rows of HS 
 hsmodel <- dyad_pair %>% 
   group_by(dyadID, gender2_A) %>%
@@ -419,10 +421,20 @@ hsmodel <- hsmodel %>%
 
 #running the model to find the ICCs
 hslme <- lme(hs_A~1,
-              data = hsmodel, 
+              data = hsmodel,
               random = ~ 1 |dyadID,
+              correlation = corCompSymm(form = ~1|dyadID/obsid),
+              weights = varIdent(form = ~1|gender2_A),
               na.action = na.omit)
 summary(hslme)
+summary(hslme)$modelStruct$corStruct
+
+dyadGC_di_two  <- lme(ASATISF ~ GenderS + GenderS:TIME  - 1,
+                      data = kashy_ppp, 
+                      random = ~ GenderS + GenderS:TIME  - 1|DYADID,
+                      correlation = corCompSymm(form = ~1|DYADID/obsid),
+                      weights = varIdent(form = ~1|GenderS),
+                      na.action = na.omit)
 
 #now making one for BS
 bsmodel <- dyad_pair %>% 
