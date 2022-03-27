@@ -391,54 +391,57 @@ dyad_pair <- bind_rows(pairwise2, pairwise3) %>%
 workin <- dyad_pair %>% 
   mutate(gender2_A = ifelse(gender2_A == 'Woman', 0, 1),
          gender2_P = ifelse(gender2_P == 'Woman', 0, 1))
+
 #making sure thats numeric bc idk why its not working
 workin <- workin %>%
   mutate(gender2_A = as.numeric(gender2_A),
-         gender2_P = as.numeric(gender2_P))
+         gender2_P = as.numeric(gender2_P),
+         qmi4_A = as.numeric(qmi4_A),
+         qmi4_P = as.numeric(qmi4_A))
 
-
-apim_di_int <- gls(qmi4_A ~ 1,
+#now we running this to find the ICC for qmi
+qmigls <- gls(qmi4_A ~ 1,
                    data = workin,
                    correlation = corCompSymm(form=~1|dyadID), 
                    weights = varIdent(form=~1|gender2_A), 
                    na.action = na.omit)
+summary(qmigls)
 
-#to find mans residual error, you look to the bottom, but to find woman, you 
-#take the estimate at -1 and multiply it by the mans
-summary(apim_di_int)
-
-
-dyad_pair <- dyad_pair%>% 
-  group_by(dyadID) %>% 
-  filter(day_of_study == 1) %>% 
-  summarise(n = n())
-
-fornewstuffbaby <- dyad_pair %>% 
+#now making something for just the first rows of HS 
+hsmodel <- dyad_pair %>% 
   group_by(dyadID, gender2_A) %>%
   arrange(hs_A) %>%
   filter(row_number()==1)
 
-GC_men_mod <- lme(hs_A~1,
-              data = fornewstuffbaby, 
+#making sure its numeric
+hsmodel <- hsmodel %>% 
+  mutate(hs_A = as.numeric(hs_A))
+
+#running the model to find the ICCs
+hslme <- lme(hs_A~1,
+              data = hsmodel, 
               random = ~ 1 |dyadID,
               na.action = na.omit)
-  
-smallsummary(GC_men_mod)
+summary(hslme)
 
-#groupby dyad and gender and then just pull out the first day 
-#first row function, not eveyrone has day one 
+#now making one for BS
+bsmodel <- dyad_pair %>% 
+  group_by(dyadID, gender2_A) %>%
+  arrange(bs_A) %>%
+  filter(row_number()==1)
 
-apim_di_int <- gls(hs ~ 1,
-                   data = acitelli_pair,
-                   correlation = corCompSymm(form=~1|dyadID), 
-                   weights = varIdent(form=~1|gender2_A), 
-                   na.action = na.omit)
+#making sure its all numeric
+bsmodel <- bsmodel %>% 
+  mutate(hs_A = as.numeric(hs_A))
 
-apim_di_int <- gls(bs ~ 1,
-                   data = acitelli_pair,
-                   correlation = corCompSymm(form=~1|cuplid), 
-                   weights = varIdent(form=~1|genderE_A), 
-                   na.action = na.omit)
+#running for the ICCS
+bslme <- lme(hs_A~1,
+              data = bsmodel, 
+              random = ~ 1 |dyadID,
+              na.action = na.omit)
+summary(bslme)
+
+
 ```
 
 
