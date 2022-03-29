@@ -643,8 +643,7 @@ To calculate the division of household labor we asked each participant to comple
 
 ### Response Variable
 
-In order to assess feelings about working together, participants were asked about the degree to which they identified with the statement: “Today, my partner and I are really a team” in their daily diaries. Their answers were scored on a four point scale, with possible responses ranging from *mostly true about me* to *not true about me*. A higher score was associated with lower feelings about the quality of teamwork for the day. The intraclass correlation for this variable was .38.
-# is it really the same as division of labor or did we do something wrong?
+In order to assess feelings about working together, participants were asked about the degree to which they identified with the statement: “Today, my partner and I are really a team” in their daily diaries. Their answers were scored on a four point scale, with possible responses ranging from *mostly true about me* to *not true about me*. A higher score was associated with lower feelings about the quality of teamwork for the day. The intraclass correlation for this variable was -0.91.
 
 
 ## Participants
