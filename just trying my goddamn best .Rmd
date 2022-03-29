@@ -549,11 +549,19 @@ cleaner_children <- demographics %>%
   replace(is.na(.), 0) %>%
   mutate(total_children = kids + teens) %>%
   select(dyadID, kids, teens, total_children) %>%
+  filter(total_children != 0) %>%
+  distinct() %>%
   group_by(total_children) %>%
   summarize(n = n())
 
+more_than_one <- cleaner_children %>%
+  summarize(total = sum(n)) 
+
+cleaner_children <- cleaner_children %>%
+  add_row(total_children = 0, n = 262/2 - more_than_one$total)
+
 cleaner_children %>%
-  summarize(total = sum(n))
+  summarize(total = sum(n)) 
 
 ind_race <- demographics %>%
   group_by(race_A) %>%
