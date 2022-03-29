@@ -596,25 +596,3 @@ politics <- demographics %>%
 politics %>%
   summarize(total = sum(n))
 ```
-
-# Table
-```{r}
-library(Hmisc)
-test_H <- pairwise3 %>%
-  filter(day_of_study == 1) %>%
-  select(bs_A, hs_A)
-  
-test_W <- pairwise2 %>%
-  filter(day_of_study == 1) %>%
-  select(bs_A, hs_A)
-
-corr_matrix <- rcorr(as.matrix(test_H, test_W))
-corr_matrix
-
-corr_matrixH <- rcorr(as.matrix(test_H))
-corr_matrixH
-
-corr_matrixW <- rcorr(as.matrix(test_W))
-corr_matrix
-```
-
