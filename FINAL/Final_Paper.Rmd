@@ -764,6 +764,44 @@ tab %>%
   add_header_above(c(" " = 1, "Men" = 2, "Women" = 2," "= 2, "Correnlations" = 2)) %>% 
   footnote(general = "Possible hostile and benevolent scores range from 1 to 7. Correlation for men are above the diagonal. Correlations for women are below the diagonal.")
 ```
+```{r}
+#creating a new data set to find the correlation matrix and the p-values
+corr_data <- pairwise2 %>%
+  filter(day_of_study == 1) %>%
+    mutate(bs_W = as.numeric(bs_A),
+           hs_W = as.numeric(hs_A),
+           bs_H = as.numeric(bs_P),
+           hs_H = as.numeric(hs_P)) %>%
+  select(bs_W, hs_W, bs_H, hs_H)
+
+#the package we will use to find it 
+library(corrplot)
+source("http://www.sthda.com/upload/rquery_cormat.r")
+
+#the table itself, we will not be using this, but we will be using the values
+corr_tab <- rquery.cormat(corr_data)
+corr_tab$r
+corr_tab$p
+
+corrtab <- data.frame(
+  'Scales' = c('1X Male Hostile Sexism', '2X Male Benevolent Sexism', '3X Female Hostile Sexism', '4X Female Benevolent Sexism'),
+  'Mean' = c(3.56, 3.95, 3.23, 3.71),
+  'SD' = c(0.810, 0.696, 1.01, 0.72),
+  '1' = c('1', '.038', '.54', '.3'),
+  '2' = c('.038', '1', '.3', '.37'),
+  '3' = c('.54', '.3', '1', '.53'),
+  '4' = c('.3', '.37', '.53', '1')
+)
+
+
+#creating the sexy sexy table for it 
+corrtab %>%
+  kbl(caption = "Table 1. Correlation Matrix Between Sexism Scores") %>% 
+  kable_classic() %>% 
+  add_header_above(c(" " = 3,  "Correlations" = 4)) %>% 
+  footnote(general = "Possible scores for hostile and benevolent sexism ranged from 1 to 7. All correlations except for male hostile sexism with male benevolent sexism was statistically signficinat with p < .01")
+
+```
 
 
 ## Data analysis
