@@ -669,6 +669,29 @@ bsmodel %>%
   summarize(n = n(), m = mean(bs_A), sd = sd(bs_A))
 
 
+
+##### Trying something out
+
+corr_data <- pairwise2 %>%
+  filter(day_of_study == 1) %>%
+    mutate(bs_W = as.numeric(bs_A),
+           hs_W = as.numeric(hs_A),
+           bs_H = as.numeric(bs_P),
+           hs_H = as.numeric(hs_P)) %>%
+  select(bs_W, hs_W, bs_H, hs_H)
+
+library(corrplot)
+source("http://www.sthda.com/upload/rquery_cormat.r")
+
+corr_tab <- rquery.cormat(corr_data)
+corr_tab$r
+corr_tab$p
+
+
+
+
+
+
 bsmodel <- bsmodel %>% 
   na.omit(bs_A, hs_A) %>% 
   mutate(hs_A = as.numeric(hs_A),
