@@ -671,6 +671,7 @@ hsmodel %>%
 bsmodel %>% 
   group_by(gender2_A) %>% 
   na.omit(bs_A) %>% 
+  na.omit(hs_A) %>% 
   summarize(n = n(), m = mean(bs_A), sd = sd(bs_A))
 
 
@@ -678,6 +679,13 @@ kbl(tab) %>%
   kable_paper() %>%
   add_header_above(c(" " = 1, "Men" = 2, "Women" = 2, "Correnlations" = 2))
 
+bsmodel <- bsmodel %>% 
+  na.omit(bs_A, hs_A) %>% 
+  mutate(hs_A = as.numeric(hs_A),
+         bs_A = as.numeric(bs_A)) 
+
+
+corr.test(select(bsmodel, as.numeric(bs_A), as.numeric(hs_A)))$r
 
 ```
 
