@@ -474,9 +474,19 @@ relationship <- demographics %>%
   group_by(Q138_A) %>%
   summarize(n = n())
 
+relationship %>%
+  summarize(total = sum(n))
+
 # dyads 7403083 and 29676367 may or may not be married
 
-relationship %>%
+relationship_cleaned <- demographics %>%
+  select(dyadID, Q138_A) %>%
+  filter(dyadID != 7403083, dyadID != 29676367) %>%
+  distinct() %>%
+  group_by(Q138_A) %>%
+  summarize(n = n())
+
+relationship_cleaned %>%
   summarize(total = sum(n))
 
 cohab <- demographics %>%
