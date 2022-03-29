@@ -402,20 +402,29 @@ workin <- workin %>%
          qmi4_P = as.numeric(qmi4_P))
 
 #now we running this to find the ICC for qmi
-qmigls <- gls(qmi4_A ~ 1,
-                   data = workin,
-                   correlation = corCompSymm(form=~1|dyadID), 
-                   weights = varIdent(form=~1|gender2_A), 
-                   na.action = na.omit)
-summary(qmigls)
+qmigoals  <- lme(qmi4_A~1,
+                 data = workin, 
+                 random = ~ gender2_A - 1|dyadID,
+                 correlation = corCompSymm(form = ~1|dyadID/obsid),
+                 weights = varIdent(form = ~1|gender2_A),
+                 na.action = na.omit)
+summary(qmigoals)
 
 #now finding the ICC for percent of chores
-
 workinpart2electricboogaloo <- workin %>%
   mutate(gender2_A = as.numeric(gender2_A),
          gender2_P = as.numeric(gender2_P),
-         daily_per_A = as.numeric(qmi4_A),
-         daily_per_P = as.numeric(qmi4_P))
+         daily_per_A = as.numeric(daily_per_A),
+         daily_per_P = as.numeric(daily_per_P))
+
+#now running to find the ICC for average daily chores
+percentlme <- lme(daily_per_A ~1,
+                 data = workinpart2electricboogaloo, 
+                 random = ~ gender2_A - 1|dyadID,
+                 correlation = corCompSymm(form = ~1|dyadID/obsid),
+                 weights = varIdent(form = ~1|gender2_A),
+                 na.action = na.omit)
+summary(percentlme)
 
 #now making something for just the first rows of HS 
 hsmodel <- dyad_pair %>% 
@@ -429,19 +438,12 @@ hsmodel <- hsmodel %>%
 
 #running the model to find the ICCs
 hsfunction <- gls(hs_A ~ 1,
-                   data = hsmodel,
-                   correlation = corCompSymm(form=~1|dyadID), 
-                   weights = varIdent(form=~1|gender2_A), 
-                   na.action = na.omit)
+                  data = hsmodel,
+                  correlation = corCompSymm(form=~1|dyadID), 
+                  weights = varIdent(form=~1|gender2_A), 
+                  na.action = na.omit)
 
 summary(hsfunction)
-
-dyadGC_di_two  <- lme(qmi4~1,
-                      data = kashy_ppp, 
-                      random = ~ gender2_A - 1|dyadID,
-                      correlation = corCompSymm(form = ~1|dyadID/obsid),
-                      weights = varIdent(form = ~1|gender2_A),
-                      na.action = na.omit)
 
 #now making one for BS
 bsmodel <- dyad_pair %>% 
@@ -451,13 +453,14 @@ bsmodel <- dyad_pair %>%
 
 #making sure its all numeric
 bsmodel <- bsmodel %>% 
-  mutate(hs_A = as.numeric(hs_A))
+  mutate(bs_A = as.numeric(bs_A))
 
 #running for the ICCS
-bslme <- lme(hs_A~1,
-              data = bsmodel, 
-              random = ~ 1 |dyadID,
-              na.action = na.omit)
+bslme <- gls(bs_A ~ 1,
+             data = bsmodel,
+             correlation = corCompSymm(form=~1|dyadID), 
+             weights = varIdent(form=~1|gender2_A), 
+             na.action = na.omit)
 summary(bslme)
 
 
