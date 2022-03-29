@@ -387,6 +387,8 @@ dyad_pair <- bind_rows(pairwise2, pairwise3) %>%
 
 # I EITHER BECAME GOD OR I KILLED HIM
 ```{r}
+#premeasure = gls 
+#lme for daily stuff
 #need to make man and woman 1, woman 0
 workin <- dyad_pair %>% 
   mutate(gender2_A = ifelse(gender2_A == 'Woman', 0, 1),
@@ -426,20 +428,19 @@ hsmodel <- hsmodel %>%
   mutate(hs_A = as.numeric(hs_A))
 
 #running the model to find the ICCs
-hslme <- lme(hs_A~1,
-              data = hsmodel,
-              random = ~ 1 |dyadID,
-              correlation = corCompSymm(form = ~1|dyadID/obsid),
-              weights = varIdent(form = ~1|gender2_A),
-              na.action = na.omit)
-summary(hslme)
-summary(hslme)$modelStruct$corStruct
+hsfunction <- gls(hs_A ~ 1,
+                   data = hsmodel,
+                   correlation = corCompSymm(form=~1|dyadID), 
+                   weights = varIdent(form=~1|gender2_A), 
+                   na.action = na.omit)
 
-dyadGC_di_two  <- lme(ASATISF ~ GenderS + GenderS:TIME  - 1,
+summary(hsfunction)
+
+dyadGC_di_two  <- lme(qmi4~1,
                       data = kashy_ppp, 
-                      random = ~ GenderS + GenderS:TIME  - 1|DYADID,
-                      correlation = corCompSymm(form = ~1|DYADID/obsid),
-                      weights = varIdent(form = ~1|GenderS),
+                      random = ~ gender2_A - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),
+                      weights = varIdent(form = ~1|gender2_A),
                       na.action = na.omit)
 
 #now making one for BS
