@@ -650,9 +650,34 @@ A majority of the participants were White (_n_ = 165). 24 participants identifie
 
 ```{r}
 #creating the table using the kableExtra package
-tab <- matrix(nrow = 4, ncol=6, byrow=TRUE)
-colnames(tab) <- c('Men M  (SD)', 'Women  M (SD)', '1','2', '3', '4')
-rownames(tab) <- c('1. Hostile sexism', '2. Benevolent sexism', '3. Division of household labor', '4. Feelings of being a team')
+tab <- matrix(nrow = 4, ncol=4, byrow=TRUE)
+tab <- data.frame(
+  'Men Means' = c(3.56, 3.95),
+  'Men SD' = c(0.81, 0.696),
+  'Women Means' = c(3.23, 3.71),
+  'Women SD' = c(1.01, 0.72),
+  'Hostile Sexism' = c('penis', 'poonis'),
+  'Benevolent Sexism' = c('poonis', 'penis'))
+
+rownames(tab) <- c('1. Hostile sexism', '2. Benevolent sexism')
+  
+#finding the means and SD for HS based on gender
+hsmodel %>% 
+  group_by(gender2_A) %>%
+  na.omit(hs_A) %>% 
+  summarize(n= n(),m = mean(hs_A), sd = sd(hs_A))
+
+#finding the means and SD for BS based on gender
+bsmodel %>% 
+  group_by(gender2_A) %>% 
+  na.omit(bs_A) %>% 
+  summarize(n = n(), m = mean(bs_A), sd = sd(bs_A))
+
+
+kbl(tab) %>%
+  kable_paper() %>%
+  add_header_above(c(" " = 1, "Men" = 2, "Women" = 2, "Correnlations" = 2))
+
 
 ```
 
