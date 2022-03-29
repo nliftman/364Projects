@@ -654,7 +654,7 @@ After cleaning the data and filtering out any missing or problematic data points
 
 A majority of the participants were White (_n_ = 165). 24 participants identified as Asian, 17 identified as Black or African American, 9 identified as Hispanic or Latinx, 2 as Middle Eastern, 3 as White and Hispanic/Latinx, and 52 either did not answer or chose the “prefer not to answer” option. 9 of the couples were mixed-race couples. A majority of the individuals identified themselves as Christian (_n_ = 150). A wide assortment of other religions were also represented, but none had more than 15 people affiliated with them. In terms of political affiliations, there was a pretty equal distribution along the spectrum. Most of the individuals were at or around the center of the spectrum, with a slight skew towards conservatism.
 
-```{r table, echo = FALSE}
+```{r table, echo = FALSE, warning = FALSE}
 #finding the means and SD for HS based on gender
 hsmodel %>% 
   group_by(gender2_A) %>%
@@ -668,103 +668,6 @@ bsmodel %>%
   na.omit(hs_A) %>% 
   summarize(n = n(), m = mean(bs_A), sd = sd(bs_A))
 
-
-
-##### Trying something out
-
-corr_data <- pairwise2 %>%
-  filter(day_of_study == 1) %>%
-    mutate(bs_W = as.numeric(bs_A),
-           hs_W = as.numeric(hs_A),
-           bs_H = as.numeric(bs_P),
-           hs_H = as.numeric(hs_P)) %>%
-  select(bs_W, hs_W, bs_H, hs_H)
-
-library(corrplot)
-source("http://www.sthda.com/upload/rquery_cormat.r")
-
-corr_tab <- rquery.cormat(corr_data)
-corr_tab$r
-corr_tab$p
-
-
-
-
-
-
-bsmodel <- bsmodel %>% 
-  na.omit(bs_A, hs_A) %>% 
-  mutate(hs_A = as.numeric(hs_A),
-         bs_A = as.numeric(bs_A)) 
-
-
-bsmodel <- bsmodel %>%
-  mutate(bs_A = as.numeric(bs_A),
-         hs_A = as.numeric(hs_A))
-
-corr.test(bsmodel$bs_A, bsmodel$hs_A)$r
-corr.test(bsmodel$bs_A, bsmodel$hs_A)$p
-
-# Husband
-asi_husband <- pairwise2 %>%
-  filter(day_of_study == 1) %>%
-    mutate(bs_P = as.numeric(bs_P),
-           hs_P = as.numeric(hs_P)) %>%
-  select(bs_P, hs_P)
-
-husband_corr <- corr.test(asi_husband$bs_P, asi_husband$hs_P)
-
-husband_corr$r
-husband_corr$p
-
-# Wife
-asi_wife <- pairwise2 %>%
-  filter(day_of_study == 1) %>%
-    mutate(bs_A = as.numeric(bs_A),
-           hs_A = as.numeric(hs_A)) %>%
-  select(bs_A, hs_A)
-
-wife_corr <- corr.test(asi_wife$bs_A, asi_wife$hs_A)
-
-wife_corr$r
-wife_corr$p
-
-#alpha for benevolent
-alpha(select(pre, asi_1, asi_3.r, asi_6.r, asi_8, asi_9, asi_12, asi_13.r, asi_17, asi_19, asi_20, asi_22))
-#raw alpha is 0.8001697
-
-# Reliability for the hostile
-alpha(select(pre, asi_2, asi_4, asi_5, asi_7.r, asi_10, asi_11, asi_14, asi_15, asi_16, asi_21.r))
-#raw alpha is 0.8743657 without question 18
-
-#creating the table using the kableExtra package
-tab <- data.frame(
-  'Sexism Scales' = c('Hostile Sexism', 'Benevolent Sexism'),
-  'Mean' = c(3.56, 3.95),
-  'SD' = c(0.81, 0.696),
-  'Mean ' = c(3.23, 3.71),
-  'SD ' = c(1.01, 0.72),
-  'Alpha' = c(.8, .87),
-  'Gender Difference' = c('idk', 'i dont rememebr'),
-  'Hostile Sexism' = c(1, '0.024'),
-  'Benevolent Sexism' = c('0.36', 1))
-
-new <- dyad_pair %>% 
-  mutate(gender2_A = ifelse(gender2_A == 'Woman', -1, 1),
-         gender2_A = as.numeric(gender2_A)) %>% 
-  na.omit(hs_A)
-
-t.test(hs_A ~ gender2_A, data = new, paired = TRUE)
-
-
-#creating the table
-tab %>%
-  kbl(caption = "Table 1. Descriptive Statistics, Correlations Across Sexism Scores") %>% 
-  kable_minimal() %>% 
-  add_header_above(c(" " = 1, "Men" = 2, "Women" = 2," "= 2, "Correnlations" = 2)) %>% 
-  footnote(general = "Possible hostile and benevolent scores range from 1 to 7. Correlation for men are above the diagonal. Correlations for women are below the diagonal.")
-```
-```{r}
 #creating a new data set to find the correlation matrix and the p-values
 corr_data <- pairwise2 %>%
   filter(day_of_study == 1) %>%
@@ -793,14 +696,13 @@ corrtab <- data.frame(
   '4' = c('.3', '.37', '.53', '1')
 )
 
-
 #creating the sexy sexy table for it 
 corrtab %>%
   kbl(caption = "Table 1. Correlation Matrix Between Sexism Scores") %>% 
-  kable_classic() %>% 
+  kable_minimal() %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left") %>% 
   add_header_above(c(" " = 3,  "Correlations" = 4)) %>% 
   footnote(general = "Possible scores for hostile and benevolent sexism ranged from 1 to 7. All correlations except for male hostile sexism with male benevolent sexism was statistically signficinat with p < .01")
-
 ```
 
 
