@@ -474,6 +474,8 @@ relationship <- demographics %>%
   group_by(Q138_A) %>%
   summarize(n = n())
 
+# dyads 7403083 and 29676367 may or may not be married
+
 relationship %>%
   summarize(total = sum(n))
 
@@ -489,15 +491,58 @@ cohab %>%
 children <- demographics %>%
   select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
   mutate(kids = as.numeric(people_4_TEXT_A),
-         teens = as.numeric(people_5_TEXT_A),
-         total_children = kids + teens) %>%
-  select(dyadID, kids, teens, total_children) %>%
+         teens = as.numeric(people_5_TEXT_A)) %>%
+  select(dyadID, kids, teens) %>%
   replace(is.na(.), 0) %>%
-  distinct() %>%
+  mutate(total_children = kids + teens) %>%
+  select(dyadID, kids, teens, total_children) %>%
+   distinct() %>%
   group_by(total_children) %>%
   summarize(n = n())
 
 children %>%
+  summarize(total = sum(n))
+
+testing_kids <- demographics %>%
+  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
+  mutate(kids = as.numeric(people_4_TEXT_A),
+         teens = as.numeric(people_5_TEXT_A)) %>%
+  select(dyadID, kids) %>%
+  group_by(dyadID, kids) %>%
+  summarize(n = n()) %>%
+  filter(n <2)
+
+# dyads 29508533 and 29237405 may either have 1 or 2 kids
+# dyad 18756718 may have either 0 or 2 kids
+
+testing_teens <- demographics %>%
+  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
+  mutate(kids = as.numeric(people_4_TEXT_A),
+         teens = as.numeric(people_5_TEXT_A),
+         total_children = kids + teens) %>%
+  select(dyadID, teens) %>%
+  group_by(dyadID, teens) %>%
+  summarize(n = n()) %>%
+  filter(n <2)
+
+# dyad 18324617 has 1 or 2 teens
+# dyad 18756718 has 2 or 4 teens (2 from kids?)
+# dyad 29508533 has 0 or 1 teens (1 from kids)
+# dyad 29725014 has 2 or 1 teens
+
+cleaner_children <- demographics %>%
+  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
+  mutate(kids = as.numeric(people_4_TEXT_A),
+         teens = as.numeric(people_5_TEXT_A)) %>%
+  select(dyadID, kids, teens) %>%
+   filter(dyadID != 29508533, dyadID != 29237405, dyadID != 18756718, dyadID != 18324617, dyadID != 29725014) %>%
+  replace(is.na(.), 0) %>%
+  mutate(total_children = kids + teens) %>%
+  select(dyadID, kids, teens, total_children) %>%
+  group_by(total_children) %>%
+  summarize(n = n())
+
+cleaner_children %>%
   summarize(total = sum(n))
 
 ind_race <- demographics %>%
