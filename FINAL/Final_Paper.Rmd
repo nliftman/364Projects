@@ -1,6 +1,6 @@
 ---
-title             : "Sexism and Division of Labor on Dyadic Feelings of Team"
-shorttitle        : "Dyadic Feelings of Team"
+title             : "Sexism and Division of Labor on Feelings of Teamliness Within Household Dyads"
+shorttitle        : "Sexism and Feelings of Teamliness"
 
 author: 
   - name          : "Naomi Liftman"
@@ -50,7 +50,6 @@ r_refs("r-references.bib")
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
-
 
 ```{r include = FALSE, message = FALSE, warning = FALSE}
 #loading all the files
@@ -585,9 +584,10 @@ cleaner_children <- demographics %>%
           dyadID != 18324617, dyadID != 29725014) %>%
   replace(is.na(.), 0) %>%
   mutate(total_children = kids + teens) %>%
-  select(dyadID, kids, teens, total_children) %>%
+  select(dyadID, total_children) %>%
   filter(total_children != 0) %>%
   distinct() %>%
+  add_row(dyadID = 29508533, total_children = 2) %>%
   group_by(total_children) %>%
   summarize(n = n())
 
@@ -595,7 +595,8 @@ more_than_one <- cleaner_children %>%
   summarize(total = sum(n)) 
 
 cleaner_children <- cleaner_children %>%
-  add_row(total_children = 0, n = 262/2 - more_than_one$total)
+  add_row(total_children = 0, n = 264/2 - more_than_one$total)
+  
 
 cleaner_children %>%
   summarize(total = sum(n)) 
@@ -630,25 +631,31 @@ politics %>%
   summarize(total = sum(n))
 ```
 
-
-
 # Methods
-## *Measures*
-*Dependent Variables*. *Hostile sexism (HS)* and *benevolent sexism (BS)* were measured using a modified version of the Ambivalent Sexism Inventory (ASI) created by @ASI. The original scale includes 22 questions with 11 for both subcategories of sexism; however, we removed question 18, “there are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances”. The ASI would reverse score this question; however, participants did not understand the question and responses were inconsistent with other answers. So there are only 10 questions for HS and 12 for BS, and a higher score for either scale indicates higher sexist beliefs. Alphas for HS and BS were 0.8743  and 0.8002 respectively and the intraclass correlation for were 0.5862396 and 0.3211383 respectively. 
 
-To calculate the *division of household labor* we asked each participant to complete 14 daily diaries; each day they were asked to indicate, “today, did you spend any time on the following household chores? If the item is not applicable (for example, you don't have any pets), please leave this item blank." They were then given a list of routine chores. Based on research from (source) we omitted intermittent chores, which have been found to more often be performed by men; whereas routine chores were found to be performed mainly by women. So we decided to negate those chores, which included “took care of our cars today (sent to repairs, washing, vacuuming)” and “Prepared for events and activities today (for example, birthdays or anniversaries)”. We did still include the 11 chores of bed making, vacuuming, preparing food, dishwashing, ect, and the intraclass correlation for this variable was 0.3813102.
+## Measures
 
-*Independent variable*. To capture the feelings of *being a team* with their partner the participants responded to questions about their relationships included in the 14 daily diaries. They were asked the degree to which they identify with certain statements. We focused on the question, “today, my partner and I are really a team” which was scored on a four point scale, with possible responses ranging from “mostly true about me” to “not true about me”. A higher score was associated with feeling the least like a team with their partner. The intraclass correlation for this variable was 0.3813102.
+### Independent Variables
+
+Hostile sexism (HS) and benevolent sexism (BS) were measured using a modified version of the Ambivalent Sexism Inventory (ASI) created by @ASI. The original scale includes 22 questions with 11 for both subcategories of sexism; however, we removed question 18, “There are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances”. Participants did not appear to understand the wording of the question, and responses were inconsistent with their other answers. Therefore, our final data includes 10 questions assessing HS and 12 assessing BS. A higher score for either scale indicates higher sexist beliefs. Alphas for HS and BS were .87 and .80 respectively and the intraclass correlations were .59 and .32. 
+
+To calculate the division of household labor we asked each participant to complete 14 daily diaries, in which they were given a list of routine chores and were asked to indicate, “Today, did you spend any time on the following household chores?" Since we are looking to isolate routine chores, we chose to omit intermittent chores from our calculation of housework. We removed the responses to the categories “Took care of our cars today (sent to repairs, washing, vacuuming)” and “Prepared for events and activities today (for example, birthdays or anniversaries)”. We also chose not to include text responses of additional chores because most of them fell into other chore categories or were better described as intermittent. There were 11 remaining chores (e.g., laundry, cooking, yardwork, etc.) and the intraclass correlation was .38.
+
+### Response Variable
+
+In order to assess feelings about working together, participants were asked about the degree to which they identified with the statement: “Today, my partner and I are really a team” in their daily diaries. Their answers were scored on a four point scale, with possible responses ranging from *mostly true about me* to *not true about me*. A higher score was associated with lower feelings about the quality of teamwork for the day. The intraclass correlation for this variable was .38.
+# is it really the same as division of labor or did we do something wrong?
 
 
-## *Participants*
-While the original data set includes 364 participants of all identities, it predominantly consists of heterosexual individuals (_n_ = 353). In order to look at division of labor along gender lines, it is necessary to restrict the data set to male-female couples. Due to the small number of male-female couples that included an individual who was not heterosexual, we decided to restrict our sample futher to only include heterosexual couples. This was done in order to prevent any confounds that sexual orientation may have caused. Additionally, since all of the couples were living together, we included both couples who were married and those who were in long-term relationships. Regardless of marital status, couples who have lived together for some time need to find ways to divide their housework.
+## Participants
 
-After cleaning the data and filtering out any missing or problematic data points, we were left with 272 individuals (136 dyads). Of the participants, there were 127 married couples, 7 couples that were in committed, long-term relationships and 2 couples where one individual answered that they were married and the other answered that they were in a long-term relationship. All 136 of the couples answered that they were living. Notably, 50 participants didn’t answer any of the demographic information. In these cases, the partner’s information was used in calculating these numbers. When looking at other household members, 45 of the couples had children under 18 living in their homes. 36 had 1 child, 30 had 2, 13 had 3, and 5 had 4. Additionally, 1 couple reported having 10 children, and another reported having 26. These two cases may have been participant error when they were inputting the amount of children in their households as text answers. 5 couples had one individual report a different number of children than the other. Those who did not answer the questions were coded as having no children. 
+While the original data set includes 364 participants of all identities, it predominantly consists of heterosexual individuals (*n* = 353). In order to examine division of labor along gender lines, it is necessary to restrict the data set to male-female couples. Due to the small number of male-female couples that included an individual who was not heterosexual, we decided to restrict our sample further to only include heterosexual couples. This was done in order to prevent any confounds that sexual orientation may have caused. Additionally, since all of the couples were living together, we included both couples who were married and those who were in long-term relationships. Regardless of marital status, couples who have lived together for some time need to find ways to divide their housework, and are therefore relevant to our study.
+
+After cleaning the data and filtering out any missing or problematic data points, we were left with 272 individuals (136 dyads). Of the participants, there were 127 married couples, 7 couples that were in committed, long-term relationships and 2 couples where one individual answered that they were married and the other answered that they were in a long-term relationship. All 136 of the couples answered that they were living together. Notably, 50 participants didn’t answer any of the demographic information. In these cases, the partner’s information was used in calculating these numbers. When looking at other household members, 45 of the couples had children under the age of 18 living in their homes. 36 had one child, 31 had two, 13 had three, and 5 had four. Additionally, one couple reported having ten children, and another reported having 26. These two cases may have been participant error when they were inputting the amount of children in their households as text answers. Five couples had one individual report a different number of children than the other. Those who did not answer the questions were coded as having no children. 
 
 A majority of the participants were White (_n_ = 165). 24 participants identified as Asian, 17 identified as Black or African American, 9 identified as Hispanic or Latinx, 2 as Middle Eastern, 3 as White and Hispanic/Latinx, and 52 either did not answer or chose the “prefer not to answer” option. 9 of the couples were mixed-race couples. A majority of the individuals identified themselves as Christian (_n_ = 150). A wide assortment of other religions were also represented, but none had more than 15 people affiliated with them. In terms of political affiliations, there was a pretty equal distribution along the spectrum. Most of the individuals were at or around the center of the spectrum, with a slight skew towards conservatism.
 
-```{r}
+```{r table, echo = FALSE}
 #creating the table using the kableExtra package
 tab <- matrix(nrow = 4, ncol=4, byrow=TRUE)
 tab <- data.frame(
