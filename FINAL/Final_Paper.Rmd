@@ -652,10 +652,10 @@ A majority of the participants were White (_n_ = 165). 24 participants identifie
 #creating the table using the kableExtra package
 tab <- matrix(nrow = 4, ncol=4, byrow=TRUE)
 tab <- data.frame(
-  'Men Means' = c(3.56, 3.95),
-  'Men SD' = c(0.81, 0.696),
-  'Women Means' = c(3.23, 3.71),
-  'Women SD' = c(1.01, 0.72),
+  'Mean' = c(3.56, 3.95),
+  'SD' = c(0.81, 0.696),
+  'Mean' = c(3.23, 3.71),
+  'SD' = c(1.01, 0.72),
   'Hostile Sexism' = c('penis', 'poonis'),
   'Benevolent Sexism' = c('poonis', 'penis'))
 
