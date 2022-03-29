@@ -4,10 +4,7 @@ shorttitle        : "Dyadic Feelings of Team"
 
 author: 
   - name          : "Naomi Liftman"
-    affiliation   : "1"
-      - Conceptualization
-      - Writing - Original Draft Preparation
-      - Writing - Review & Editing
+    affiliation   : "1" 
   - name          : "Cara Krupnikoff-Salkin"
     affiliation   : "1"
     role:
@@ -634,8 +631,21 @@ politics %>%
 
 
 # Methods
+## *Measures*
+*Dependent Variables*. *Hostile sexism (HS)* and *benevolent sexism (BS)* were measured using a modified version of the Ambivalent Sexism Inventory (ASI) created by @ASI. The original scale includes 22 questions with 11 for both subcategories of sexism; however, we removed question 18, “there are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances”. The ASI would reverse score this question; however, participants did not understand the question and responses were inconsistent with other answers. So there are only 10 questions for HS and 12 for BS, and a higher score for either scale indicates higher sexist beliefs. Alphas for HS and BS were 0.8743  and 0.8002 respectively and the intraclass correlation for were 0.5862396 and 0.3211383 respectively. 
 
-# Results
+To calculate the *division of household labor* we asked each participant to complete 14 daily diaries; each day they were asked to indicate, “today, did you spend any time on the following household chores? If the item is not applicable (for example, you don't have any pets), please leave this item blank." They were then given a list of routine chores. Based on research from (source) we omitted intermittent chores, which have been found to more often be performed by men; whereas routine chores were found to be performed mainly by women. So we decided to negate those chores, which included “took care of our cars today (sent to repairs, washing, vacuuming)” and “Prepared for events and activities today (for example, birthdays or anniversaries)”. We did still include the 11 chores of bed making, vacuuming, preparing food, dishwashing, ect, and the intraclass correlation for this variable was 0.3813102.
+
+*Independent variable*. To capture the feelings of *being a team* with their partner the participants responded to questions about their relationships included in the 14 daily diaries. They were asked the degree to which they identify with certain statements. We focused on the question, “today, my partner and I are really a team” which was scored on a four point scale, with possible responses ranging from “mostly true about me” to “not true about me”. A higher score was associated with feeling the least like a team with their partner. The intraclass correlation for this variable was 0.3813102.
+
+
+## *Participants*
+While the original data set includes 364 participants of all identities, it predominantly consists of heterosexual individuals (_n_ = 353). In order to look at division of labor along gender lines, it is necessary to restrict the data set to male-female couples. Due to the small number of male-female couples that included an individual who was not heterosexual, we decided to restrict our sample futher to only include heterosexual couples. This was done in order to prevent any confounds that sexual orientation may have caused. Additionally, since all of the couples were living together, we included both couples who were married and those who were in long-term relationships. Regardless of marital status, couples who have lived together for some time need to find ways to divide their housework.
+
+After cleaning the data and filtering out any missing or problematic data points, we were left with 272 individuals (136 dyads). Of the participants, there were 127 married couples, 7 couples that were in committed, long-term relationships and 2 couples where one individual answered that they were married and the other answered that they were in a long-term relationship. All 136 of the couples answered that they were living. Notably, 50 participants didn’t answer any of the demographic information. In these cases, the partner’s information was used in calculating these numbers. When looking at other household members, 45 of the couples had children under 18 living in their homes. 36 had 1 child, 30 had 2, 13 had 3, and 5 had 4. Additionally, 1 couple reported having 10 children, and another reported having 26. These two cases may have been participant error when they were inputting the amount of children in their households as text answers. 5 couples had one individual report a different number of children than the other. Those who did not answer the questions were coded as having no children. 
+
+A majority of the participants were White (_n_ = 165). 24 participants identified as Asian, 17 identified as Black or African American, 9 identified as Hispanic or Latinx, 2 as Middle Eastern, 3 as White and Hispanic/Latinx, and 52 either did not answer or chose the “prefer not to answer” option. 9 of the couples were mixed-race couples. A majority of the individuals identified themselves as Christian (_n_ = 150). A wide assortment of other religions were also represented, but none had more than 15 people affiliated with them. In terms of political affiliations, there was a pretty equal distribution along the spectrum. Most of the individuals were at or around the center of the spectrum, with a slight skew towards conservatism.
+
 
 ## Data analysis
 We used `r cite_r("r-references.bib")` for all our analyses.
