@@ -685,8 +685,35 @@ bsmodel <- bsmodel %>%
          bs_A = as.numeric(bs_A)) 
 
 
-corr.test(select(bsmodel, as.numeric(bs_A), as.numeric(hs_A)))$r
+bsmodel <- bsmodel %>%
+  mutate(bs_A = as.numeric(bs_A),
+         hs_A = as.numeric(hs_A))
 
+corr.test(bsmodel$bs_A, bsmodel$hs_A)$r
+corr.test(bsmodel$bs_A, bsmodel$hs_A)$p
+
+# Husband
+asi_husband <- pairwise2 %>%
+  filter(day_of_study == 1) %>%
+    mutate(bs_P = as.numeric(bs_P),
+           hs_P = as.numeric(hs_P)) %>%
+  select(bs_P, hs_P)
+
+husband_corr <- corr.test(asi_husband$bs_P, asi_husband$hs_P)
+
+husband_corr$r
+husband_corr$p
+
+asi_wife <- pairwise2 %>%
+  filter(day_of_study == 1) %>%
+    mutate(bs_A = as.numeric(bs_A),
+           hs_A = as.numeric(hs_A)) %>%
+  select(bs_A, hs_A)
+
+wife_corr <- corr.test(asi_wife$bs_A, asi_wife$hs_A)
+
+wife_corr$r
+wife_corr$p
 ```
 
 
