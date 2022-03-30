@@ -4,7 +4,7 @@
 %
 \documentclass[
   english,
-  man,floatsintext]{apa6}
+  man]{apa6}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -113,6 +113,12 @@
 \makeatother
 \shorttitle{Sexism and Feelings of Teamliness}
 \keywords{keywords\newline\indent Word count: X}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
 \usepackage{csquotes}
 \ifxetex
   % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
@@ -141,7 +147,7 @@
 \hypertarget{independent-variables}{%
 \subsubsection{Independent Variables}\label{independent-variables}}
 
-Hostile sexism (HS) and benevolent sexism (BS) were measured using a modified version of the Ambivalent Sexism Inventory (ASI) created by Glick and Fiske (1997). The original scale includes 22 questions with 11 for both subcategories of sexism; however, we removed question 18, \enquote{There are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances}. Participants did not appear to understand the wording of the question, and responses were inconsistent with their other answers. Therefore, our final data includes 10 questions assessing HS and 11 assessing BS. A higher score for either scale indicates higher sexist beliefs. Alphas for HS and BS were .87 and .80 respectively and the intraclass correlations were .59 and .32.
+Hostile sexism (HS) and benevolent sexism (BS) were measured using a modified version of the Ambivalent Sexism Inventory (ASI) created by Glick and Fiske (1997). The original scale includes 22 questions with 11 for both subcategories of sexism; however, we removed question 18, \enquote{There are actually very few women who get a kick out of teasing men by seeming sexually available and then refusing male advances}. Participants did not appear to understand the wording of the question, and responses were inconsistent with their other answers. Therefore, our final data includes 10 questions assessing HS and 11 assessing BS. A higher score for either scale indicates higher sexist beliefs. Alphas for HS and BS were .87 and .80 respectively and the intraclass correlations were .59 and .32. See table 1.
 
 To calculate the division of household labor we asked each participant to complete 14 daily diaries, in which they were given a list of routine chores and were asked to indicate, \enquote{Today, did you spend any time on the following household chores?} Since we are looking to isolate routine chores, we chose to omit intermittent chores from our calculation of housework. We removed the responses to the categories \enquote{Took care of our cars today (sent to repairs, washing, vacuuming)} and \enquote{Prepared for events and activities today (for example, birthdays or anniversaries)}. We also chose not to include text responses of additional chores because most of them fell into other chore categories or were better described as intermittent. There were 11 remaining chores (e.g., laundry, cooking, yardwork, etc.) and the intraclass correlation was .38.
 
