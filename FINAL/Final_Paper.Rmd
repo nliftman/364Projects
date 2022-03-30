@@ -21,7 +21,7 @@ wordcount         : "X"
 
 bibliography      : ["psy-references.bib", "r-references.bib"]
 
-floatsintext      : yes
+floatsintext      : no
 figurelist        : no
 tablelist         : no
 footnotelist      : no
