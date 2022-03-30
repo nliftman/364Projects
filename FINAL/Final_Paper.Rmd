@@ -699,7 +699,6 @@ corrtab <- data.frame(
 ```
 ```{r echo = FALSE}
 #creating the sexy sexy table for it 
-<<<<<<< HEAD
 corrtab %>%
   kbl(caption = "Table 1. Correlation Matrix Between Sexism Scores") %>% 
   kable_minimal() %>% 
@@ -708,11 +707,10 @@ corrtab %>%
   footnote(general = "Possible scores for hostile and benevolent sexism ranged 
            from 1 to 7. All correlations except for male hostile sexism with 
            male benevolent sexism was statistically signficinat with p < .01")
-=======
+
 apa_table(corrtab,
   caption = "Correlation Matrix Between Sexism Scores",
   note = "Possible scores for hostile and benevolent sexism ranged from 1 to 7. All correlations except for male hostile sexism with male benevolent sexism was statistically signficinat with p < .01")
->>>>>>> b1564d7b18050916277c4f90f2057cbf0c135ebe
 ```
 
 
