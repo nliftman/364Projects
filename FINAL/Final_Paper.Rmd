@@ -654,7 +654,7 @@ After cleaning the data and filtering out any missing or problematic data points
 
 A majority of the participants were White (_n_ = 165). 24 participants identified as Asian, 17 identified as Black or African American, 9 identified as Hispanic or Latinx, 2 as Middle Eastern, 3 as White and Hispanic/Latinx, and 52 either did not answer or chose the “prefer not to answer” option. 9 of the couples were mixed-race couples. A majority of the individuals identified themselves as Christian (_n_ = 150). A wide assortment of other religions were also represented, but none had more than 15 people affiliated with them. In terms of political affiliations, there was a pretty equal distribution along the spectrum. Most of the individuals were at or around the center of the spectrum, with a slight skew towards conservatism.
 
-```{r table, echo = FALSE, warning = FALSE, message = FALSE}
+```{r table, echo = FALSE, warning = FALSE, message = FALSE, display = FALSE}
 #finding the means and SD for HS based on gender
 hsmodel %>% 
   group_by(gender2_A) %>%
