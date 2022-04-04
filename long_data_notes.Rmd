@@ -1,0 +1,130 @@
+---
+title: "Longitudinal Data"
+output: html_document
+date: '2022-04-04'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# General Notes
+
+- Even if the person is missing days, they can be a part of the analysis
+- Person is crossed with day, and that cross structure is what is nested under the dyad (so it is a 2 level model)
+- Assumption that they all started on Monday
+- Two-level crossed structure results in error in which residuals are correlated both across dyad members and across time
+  - The residual between each day is like the ICC, and is rho
+
+# Types of Models
+
+- **Growth Curve Model** - linear changes over time
+- Repeated Measures
+- Stability and Influence Model
+- Standard APIM
+
+# Lingo
+
+- Whether the data is time variant or time invariant
+  - Variant - measured at each time (daily diaries)
+  - Do not change over time, measured at only one time (premeasures)
+  
+# Other Things to Note
+
+- obsid is important!
+- Individual growth curve models have fixed and random effects - dyadic have *more* random effects
+  - We should understand them bc sometimes it literally won't fit the model
+- With individual - linear and nonlinear changes, with time as key predictor
+- Differences in starts and differences in trajectory (slope) - crazy covariances
+- It might be a good thing to talk about specific trajectories and starting points for distinguishable dyad in more section
+- Make start of day 0 (subtract 1 from day_of_study), or make day 0 the midpoint
+- Random effects answer - do the results differ at time 0, do the trajectories differ, how do scores change
+
+# Dyadic Growth Curve Modeling
+
+- Two intercepts - do women differ from each other at the start? do men?
+- Two slopes - do women differ in their trajectories? Do men?
+- Two variances - deviation from slope for men and women
+- Within-person correlation - intercept-slope correlation (does where they start relate to their trajectory?
+_ Between-person correlation - if women start off one way, does that relate to men feeling some way?, if women have steeper changes, do men have steeper changes?, do women who start off higher have partners who have steeper trajectories? - can just include some of these in a table
+- ICC (correlation of residuals on a given day)
+  
+# Example - Kashy Dataset (also 14 days yay!) - note this won't actually run
+
+Full Code: https://randilgarcia.github.io/week-dyad-workshop/Growth_Curve_Modeling.html
+
+## Spaghetti Plot
+
+### Individual
+
+If we do this, we should choose a random selection
+```{r}
+kashy_men_small <- kashy_men %>%
+  filter(DYADID >= 1 & DYADID <= 20)
+
+ggplot(kashy_men_small, aes(TIME, ASATISF, 
+                            group = as.factor(DYADID),
+                            color = as.factor(DYADID))) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+### Dyadic
+```{r}
+kashy_small <- kashy_ppp %>%
+  filter(DYADID >= 1 & DYADID <= 8) 
+
+ggplot(kashy_small, aes(TIME, ASATISF, 
+                        group = as.factor(PID),
+                        color = as.factor(PID))) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~as.factor(DYADID))
+
+```
+
+
+## Model
+
+### Individual
+```{r}
+GC_men <- lme(ASATISF ~ TIME,
+              data = kashy_men, 
+              random = ~ 1 + TIME|DYADID, #by time and person
+              na.action = na.omit)
+
+smallsummary(GC_men) # top of table is random effects, variances are given as sd, covariance as correlations
+#report intercept-slope correlation as intercept-slope correlation
+```
+
+### Dyadic
+
+Basic dyadic growth curve (no covariance (just qmi))
+```{r}
+dyadGC_di_two  <- lme(ASATISF ~ GenderS + GenderS:TIME  - 1, # day_of_study and then subtract 1 to make day 0
+                      data = kashy_ppp, 
+                      random = ~ GenderS + GenderS:TIME  - 1|DYADID, # random slopes but we don't want the variance from grand
+                      correlation = corCompSymm(form = ~1|DYADID/obsid), # covariance within a particular day
+                      weights = varIdent(form = ~1|GenderS), # two separate residual variances
+                      na.action = na.omit)
+
+smallsummary(dyadGC_di_two)# random effects as top of table (variance/sds - do mens intercepts vary from eachother, do women's, do their slopes, etc. no p-values. we don't need to make note of them really?) (correlations - look at as a correlation matrix - man's intercept and women's at steady midpoint, slopes, etc, intercept and slope within person in middle), then fixed effects (intercepts, variance over time)
+
+# to get correlation of errors within a particular day:
+summary(dyadGC_di_two)$modelStruct$corStruct # gives rho
+# could also use summary instead of smallsummary and then get confidence intervals separately
+```
+
+Adding a Moderator - start by adding time-varying variables like chores
+- Don't need to add interaction with time
+```{r}
+dyadGC_di_mod  <- lme(ASATISF ~ GENDER*TIME*CAAvoid + GENDER*TIME*CPAvoid, #lol this isn't the two-intercept approach, which Randi highly suggests oopsie
+                      data = kashy_ppp, 
+                      random = ~ GenderS + GenderS:TIME  - 1|DYADID,
+                      correlation = corCompSymm(form = ~1|DYADID/obsid),
+                      weights = varIdent(form = ~1|GenderS),
+                      na.action = na.omit)
+
+smallsummary(dyadGC_di_mod)
+```
+
