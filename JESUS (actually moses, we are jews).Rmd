@@ -391,214 +391,88 @@ dyad_pair <- bind_rows(pairwise2, pairwise3) %>%
   arrange(obsid)
 ```
 
+# Initial Model With Only Gender
 ```{r}
-#CALCULATING ICCS
-#need to make man and woman 1, woman 0
-workin <- dyad_pair %>% 
-  mutate(gender2_A = ifelse(gender2_A == 'Woman', 0, 1),
-         gender2_P = ifelse(gender2_P == 'Woman', 0, 1))
-
-#making sure thats numeric bc idk why its not working
-workin <- workin %>%
-  mutate(gender2_A = as.numeric(gender2_A),
-         gender2_P = as.numeric(gender2_P),
+#making it so the day is subtracted by 1
+dyad_pair2 <- dyad_pair %>% 
+  mutate(time = day_of_study -1,
          qmi4_A = as.numeric(qmi4_A),
-         qmi4_P = as.numeric(qmi4_P))
-
-#now we running this to find the ICC for qmi
-qmigoals  <- lme(qmi4_A~1,
-                 data = workin, 
-                 random = ~ gender2_A - 1|dyadID,
-                 correlation = corCompSymm(form = ~1|dyadID/obsid),
-                 weights = varIdent(form = ~1|gender2_A),
-                 na.action = na.omit)
-summary(qmigoals)
-
-#now finding the ICC for percent of chores
-workinpart2electricboogaloo <- workin %>%
-  mutate(gender2_A = as.numeric(gender2_A),
-         gender2_P = as.numeric(gender2_P),
+         time = as.numeric(time),
          daily_per_A = as.numeric(daily_per_A),
-         daily_per_P = as.numeric(daily_per_P))
+         daily_per_P = as.numeric(daily_per_P)) %>% 
+  filter(gender2_A == 'Woman' | gender2_A == 'Man')
 
-#now running to find the ICC for average daily chores
-percentlme <- lme(daily_per_A ~1,
-                 data = workinpart2electricboogaloo, 
-                 random = ~ gender2_A - 1|dyadID,
-                 correlation = corCompSymm(form = ~1|dyadID/obsid),
-                 weights = varIdent(form = ~1|gender2_A),
-                 na.action = na.omit)
-summary(percentlme)
+#basic dyadic growth curve model (no division of labor or sexism model)
+dyadicmodelbaby  <- lme(qmi4_A ~ gender2_A + gender2_A:time  - 1, #making use of two intercept model
+                      #gender that is a character string and day of study is time 
+                      #dont want grand intercept for everyone so use :
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time  - 1|dyadID, 
+                      #using again same character string
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      #dyadic thing allows for the covariance within a particular day 
+                      weights = varIdent(form = ~1|gender2_A), #get two seperate residual variances
+                      na.action = na.omit)
 
-#now making something for just the first rows of HS 
-hsmodel <- dyad_pair %>% 
-  group_by(dyadID, gender2_A) %>%
-  arrange(hs_A) %>%
-  filter(row_number()==1)
+#could use small summary or summary fully 
+summary(dyadicmodelbaby)
+#the outpit  is bat shit 
+#where the man and women are to begin for the intercepts
+#predicted overall grand slope for men and women, women are actually stable!
+#mess of random effects, and all the standard deviations 
+#correlations (just interpret it as a correlation matrix)
+#we have done correlation matrixes
+```
 
-#making sure its numeric
-hsmodel <- hsmodel %>% 
-  mutate(hs_A = as.numeric(hs_A))
+# Gender and Percent of Labor for Actor
+```{r}
+dailyandgender_A  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A - 1, #making use of two intercept model
+                      #gender that is a character string and day of study is time 
+                      #dont want grand intercept for everyone so use :
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      #using again same character string
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      #dyadic thing allows for the covariance within a particular day 
+                      weights = varIdent(form = ~1|gender2_A), #get two seperate residual variances
+                      na.action = na.omit)
 
-#running the model to find the ICCs for HS
-hsfunction <- gls(hs_A ~ 1,
-                  data = hsmodel,
-                  correlation = corCompSymm(form=~1|dyadID), 
-                  weights = varIdent(form=~1|gender2_A), 
-                  na.action = na.omit)
-summary(hsfunction)
+summary(dailyandgender_A)
+```
+# Gender and Percent of Labor for Partner
+```{r}
+dailyandgender_P  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P- 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
 
-#now making one for BS
-bsmodel <- dyad_pair %>% 
-  group_by(dyadID, gender2_A) %>%
-  arrange(bs_A) %>%
-  filter(row_number()==1)
-
-#making sure its all numeric
-bsmodel <- bsmodel %>% 
-  mutate(bs_A = as.numeric(bs_A))
-
-#running for the ICCS for bs
-bslme <- gls(bs_A ~ 1,
-             data = bsmodel,
-             correlation = corCompSymm(form=~1|dyadID), 
-             weights = varIdent(form=~1|gender2_A), 
-             na.action = na.omit)
-summary(bslme)
+summary(dailyandgender_P)
 ```
 
 ```{r}
-#DEMOGRAPHICS
-demographics <- dyad_pair %>%
-  filter(day_of_study == 1) %>%
-  select(dyadID, gender2_A, Q138_A, cohabitation_A, wfh_A, race_A, race_P, religion_A, conservatism_A, people_4_TEXT_A, people_5_TEXT_A, indinc_A)
+#if theres no stat significant then we are going we dont combine with gender for actor
+dailyandgender_Parttwo  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P + gender2_A:daily_per_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
 
-relationship <- demographics %>%
-  select(dyadID, Q138_A) %>%
-  distinct() %>%
-  group_by(Q138_A) %>%
-  summarize(n = n())
-
-relationship %>%
-  summarize(total = sum(n))
-
-# dyads 7403083 and 29676367 may or may not be married
-
-relationship_cleaned <- demographics %>%
-  select(dyadID, Q138_A) %>%
-  filter(dyadID != 7403083, dyadID != 29676367) %>%
-  distinct() %>%
-  group_by(Q138_A) %>%
-  summarize(n = n())
-
-relationship_cleaned %>%
-  summarize(total = sum(n))
-
-cohab <- demographics %>%
-  select(dyadID, cohabitation_A) %>%
-  distinct() %>%
-  group_by(cohabitation_A) %>%
-  summarize(n = n())
-
-cohab %>%
-    summarize(total = sum(n))
-
-children <- demographics %>%
-  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
-  mutate(kids = as.numeric(people_4_TEXT_A),
-         teens = as.numeric(people_5_TEXT_A)) %>%
-  select(dyadID, kids, teens) %>%
-  replace(is.na(.), 0) %>%
-  mutate(total_children = kids + teens) %>%
-  select(dyadID, kids, teens, total_children) %>%
-   distinct() %>%
-  group_by(total_children) %>%
-  summarize(n = n())
-
-children %>%
-  summarize(total = sum(n))
-
-testing_kids <- demographics %>%
-  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
-  mutate(kids = as.numeric(people_4_TEXT_A),
-         teens = as.numeric(people_5_TEXT_A)) %>%
-  select(dyadID, kids) %>%
-  group_by(dyadID, kids) %>%
-  summarize(n = n()) %>%
-  filter(n <2)
-
-# dyads 29508533 and 29237405 may either have 1 or 2 kids
-# dyad 18756718 may have either 0 or 2 kids
-
-testing_teens <- demographics %>%
-  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
-  mutate(kids = as.numeric(people_4_TEXT_A),
-         teens = as.numeric(people_5_TEXT_A),
-         total_children = kids + teens) %>%
-  select(dyadID, teens) %>%
-  group_by(dyadID, teens) %>%
-  summarize(n = n()) %>%
-  filter(n <2)
-
-# dyad 18324617 has 1 or 2 teens
-# dyad 18756718 has 2 or 4 teens (2 from kids?)
-# dyad 29508533 has 0 or 1 teens (1 from kids)
-# dyad 29725014 has 2 or 1 teens
-
-cleaner_children <- demographics %>%
-  select(dyadID, people_4_TEXT_A, people_5_TEXT_A) %>%
-  mutate(kids = as.numeric(people_4_TEXT_A),
-         teens = as.numeric(people_5_TEXT_A)) %>%
-  select(dyadID, kids, teens) %>%
-   filter(dyadID != 29508533, dyadID != 29237405, dyadID != 18756718, 
-          dyadID != 18324617, dyadID != 29725014) %>%
-  replace(is.na(.), 0) %>%
-  mutate(total_children = kids + teens) %>%
-  select(dyadID, total_children) %>%
-  filter(total_children != 0) %>%
-  distinct() %>%
-  add_row(dyadID = 29508533, total_children = 2) %>%
-  group_by(total_children) %>%
-  summarize(n = n())
-
-more_than_one <- cleaner_children %>%
-  summarize(total = sum(n)) 
-
-cleaner_children <- cleaner_children %>%
-  add_row(total_children = 0, n = 264/2 - more_than_one$total)
-  
-
-cleaner_children %>%
-  summarize(total = sum(n)) 
-
-ind_race <- demographics %>%
-  group_by(race_A) %>%
-  summarize(n = n())
-
-ind_race %>%
-  summarize(total = sum(n))
-
-mixed_race_couples <- demographics %>%
-  filter(race_A != race_P) %>%
-  select(dyadID) %>%
-  distinct()
-
-mixed_race_couples %>%
-  summarize(n = n())
-
-religion <- demographics %>%
-  group_by(religion_A) %>%
-  summarize(n = n())
-
-religion %>%
-    summarize(total = sum(n))
-
-politics <- demographics %>%
-  group_by(conservatism_A) %>%
-  summarize(n = n())
-
-politics %>%
-  summarize(total = sum(n))
+summary(dailyandgender_Parttwo)
 ```
+# Testing if there is a difference between men and women in daily per for actor
+```{r}
+checkinbaby  <- lme(qmi4_A ~ gender2_A:daily_per_A - 1,
+                      data = dyad_pair2, 
+                      random = ~ gender2_A   - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+
+summary(checkinbaby)
+```
+
 
 
