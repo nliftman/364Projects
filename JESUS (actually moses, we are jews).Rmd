@@ -401,7 +401,9 @@ dyad_pair2 <- dyad_pair %>%
          daily_per_A = as.numeric(daily_per_A),
          daily_per_P = as.numeric(daily_per_P),
          hs_A = as.numeric(hs_A),
-         bs_A = as.numeric(bs_A)) %>% 
+         bs_A = as.numeric(bs_A),
+         hs_P = as.numeric(hs_P),
+         bs_P = as.numeric(bs_P)) %>%
   filter(gender2_A == 'Woman' | gender2_A == 'Man')
 
 #basic dyadic growth curve model (no division of labor or sexism model)
@@ -514,7 +516,7 @@ summary(yeall)
 
 # Adding hostile and benevolent sexism
 ```{r}
-addingsexism  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P 
+addingsexism  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_P 
                      + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:hs_A - 1, 
                       data = dyad_pair2, 
                       random = ~ gender2_A + gender2_A:time - 1|dyadID, 
@@ -536,6 +538,24 @@ hewo <- lme(qmi4_A ~ gender2_A + gender2_A:bs_A  + gender2_A:hs_A- 1,
 summary(hewo)
 ```
 
+# Playing Around
+```{r}
+EVERYTHING <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:bs_P + gender2_A:hs_A + gender2_A:hs_P - 1, 
+                  data = dyad_pair2, 
+                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                  weights = varIdent(form = ~1|gender2_A), 
+                  na.action = na.omit)
+
+summary(EVERYTHING)
+
+more_than_everything <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:bs_P + gender2_A:hs_A + gender2_A:hs_P - 1, 
+                  data = dyad_pair2, 
+                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                  weights = varIdent(form = ~1|gender2_A), 
+                  na.action = na.omit)
+```
 
 #gls baby not including qmi
 ```{r}
@@ -547,5 +567,15 @@ summary(helooooo)
 
 ```
 
+# Pretending it isn't Dyadic for No Reason
+```{r}
+mod <- lm(bs_A ~ gender2_A, dyad_pair2)
+anova(mod)
 
+mod2<- lm(hs_A ~ gender2_A, dyad_pair2)
+anova(mod2)
+
+mod3 <- lm(qmi4_A ~ gender2_A*bs_A*hs_A*daily_per_A, dyad_pair2)
+anova(mod3)
+```
 
