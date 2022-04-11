@@ -504,7 +504,21 @@ summary(justbenevolent)
 
 # Daily per for just the actor (just for shits and giggles)
 ```{r}
-yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P + gender2_A:daily_per_A  + gender2_A:hs_A + gender2_A:bs_A - 1, 
+yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  
+              + gender2_A:daily_per_P 
+              + gender2_A:daily_per_A  
+              + gender2_A:hs_A 
+              + gender2_A:bs_A
+              + gender2_A:hs_P 
+              + gender2_A:bs_P
+              + gender2_A:daily_per_A:hs_A 
+              + gender2_A:daily_per_P:hs_A
+              + gender2_A:daily_per_A:hs_P 
+              + gender2_A:daily_per_P:hs_P
+              + gender2_A:daily_per_A:bs_A 
+              + gender2_A:daily_per_P:bs_A
+              + gender2_A:daily_per_A:bs_P 
+              + gender2_A:daily_per_P:bs_P- 1, 
                       data = dyad_pair2, 
                       random = ~ gender2_A + gender2_A:time - 1|dyadID, 
                       correlation = corCompSymm(form = ~1|dyadID/obsid), 
@@ -579,4 +593,31 @@ anova(mod2)
 mod3 <- lm(qmi4_A ~ gender2_A*bs_A*hs_A*daily_per_A, dyad_pair2)
 anova(mod3)
 ```
+
+
+
+# REEEEEEE CHECKING INTERACTION APPROACH 
+```{r}
+timeandgender  <- lme(qmi4_A ~ gender2_A + time + gender2_A*time, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+
+summary(timeandgender)
+
+justsexism  <- lme(qmi4_A ~ gender2_A  + gender2_A*hs_A + gender2_A*bs_A, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+summary(justsexism)
+```
+
+
+
+
+
 
