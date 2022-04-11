@@ -540,21 +540,22 @@ summary(hewo)
 
 # Playing Around
 ```{r}
-EVERYTHING <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:bs_P + gender2_A:hs_A + gender2_A:hs_P - 1, 
+full_model <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A + gender2_A*daily_per_A*bs_P + gender2_A*daily_per_A*hs_A + gender2_A*daily_per_A*hs_P - 1, 
                   data = dyad_pair2, 
                   random = ~ gender2_A + gender2_A:time - 1|dyadID, 
                   correlation = corCompSymm(form = ~1|dyadID/obsid), 
                   weights = varIdent(form = ~1|gender2_A), 
                   na.action = na.omit)
+summary(full_model)
 
-summary(EVERYTHING)
-
-more_than_everything <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:bs_P + gender2_A:hs_A + gender2_A:hs_P - 1, 
+# a horrifyingly large table
+experiment <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A*bs_P*hs_A*hs_P - 1, 
                   data = dyad_pair2, 
                   random = ~ gender2_A + gender2_A:time - 1|dyadID, 
                   correlation = corCompSymm(form = ~1|dyadID/obsid), 
                   weights = varIdent(form = ~1|gender2_A), 
                   na.action = na.omit)
+summary(experiment)
 ```
 
 #gls baby not including qmi
