@@ -399,7 +399,9 @@ dyad_pair2 <- dyad_pair %>%
          qmi4_A = as.numeric(qmi4_A),
          time = as.numeric(time),
          daily_per_A = as.numeric(daily_per_A),
-         daily_per_P = as.numeric(daily_per_P)) %>% 
+         daily_per_P = as.numeric(daily_per_P),
+         hs_A = as.numeric(hs_A),
+         bs_A = as.numeric(bs_A)) %>% 
   filter(gender2_A == 'Woman' | gender2_A == 'Man')
 
 #basic dyadic growth curve model (no division of labor or sexism model)
@@ -451,6 +453,7 @@ dailyandgender_P  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_
 summary(dailyandgender_P)
 ```
 
+# Including the daily percent for both the partner and actor 
 ```{r}
 #if theres no stat significant then we are going we dont combine with gender for actor
 dailyandgender_Parttwo  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P + gender2_A:daily_per_A - 1, 
@@ -472,6 +475,76 @@ checkinbaby  <- lme(qmi4_A ~ gender2_A:daily_per_A - 1,
                       na.action = na.omit)
 
 summary(checkinbaby)
+```
+# Hostile Sexism
+```{r}
+justhostile <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:hs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(justhostile)
+```
+
+# Just Benevolent Sexism
+```{r}
+justbenevolent <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:bs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(justbenevolent)
+```
+
+# Daily per for just the actor (just for shits and giggles)
+```{r}
+yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P + gender2_A:daily_per_A  + gender2_A:hs_A + gender2_A:bs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(yeall)
+```
+
+# Adding hostile and benevolent sexism
+```{r}
+addingsexism  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P 
+                     + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:hs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(addingsexism)
+```
+
+```{r}
+hewo <- lme(qmi4_A ~ gender2_A + gender2_A:bs_A  + gender2_A:hs_A- 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(hewo)
+```
+
+
+#gls baby not including qmi
+```{r}
+helooooo <- gls(bs_A ~ gender2_A - 1 ,
+                data = dyad_pair2,
+                na.action = na.omit)
+
+summary(helooooo)
+
 ```
 
 
