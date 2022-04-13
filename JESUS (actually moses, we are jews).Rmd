@@ -528,15 +528,35 @@ yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time
 summary(yeall)
 
 # Removing the non-statistically significant interactions
-boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + 
-                gender2_A:daily_per_P:hs_P - 1, 
+#this has the interaction effect-so when she isnt doing any chroes
+boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P + gender2_A:daily_per_P:hs_P - 1, 
               data = dyad_pair2, 
               random = ~ gender2_A  - 1|dyadID, 
               correlation = corCompSymm(form = ~1|dyadID/obsid), 
               weights = varIdent(form = ~1|gender2_A), 
               na.action = na.omit)
-
 summary(boing)
+
+#remove the interaction effect so we are no longer making sure that the partner is doing no chores
+boing_2  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P - 1, 
+              data = dyad_pair2, 
+              random = ~ gender2_A  - 1|dyadID, 
+              correlation = corCompSymm(form = ~1|dyadID/obsid), 
+              weights = varIdent(form = ~1|gender2_A), 
+              na.action = na.omit)
+summary(boing)
+
+
+#have interaction term and report significances 
+
+#then remove and report again
+
+#hostile sexism when pafrtnern chores are zero 
+#partner effect for hostile sexism for the man effects his teamlinees when she is not doing any chores
+
+
+#over the two weeks the women become less satisfied
+#the more her partner is doing chores the less teamliness she feels 
 ```
 
 # Adding hostile and benevolent sexism

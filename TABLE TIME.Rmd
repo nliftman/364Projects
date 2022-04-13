@@ -55,21 +55,41 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 # TABLE TIME
 ```{r}
-#creating dataframe
-# Create a, b, c, d variables
-Variable <- c('Man', 'Woman', 'Man x Time', 'Woman x Time', 'Man x Percent of Chores')
-Value <- c(-.46, 2.52, -.01 , -.001, 1.43)
-SE <- c(1.91, 2.22, .003, .004, 1.88)
-t_value <- c(-.24, 1.14, -.05, -2.39, .76)
-p_value <- c(.81,.26, .95, .02, .45)
-# Join the variables to create a data frame
-df <- data.frame(Variable, Value,SE,t_value,p_value)
+#creating the dataframe for men and for women
+Variable <- c('Gender', 'Time', 
+              'Partner\'s Percent of Chores (PC)', 'Actor\'s PC', 
+              'Actor\'s Hostile Sexism (HS)', 'Actor\'s Benevolent Sexism (BS)', 
+              'Partner\'s HS', 'Partner\'s BS',
+              'Actor\'s PC x Actor\'s HS', 
+              'Partner\'s PC x Actor\'s HS',
+              'Actor\'s PC x Partner\'s HS',
+              'Partner\'s PC x Partner\'s HS',
+              'Actor\'s PC x Actor\'s BS',
+              'Partner\'s PC x Actor\'s BS',
+              'Actor\'s PC x Partner\'s BS',
+              'Partner\'s PC x Partner\'s BS')
+Value_M <- c(-0.46, '>-0.01', 1.43, 1.86, -0.08, .49, .44, -0.23, -0.08, 0.11,
+             -0.15, -0.41, -0.53, -0.57, 0.18, '0.40')
+T_M <- c(-.24, -.05, .76, 0.97, -0.44, .98, 2.32, -0.80, -0.44, 0.65,
+         -0.76, -2.27, -1.05, -1.15, 0.63, 1.40)
+P_M <- c(.81, .96, .45, .33, .66, .33, '.02*', .42, .66, .51,
+         .45, '.02*', .30, .25, .55, .16)
+Value_W <- c(2.52, -0.01, -1.01, -1.51, .05, .38, -0.13, -0.48, -0.07, 0.24,
+             .22, -0.02, -0.11, -0.39, 0.36, 0.37)
+T_W <- c(1.14,-2.39,-0.45, -0.69, 0.24, 1.14, -0.64, -0.82, -0.33, 1.05,
+         1.11, -.1, -0.34, -1.14, 0.63, 0.63)
+P_W <- c(.26, '.02*', .65, .49, .81, .26, .52, .41, .74, .39,
+         .27, .92, .74, .25, .53, .53)
+#join the variables to create a data frame
+df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
 ```
 
 ```{r}
 #making it pretty
-kable(head(df, 5), booktabs = TRUE) %>%
-  kable_styling(font_size = 20)
+kable(df) %>% 
+  kable_classic() %>% 
+  add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
+  add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
 ```
 
 
