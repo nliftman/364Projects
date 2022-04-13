@@ -1,0 +1,18 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering\begingroup\fontsize{20}{22}\selectfont
+
+\begin{tabular}{lrrrr}
+\toprule
+Variable & Value & SE & t\_value & p\_value\\
+\midrule
+Man & -0.460 & 1.910 & -0.24 & 0.81\\
+Woman & 2.520 & 2.220 & 1.14 & 0.26\\
+Man x Time & -0.010 & 0.003 & -0.05 & 0.95\\
+Woman x Time & -0.001 & 0.004 & -2.39 & 0.02\\
+Man x Percent of Chores & 1.430 & 1.880 & 0.76 & 0.45\\
+\bottomrule
+\end{tabular}
+\endgroup{}
+\end{table*}

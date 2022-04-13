@@ -1,0 +1,89 @@
+---
+title             : "PLS PLS PLS WORK, making a table"
+shorttitle        : "table time!"
+
+author: 
+  - name          : "Naomi Liftman"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Conceptualization
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+
+affiliation:
+  - id            : "1"
+    institution   : "Smith College"
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+library("tidyverse")
+library("lubridate")
+library("psych")
+library("mosaic")
+library("nlme")
+library("kableExtra")
+library("knitr")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# TABLE TIME
+```{r}
+#creating dataframe
+# Create a, b, c, d variables
+Variable <- c('Man', 'Woman', 'Man x Time', 'Woman x Time', 'Man x Percent of Chores')
+Value <- c(-.46, 2.52, -.01 , -.001, 1.43)
+SE <- c(1.91, 2.22, .003, .004, 1.88)
+t_value <- c(-.24, 1.14, -.05, -2.39, .76)
+p_value <- c(.81,.26, .95, .02, .45)
+# Join the variables to create a data frame
+df <- data.frame(Variable, Value,SE,t_value,p_value)
+```
+
+```{r}
+#making it pretty
+kable(head(df, 5), booktabs = TRUE) %>%
+  kable_styling(font_size = 20)
+```
+
+
+
+## Data analysis
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
