@@ -528,14 +528,13 @@ yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time
 summary(yeall)
 
 # Removing the non-statistically significant interactions
-boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time  
-              + gender2_A:hs_P
-              + gender2_A:daily_per_P:hs_P - 1, 
-                      data = dyad_pair2, 
-                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
-                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
-                      weights = varIdent(form = ~1|gender2_A), 
-                      na.action = na.omit)
+boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + 
+                gender2_A:daily_per_P:hs_P - 1, 
+              data = dyad_pair2, 
+              random = ~ gender2_A  - 1|dyadID, 
+              correlation = corCompSymm(form = ~1|dyadID/obsid), 
+              weights = varIdent(form = ~1|gender2_A), 
+              na.action = na.omit)
 
 summary(boing)
 ```
