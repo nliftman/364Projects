@@ -3,12 +3,20 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
+<<<<<<< HEAD
   english,
   man]{apa6}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+=======
+  man]{apa6}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+>>>>>>> 8aaf22492fd6af1a7db553c1a0788dee3149e309
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -44,7 +52,11 @@
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
+<<<<<<< HEAD
 \usepackage{graphicx,grffile}
+=======
+\usepackage{graphicx}
+>>>>>>> 8aaf22492fd6af1a7db553c1a0788dee3149e309
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -70,6 +82,41 @@
   \let\oldsubparagraph\subparagraph
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+<<<<<<< HEAD
+=======
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+>>>>>>> 8aaf22492fd6af1a7db553c1a0788dee3149e309
 % Manuscript styling
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
@@ -120,12 +167,17 @@
 \renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
 \makeatother
 \usepackage{csquotes}
+<<<<<<< HEAD
 \ifxetex
   % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
   \usepackage{polyglossia}
   \setmainlanguage[]{english}
 \else
   \usepackage[shorthands=off,main=english]{babel}
+=======
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+>>>>>>> 8aaf22492fd6af1a7db553c1a0788dee3149e309
 \fi
 
 \title{Sexism and Division of Labor on Feelings of Teamliness Within Household Dyads}
@@ -215,6 +267,7 @@ Since this interaction was not significant we removed it and ran a new model wit
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+<<<<<<< HEAD
 \leavevmode\hypertarget{ref-Kenny}{}%
 Kenny, D., Kashy, D., Cook, W., \& Simpson, J. (2006). \emph{Dyadic data analysis}. \emph{American Statistician - AMER STATIST} (Vol. 61).
 
@@ -224,6 +277,20 @@ R Core Team. (2021). \emph{R: A language and environment for statistical computi
 \endgroup
 
 We used R (Version 4.1.1; R Core Team, 2021) for all our analyses.
+=======
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-Kenny}{}}%
+Kenny, D., Kashy, D., Cook, W., \& Simpson, J. (2006). \emph{Dyadic data analysis}. \emph{American Statistician - AMER STATIST} (Vol. 61).
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-base}{}}%
+R Core Team. (2021). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
+
+\end{CSLReferences}
+
+\endgroup
+
+We used R {[}Version 4.1.3; R Core Team (2021){]} for all our analyses.
+>>>>>>> 8aaf22492fd6af1a7db553c1a0788dee3149e309
 
 \newpage
 
