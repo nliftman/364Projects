@@ -53,6 +53,7 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
+#INCLUDE ALL OF THIS
 # TABLE TIME
 ```{r}
 #creating the dataframe for men and for women
