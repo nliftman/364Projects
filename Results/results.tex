@@ -1,0 +1,243 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  english,
+  man]{apa6}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Sexism and Division of Labor on Feelings of Teamliness Within Household Dyads},
+  pdfauthor={Naomi Liftman1 \& Cara Krupnikoff-Salkin1},
+  pdflang={en-EN},
+  pdfkeywords={keywords},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+\shorttitle{Sexism and Feelings of Teamliness}
+\keywords{keywords\newline\indent Word count: X}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{csquotes}
+\ifxetex
+  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{english}
+\else
+  \usepackage[shorthands=off,main=english]{babel}
+\fi
+
+\title{Sexism and Division of Labor on Feelings of Teamliness Within Household Dyads}
+\author{Naomi Liftman\textsuperscript{1} \& Cara Krupnikoff-Salkin\textsuperscript{1}}
+\date{}
+
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Smith College}
+
+\begin{document}
+\maketitle
+
+\begin{table}
+\centering
+\begin{tabular}{l|l|r|l|r|r|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c|}{Man} & \multicolumn{3}{c}{Woman} \\
+\cline{2-4} \cline{5-7}
+Variable & Value\_M & T\_M & P\_M & Value\_W & T\_W & P\_W\\
+\hline
+Gender & -0.46 & -0.24 & 0.81 & 2.52 & 1.14 & 0.26\\
+\hline
+Time & >-0.01 & -0.05 & 0.96 & -0.01 & -2.39 & .02*\\
+\hline
+Partner's Percent of Chores (PC) & 1.43 & 0.76 & 0.45 & -1.01 & -0.45 & 0.65\\
+\hline
+Actor's PC & 1.86 & 0.97 & 0.33 & -1.51 & -0.69 & 0.49\\
+\hline
+Actor's Hostile Sexism (HS) & -0.08 & -0.44 & 0.66 & 0.05 & 0.24 & 0.81\\
+\hline
+Actor's Benevolent Sexism (BS) & 0.49 & 0.98 & 0.33 & 0.38 & 1.14 & 0.26\\
+\hline
+Partner's HS & 0.44 & 2.32 & .02* & -0.13 & -0.64 & 0.52\\
+\hline
+Partner's BS & -0.23 & -0.80 & 0.42 & -0.48 & -0.82 & 0.41\\
+\hline
+Actor's PC x Actor's HS & -0.08 & -0.44 & 0.66 & -0.07 & -0.33 & 0.74\\
+\hline
+Partner's PC x Actor's HS & 0.11 & 0.65 & 0.51 & 0.24 & 1.05 & 0.39\\
+\hline
+Actor's PC x Partner's HS & -0.15 & -0.76 & 0.45 & 0.22 & 1.11 & 0.27\\
+\hline
+Partner's PC x Partner's HS & -0.41 & -2.27 & .02* & -0.02 & -0.10 & 0.92\\
+\hline
+Actor's PC x Actor's BS & -0.53 & -1.05 & 0.3 & -0.11 & -0.34 & 0.74\\
+\hline
+Partner's PC x Actor's BS & -0.57 & -1.15 & 0.25 & -0.39 & -1.14 & 0.25\\
+\hline
+Actor's PC x Partner's BS & 0.18 & 0.63 & 0.55 & 0.36 & 0.63 & 0.53\\
+\hline
+Partner's PC x Partner's BS & 0.40 & 1.40 & 0.16 & 0.37 & 0.63 & 0.53\\
+\hline
+\multicolumn{7}{l}{\textsuperscript{*} indicate a p-value lower than our alpha of .05}\\
+\end{tabular}
+\end{table}
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{analysis-strategy}{%
+\subsection{Analysis Strategy}\label{analysis-strategy}}
+
+In romantic partnerships, each individual has influence on the other person, and often, mutual influence is also a key part of their relationship. This shared influence violates one of the common assumptions for running statistical models: independence of residuals. In this study, we used the APIM (Kenny, Kashy, Cook, \& Simpson, 2006) in order to account for the mutual influence that romantic partners may share with each other.
+
+The APIM addresses this interdependence by looking at both actor effects and partner effects. In the model, there are two individuals, each with an independent and a dependent variable. \emph{Actor effects} focus solely on one individual, and describe the effect that the independent variable has on the dependent variable, regardless of the other person. \emph{Partner effects} describe the effect that the other person's independent variable has on this individual's dependent variable. When dyad members have distinguishable characteristics, such as in the case of heterosexual couples, there are two actor effects and two partner effects.
+
+In order to account for the lack of independence in the residuals, the APIM creates two correlations. The first correlation is between the two independent variables, and can be seen as the curved line connecting them on the far left of the figure. The second correlation is the residual non-independence on the dependent variables, which can be seen as the correlation between the errors for both individuals. These correlations and errors allow the APIM to account for the non-independence of the residuals.
+
+In our study, gender was our distinguishing variable, meaning that we focused on the effects of the man and the woman within each dyad. Our explanatory variables were HS and BS, our outcome variable was the feeling of teamliness on any given day, and each individual's percentage of the total daily household chores was a moderating variable. Figure 1 shows a simplified version of our model that doesn't include time and consolidates HS and BS as sexism. Note that in reality, HS and BS would interact with each other both for the actor and the partner, creating a much more complex model.
+
+\hypertarget{results-1}{%
+\subsection{Results}\label{results-1}}
+
+Our initial model investigated all of the possible interactions, looking at both the actor and partner effects, and accounting for HS and BS, teamliness, and the percentage of daily household chores (see Table 1). Based on our hypotheses, the main interactions that we wanted to look at were the relationship between the actor and the partner's HS/BS and their feelings about the quality of their relationship and the relationship between the HS/BS of the actor, the percentage of daily chores that they and their partner performed, and their feelings about the quality of their relationship. The significant terms that remained were gender interacted with time, gender interacted with HS of the partner, and gender interacted with the partner's daily percentage of chores performed and the partner's HS. We then began reducing the model by only including the significant terms listed above, as well as the interaction between gender and the partner's daily percentage of chores in order to include the main effects.
+
+This model found that over time, when holding all other variables constant (the man performs no chores), the woman felt less like a team with her partner (p = .0058). It also found the partner effects of HS for the man made his feelings of teamliness higher when his partner was not performing any chores (p = .0265). However, the effect of the interaction between gender, the partner's daily percentage of chores performed, and the partner's HS, which was statistically significant in the previous model, was no longer significant in the reduced model.
+
+Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner's HS, and gender interacted with the partner's daily percentage of chores. This new model confirmed the results from before, but also added new findings: the male partner's effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011).
+
+\newpage
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Kenny}{}%
+Kenny, D., Kashy, D., Cook, W., \& Simpson, J. (2006). \emph{Dyadic data analysis}. \emph{American Statistician - AMER STATIST} (Vol. 61).
+
+\leavevmode\hypertarget{ref-R-base}{}%
+R Core Team. (2021). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
+
+\endgroup
+
+We used R (Version 4.1.1; R Core Team, 2021) for all our analyses.
+
+\newpage
+
+\textbf{Figure 1}
+
+*Representation of our APIM Model
+
+\begin{figure}
+\centering
+\includegraphics{APIM.png}
+\caption{Our APIM Model}
+\end{figure}
+
+\emph{Note.}For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
+
+
+\end{document}
