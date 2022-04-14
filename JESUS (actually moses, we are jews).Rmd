@@ -502,8 +502,10 @@ justbenevolent <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:bs_A - 1,
 summary(justbenevolent)
 ```
 
+# INCLUDE THIS!!!
 # Daily per for just the actor (just for shits and giggles)
 ```{r}
+
 yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  
               + gender2_A:daily_per_P 
               + gender2_A:daily_per_A  
@@ -558,6 +560,9 @@ summary(boing_2)
 #over the two weeks the women become less satisfied
 #the more her partner is doing chores the less teamliness she feels 
 ```
+
+# DONT INCLUDE ANYTHING AFTER!!!!
+
 
 # Adding hostile and benevolent sexism
 ```{r}
