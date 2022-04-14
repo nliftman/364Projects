@@ -628,7 +628,7 @@ experiment <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs
                   na.action = na.omit)
 summary(experiment)
 
-##### rECHECKING INTERACTION APPROACH #####
+##### RECHECKING INTERACTION APPROACH #####
 timeandgender  <- lme(qmi4_A ~ gender2_A + time + gender2_A*time, 
                       data = dyad_pair2, 
                       random = ~ gender2_A + gender2_A:time - 1|dyadID,
