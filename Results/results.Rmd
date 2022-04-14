@@ -19,7 +19,7 @@ affiliation:
 keywords          : "keywords"
 wordcount         : "X"
 
-bibliography      : ["psy-references-results.bib", "r-references-results.bib"]
+bibliography      : ["psyreferences.bib", "rreferences.bib"]
 
 floatsintext      : no
 figurelist        : no
@@ -35,13 +35,14 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-library(tidyverse)
-library(lubridate)
-library(psych)
-library(mosaic)
-library(nlme)
-library(kableExtra)
-r_refs("r-references-results.bib")
+library("papaja")
+library("tidyverse")
+library("lubridate")
+library("psych")
+library("mosaic")
+library("nlme")
+library("kableExtra")
+r_refs("rreferences.bib")
 ```
 
 ```{r analysis-preferences}
@@ -700,9 +701,9 @@ In our study, gender was our distinguishing variable, meaning that we focused on
 
 Our initial model investigated all of the possible interactions, looking at both the actor and partner effects, and accounting for HS and BS, teamliness, and the percentage of daily household chores (see Table 1). Based on our hypotheses, the main interactions that we wanted to look at were the relationship between the actor and the partner’s HS/BS and their feelings about the quality of their relationship and the relationship between the HS/BS of the actor, the percentage of daily chores that they and their partner performed, and their feelings about the quality of their relationship. The significant terms that remained were gender interacted with time, gender interacted with HS of the partner, and gender interacted with the partner’s daily percentage of chores performed and the partner’s HS. We then began reducing the model by only including the significant terms listed above, as well as the interaction between gender and the partner’s daily percentage of chores in order to include the main effects. 
 
-This model found that over time, when holding all other variables constant, the woman felt less like a team with her partner (p = .0058). It also found the partner effects of HS for the man made his feelings of teamliness higher when his partner was not performing any chores (p = .0265). However, the effect of the interaction between gender, the partner’s daily percentage of chores performed, and  the partner’s HS, which was statistically significant in the previous model, was no longer significant in the reduced model. 
+This model found that over time, when holding all other variables constant (the man performs no chores), the woman felt less like a team with her partner (p = .0058). It also found the partner effects of HS for the man made his feelings of teamliness higher when his partner was not performing any chores (p = .0265). However, the effect of the interaction between gender, the partner’s daily percentage of chores performed, and  the partner’s HS, which was statistically significant in the previous model, was no longer significant in the reduced model. 
 
-Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner’s HS, and gender interacted with the partner’s daily percentage of chores. This new model confirmed the results from before, but also added new findings: The male partner’s effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011). 
+Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner’s HS, and gender interacted with the partner’s daily percentage of chores. This new model confirmed the results from before, but also added new findings: the male partner’s effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011). 
 
 
 \newpage
