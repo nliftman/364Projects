@@ -544,7 +544,7 @@ boing_2  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A
               correlation = corCompSymm(form = ~1|dyadID/obsid), 
               weights = varIdent(form = ~1|gender2_A), 
               na.action = na.omit)
-summary(boing)
+summary(boing_2)
 
 
 #have interaction term and report significances 
