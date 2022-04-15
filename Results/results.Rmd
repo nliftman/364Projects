@@ -705,6 +705,11 @@ This model found that over time, when holding all other variables constant (the 
 
 Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner’s HS, and gender interacted with the partner’s daily percentage of chores. This new model confirmed the results from before, but also added new findings: the male partner’s effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011). 
 
+(ref:apim-cap) *Note.* For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
+
+```{r apim-fig, echo = FALSE, message = FALSE, fig.cap='(ref:apim-cap)'}
+knitr::include_graphics("APIM.png")
+```
 
 \newpage
 
@@ -717,12 +722,8 @@ Since this interaction was not significant we removed it and ran a new model wit
 <div id="refs" custom-style="Bibliography"></div>
 \endgroup
 
-We used `r cite_r("r-references.bib")` for all our analyses.
+We used `r cite_r("r-references-results.bib")` for all our analyses.
 
 \newpage
 
-(ref:apim-cap) *Note.* For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
 
-```{r apim-fig, echo = FALSE, message = FALSE, fig.cap='(ref:apim-cap)'}
-knitr::include_graphics("APIM.png")
-```
