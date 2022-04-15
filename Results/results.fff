@@ -1,7 +1,0 @@
-\begin{figure*}[hbt]
-\ifnextchar[{\eatarg}{}
-
-\centering
-\includegraphics{APIM.png}
-\caption{Our APIM Model}
-\end{figure*}

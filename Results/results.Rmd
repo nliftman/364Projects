@@ -723,6 +723,6 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 
 (ref:apim-cap) *Note.* For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
 
-```{r apim-fig, echo = FALSE, message=FALSE, fig.align='center', fig.cap='(ref:apim-cap)'}
+```{r apim-fig, echo = FALSE, message = FALSE, fig.cap='(ref:apim-cap)'}
 knitr::include_graphics("APIM.png")
 ```
