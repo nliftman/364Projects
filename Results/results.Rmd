@@ -678,8 +678,8 @@ P_W <- c(.26, '.02*', .65, .49, .81, .26, .52, .41, .74, .39,
 df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
 
 #making it pretty
-kable(df) %>% 
-  kable_classic() %>% 
+kable(df,
+      format = 'latex') %>% 
   add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
   add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
 ```
@@ -705,11 +705,6 @@ This model found that over time, when holding all other variables constant (the 
 
 Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner’s HS, and gender interacted with the partner’s daily percentage of chores. This new model confirmed the results from before, but also added new findings: the male partner’s effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011). 
 
-(ref:apim-cap) *Note.* For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
-
-```{r apim-fig, echo = FALSE, message = FALSE, fig.cap='(ref:apim-cap)'}
-knitr::include_graphics("APIM.png")
-```
 
 \newpage
 
@@ -722,8 +717,14 @@ knitr::include_graphics("APIM.png")
 <div id="refs" custom-style="Bibliography"></div>
 \endgroup
 
-We used `r cite_r("r-references-results.bib")` for all our analyses.
+We used `r cite_r("r-references.bib")` for all our analyses.
 
 \newpage
 
+**Figure 1**
 
+*Representation of our APIM Model
+
+![Our APIM Model](APIM.png)
+
+*Note.*For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.

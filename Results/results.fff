@@ -1,5 +1,7 @@
 \begin{figure*}[hbt]
 \ifnextchar[{\eatarg}{}
 
-\includegraphics[width=4.27in]{APIM} \caption{\emph{Note.} For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.}\label{fig:apim-fig}
+\centering
+\includegraphics{APIM.png}
+\caption{Our APIM Model}
 \end{figure*}
