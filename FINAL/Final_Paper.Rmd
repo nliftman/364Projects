@@ -631,6 +631,37 @@ politics %>%
   summarize(total = sum(n))
 ```
 
+# Introduction
+
+For many decades, women in dual-earner households were found to do a significant portion of the housework [@Bareket], thus creating a so-called “second shift” of work for women when they returned home. In May of 2020, as the devastation of the COVID-19 pandemic began to set in, nearly 48% of the Americans that had previously commuted to work in February were either working from home or unemployed [@Bick]. As a result of the pandemic, the entire American workforce was rearranged, leading to a dual purpose of the current study. The first is to synthesize previous research findings on the relationship between sexism, marital satisfaction, and the division of housework in the context of romantic relationships, while determining whether these findings hold true during such unprecedented times. The second is to explore these concepts through a dyadic lens, by looking at the experiences of both partners within a heterosexual relationship. 
+
+## Sexism in Romantic Couples
+
+When looking at the mechanisms that play into the differences within and between heterosexual couples, it is important to acknowledge the different forms of sexism that occur. Under the theory of ambivalent sexism, there are two forms of sexism.  The first is hostile sexism (HS): where women are treated with resent, and often aggression. The second is benevolent sexism (BS): where women are cared for, but seen as helpless and incompetent [@Glick1996]. Furthermore, BS and HS interact to create the structure of gender inequality that is present within our modern-day society. While HS punishes women for breaking traditional gender roles, BS rewards them for taking on traditionally feminine roles [@Glick2001]. As a result, ambivalent sexism has a strong influence on interpersonal relationships. Within a romantic couple, men who are higher in BS tend to seek women who fulfill more traditional gender roles [@Thomae]. Moreover, men who are high in HS seek women who are high in BS, and vice versa [@Lee]. Individuals who are higher in either form of sexism are more likely to have partnerships that fit more traditional gender prescriptions. 
+
+Additionally, @Hammond found that women who were high in BS experienced very high relationship satisfaction if their benevolent ideals were met, but very low satisfaction if they weren’t. Conversely, they found that a man's relationship satisfaction had more to do with his overall status (inside and outside the home) than on his partner’s fulfillment of her gender role. @Minnotte show that the relationship between gender ideologies and marital satisfaction is complex. In their study, when husbands were lower in sexism and the household was more egalitarian, husbands reported less relationship satisfaction. This indicates that in addition to behaviors and reported beliefs, there are unseen factors that influence gender bias. @Lee also found that even when Americans don’t directly endorse BS attitudes, they are still likely to be guided by BS when choosing their partners, highlighting how even in instances where people don’t present bias outwardly, they are often still influenced by gender ideologies.
+
+## Dividing Housework
+
+A prominent manner of observing bias from gender ideologies is through the division of household labor. Typically, women do more frequent, routine chores, such as cleaning, and men do more occasional, intermittent chores, such as car maintenance [@Barstad]. This leads to a misalignment, where even with increasing gender equality within the workforce, women are doing disproportionately more work [@Helms]. It is important to note that calculations of housework are often biased. Stereotypical men and women engage in different types of chores, so any calculation based on a set list of chores may miss the larger picture of how the couple chooses to divide their work on any given day [@Nordenmark]. Regardless, focusing specifically on only traditionally feminine tasks allows us to highlight the gender mismatch in the proportion of everyday tasks taken on by different members of a household.
+
+While dual-earning heterosexual households may have more egalitarian divisions of housework [@Chesters], the divisions are still uneven. In fact, @Barstad found that in the cases in which there is greater equality in the division of household labor, it is because the women have decreased their housework, as opposed to the men taking on more. This leads to an inequity  where women and men have different concepts of what equal division of housework may mean. Additionally, division of housework is influenced heavily by the individual partners’ work environments, especially when the partners are not dual earners. When husbands  work or earn more than their wives, wives end up taking on a larger proportion of the housework [@Lam]. Similarly, when husbands are dealing with stress from work that extends back to their home, the wife is more likely to take on more work [@Lam; @Huffman].  This last finding is particularly relevant to the context of the COVID-19 pandemic, in which many couples have been forced to work from home. In order to gain insight into the process through which chores are divided, it is important to determine how couples are responding to changes in status and the spillover of work-family conflict during these unprecedented times.
+
+## Sexism and Marital Satisfaction Linked with Division of Housework
+
+Many of the factors that influence the ways in which housework is divided are linked closely with sexism. In general, when couples exhibit more traditional gender ideologies, the woman is likely to do more housework [@Erickson]. When one partner exhibits different sexist beliefs than the other, the division of household labor continues to be uneven [@Bareket]. In studying attitudes toward provider roles, @Helms found that those who endorse the main-secondary provider and ambivalent coprovider attitudes — those that relate most closely to BS beliefs [@Carlson] — the wife is more likely to do the majority of the housework. @Doan found that it is much more common and acceptable for the wife to take on masculine tasks in addition to feminine (routine) ones than it is for the husband to take on any of the feminine tasks. This leads to an imbalance in which women are often left doing more work than men. At the same time, according to @Poortman, one of the main underlying causes of unequal division of household labor is because women prefer to do the routine house chores. In many cases, the wife’s prescriptions guide her to take on a traditional role within the household. Additionally, although the husband has traditionally had a more dominant role in determining the gender roles within the relationship [@Lam; @Huffman], the wife also has a strong influence on whether the division of housework will be more traditional or not. When the wife endorses more traditional gender ideologies, even if the husband doesn’t, the wife is likely to do more housework [@Greenstein1996]. When the wife does not endorse BS, it is more likely for there to be an equal division of housework [@Helms]. While many studies have looked individually at the effect that the husband’s and the wife’s sexist attitudes have on their division of household labor, less have looked at *how* the relationship between their gender ideologies may have an impact.
+
+There is also a strong link between division of household labor and feelings of marital satisfaction. Feelings of fairness and equality within the partnership are more strongly linked to the distribution of housework than to the division of paid work [@Nordenmark]. In countries with more gender-equity, such as America, the distribution of household chores has a considerable effect on feelings of fairness [@Greenstein2009]. Interestingly, there are also strong relationships between the division of household labor and relationship quality in women. Women feel low levels of satisfaction when men do little to no routine housework, but also don’t enjoy doing intermittent (masculine) tasks [@Barstad]. Coupled with gender ideologies, division of household labor has a strong impact on feelings of marital satisfaction. When the wife takes on less of a traditional role and participates more in the workforce, she is less likely to be satisfied with doing more housework [@Braun]. Similarly, people who endorse different sexist beliefs are likely to have different perceptions about what divisions of housework are equitable, influencing feelings about fairness, teamwork, and marital quality [@Bareket; @Nordenmark]. It is rare for two partners to share the exact same gender ideologies, and gender ideologies have an impact on the division of housework and on overall marital satisfaction. Each individual person’s beliefs have an impact on their own feelings, but also on their partner’s, making it important to investigate these variables from a dyadic perspective.
+
+## Current Study
+
+Previous research shows that there are links between sexism and division of household labor, sexism and marital satisfaction, and division of household labor and marital satisfaction. While some research looks at the relationship between all three of these variables, it fails to address the relationship that the two partners have with each other. In this study, we attempted to gain a more holistic understanding of how the interaction between partners influences their individual attitudes towards sexism, feelings about the quality of the relationship, and the percentage of housework that they are a part of. Couples were asked about their feelings about their relationship and the household chores that they did for two weeks, with the goals of (1) determining the extent to which the husbands’ and the wives’ attitudes of sexism impacted their own and each other’s feelings of marital satisfaction, and (2) the extent to which division of labor may have acted as a moderator between the two variables. We approached the data dyadically, using the Actor-Partner Interdependence Model [APIM; @Kenny]. This allowed us to operate under the assumption that the romantic partners are not independent from each other, and to investigate the effects both the respondents (actors) and their partners (partners) had on each other.
+
+Our first hypothesis was that individuals who were higher in sexism would have higher feelings of marital satisfaction if their partners were also higher in sexism. Given the findings by @Thomae and @Lee, we hypothesized that this would be especially true for scenarios in which women were high in BS and men were high in either HS or BS (Hypothesis 1a). Our second hypothesis was that the relationship between sexism and marital quality would be moderated by the division of household labor. More specifically, we predicted that when both partners were higher in sexism, and the division of housework would be more traditional, with the woman doing more routine housework,  causing both partners to have greater feelings of satisfaction (Hypothesis 2a). In instances where one partner was higher in sexism than the other, we predicted that the division of housework would be traditional, and that the man would be more satisfied (Hypothesis 2b); if the woman was high in sexism, she would be as satisfied or more satisfied than the man (Hypothesis 2c); if she was low in sexism, she would be less satisfied than the man (Hypothesis 2d). Lastly, if both partners were low in sexism and the division of housework was more egalitarian, both partners would be satisfied (Hypothesis 2e). While each of these hypotheses was drawn from empirical literature that described the relationship of these components on an individual level, we anticipated that there may be contradictory findings once we take into account the potential dyadic interaction within each couple for these variables. 
+
+
+
+
 # Methods
 
 ## Measures
@@ -703,6 +734,285 @@ apa_table(corrtab,
   caption = "Correlation Matrix Between Sexism Scores",
   note = "Possible scores for hostile and benevolent sexism ranged from 1 to 7. All correlations except for male hostile sexism with male benevolent sexism was statistically signficinat with p < .01")
 ```
+
+# Results
+
+```{r mods, include = FALSE}
+##### INITIAL MODEL WITH ONLY GENDER #####
+#making it so the day is subtracted by 1
+dyad_pair2 <- dyad_pair %>% 
+  mutate(time = day_of_study -1,
+         qmi4_A = as.numeric(qmi4_A),
+         time = as.numeric(time),
+         daily_per_A = as.numeric(daily_per_A),
+         daily_per_P = as.numeric(daily_per_P),
+         hs_A = as.numeric(hs_A),
+         bs_A = as.numeric(bs_A),
+         hs_P = as.numeric(hs_P),
+         bs_P = as.numeric(bs_P)) %>%
+  filter(gender2_A == 'Woman' | gender2_A == 'Man')
+
+#basic dyadic growth curve model (no division of labor or sexism model)
+dyadicmodelbaby  <- lme(qmi4_A ~ gender2_A + gender2_A:time  - 1, #making use of two intercept model
+                      #gender that is a character string and day of study is time 
+                      #dont want grand intercept for everyone so use :
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time  - 1|dyadID, 
+                      #using again same character string
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      #dyadic thing allows for the covariance within a particular day 
+                      weights = varIdent(form = ~1|gender2_A), #get two seperate residual variances
+                      na.action = na.omit)
+
+#could use small summary or summary fully 
+summary(dyadicmodelbaby)
+#the outpit  is bat shit 
+#where the man and women are to begin for the intercepts
+#predicted overall grand slope for men and women, women are actually stable!
+#mess of random effects, and all the standard deviations 
+#correlations (just interpret it as a correlation matrix)
+#we have done correlation matrixes
+
+##### GENDER AND PERCENT OF LABOR FOR ACTOR #####
+dailyandgender_A  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_A - 1, #making use of two intercept model
+                      #gender that is a character string and day of study is time 
+                      #dont want grand intercept for everyone so use :
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      #using again same character string
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      #dyadic thing allows for the covariance within a particular day 
+                      weights = varIdent(form = ~1|gender2_A), #get two seperate residual variances
+                      na.action = na.omit)
+
+summary(dailyandgender_A)
+
+##### GENDER AND PERCENT OF LABOR FOR PARTNER #####
+dailyandgender_P  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P- 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(dailyandgender_P)
+
+##### INCLUDING THE DAILY PERCENT FOR BOTH THE PARTNER AND ACTOR #####
+#if theres no stat significant then we are going we dont combine with gender for actor
+dailyandgender_Parttwo  <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:daily_per_P + gender2_A:daily_per_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(dailyandgender_Parttwo)
+
+##### TESTING IF THERE IS A DIFFERENCE BETWEEN MEN AND WOMEN IN DAILY PER ACTOR #####
+checkinbaby  <- lme(qmi4_A ~ gender2_A:daily_per_A - 1,
+                      data = dyad_pair2, 
+                      random = ~ gender2_A   - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+
+summary(checkinbaby)
+
+##### JUST HOSTILE SEXISM #####
+justhostile <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:hs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(justhostile)
+
+##### JUST BENEVOLENT SEXISM #####
+justbenevolent <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:bs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(justbenevolent)
+
+##### DAILY PER FOR JUST THE ACTOR LOL #####
+yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  
+              + gender2_A:daily_per_P 
+              + gender2_A:daily_per_A  
+              + gender2_A:hs_A 
+              + gender2_A:bs_A
+              + gender2_A:hs_P 
+              + gender2_A:bs_P
+              + gender2_A:daily_per_A:hs_A 
+              + gender2_A:daily_per_P:hs_A
+              + gender2_A:daily_per_A:hs_P 
+              + gender2_A:daily_per_P:hs_P
+              + gender2_A:daily_per_A:bs_A 
+              + gender2_A:daily_per_P:bs_A
+              + gender2_A:daily_per_A:bs_P 
+              + gender2_A:daily_per_P:bs_P- 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(yeall)
+
+# Removing the non-statistically significant interactions
+#this has the interaction effect-so when she isnt doing any chroes
+boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P + gender2_A:daily_per_P:hs_P - 1, 
+              data = dyad_pair2, 
+              random = ~ gender2_A  - 1|dyadID, 
+              correlation = corCompSymm(form = ~1|dyadID/obsid), 
+              weights = varIdent(form = ~1|gender2_A), 
+              na.action = na.omit)
+summary(boing)
+
+#remove the interaction effect so we are no longer making sure that the partner is doing no chores
+boing_2  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P - 1, 
+              data = dyad_pair2, 
+              random = ~ gender2_A  - 1|dyadID, 
+              correlation = corCompSymm(form = ~1|dyadID/obsid), 
+              weights = varIdent(form = ~1|gender2_A), 
+              na.action = na.omit)
+summary(boing)
+
+
+#have interaction term and report significances 
+
+#then remove and report again
+
+#hostile sexism when pafrtnern chores are zero 
+#partner effect for hostile sexism for the man effects his teamlinees when she is not doing any chores
+
+
+#over the two weeks the women become less satisfied
+#the more her partner is doing chores the less teamliness she feels 
+
+##### ADDING SEXISM #####
+addingsexism  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_P 
+                     + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:hs_A - 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(addingsexism)
+
+##### GENDER AND SEXISM #####
+hewo <- lme(qmi4_A ~ gender2_A + gender2_A:bs_A  + gender2_A:hs_A- 1, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A - 1|dyadID, 
+                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                      weights = varIdent(form = ~1|gender2_A), 
+                      na.action = na.omit)
+
+summary(hewo)
+
+##### PLAYING AROUND #####
+full_model <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A + gender2_A*daily_per_A*bs_P + gender2_A*daily_per_A*hs_A + gender2_A*daily_per_A*hs_P - 1, 
+                  data = dyad_pair2, 
+                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                  weights = varIdent(form = ~1|gender2_A), 
+                  na.action = na.omit)
+summary(full_model)
+
+# a horrifyingly large table
+experiment <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A*bs_P*hs_A*hs_P - 1, 
+                  data = dyad_pair2, 
+                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
+                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
+                  weights = varIdent(form = ~1|gender2_A), 
+                  na.action = na.omit)
+summary(experiment)
+
+##### RECHECKING INTERACTION APPROACH #####
+timeandgender  <- lme(qmi4_A ~ gender2_A + time + gender2_A*time, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A + gender2_A:time - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+
+summary(timeandgender)
+
+justsexism  <- lme(qmi4_A ~ gender2_A  + gender2_A*hs_A + gender2_A*bs_A, 
+                      data = dyad_pair2, 
+                      random = ~ gender2_A - 1|dyadID,
+                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
+                      weights = varIdent(form = ~1|gender2_A),
+                      na.action = na.omit)
+summary(justsexism)
+```
+
+## Analysis Strategy
+
+In romantic partnerships, each individual has influence on the other person, and often, mutual influence is also a key part of their relationship. This shared influence violates one of the common assumptions for running statistical models: independence of residuals. In this study, we used the APIM [@Kenny] in order to account for the mutual influence that romantic partners may share with each other.
+
+The APIM addresses this interdependence by looking at both actor effects and partner effects. In the model, there are two individuals, each with an independent and a dependent variable. *Actor effects* focus solely on one individual, and describe the effect that the independent variable has on the dependent variable, regardless of the other person. *Partner effects* describe the effect that the other person’s independent variable has on this individual’s dependent variable. When dyad members have distinguishable characteristics, such as in the case of heterosexual couples, there are two actor effects and two partner effects. 
+
+In order to account for the lack of independence in the residuals, the APIM creates two correlations. The first correlation is between the two independent variables, and can be seen as the curved line connecting them on the far left of the figure. The second correlation is the residual non-independence on the dependent variables, which can be seen as the correlation between the errors for both individuals. These correlations and errors allow the APIM to account for the non-independence of the residuals.
+
+In our study, gender was our distinguishing variable, meaning that we focused on the effects of the man and the woman within each dyad. Our explanatory variables were HS and BS, our outcome variable was the feeling of teamliness on any given day, and each individual’s percentage of the total daily household chores was a moderating variable. Figure 1 shows a simplified version of our model that doesn’t include time and consolidates HS and BS as sexism. Note that in reality, HS and BS would interact with each other both for the actor and the partner, creating a much more complex model.
+
+## Results
+
+Our initial model investigated all of the possible interactions, looking at both the actor and partner effects, and accounting for HS and BS, teamliness, and the percentage of daily household chores (see Table 1). Based on our hypotheses, the main interactions that we wanted to look at were the relationship between the actor and the partner’s HS/BS and their feelings about the quality of their relationship and the relationship between the HS/BS of the actor, the percentage of daily chores that they and their partner performed, and their feelings about the quality of their relationship. The significant terms that remained were gender interacted with time, gender interacted with HS of the partner, and gender interacted with the partner’s daily percentage of chores performed and the partner’s HS. We then began reducing the model by only including the significant terms listed above, as well as the interaction between gender and the partner’s daily percentage of chores in order to include the main effects. 
+
+This model found that over time, when holding all other variables constant (the man performs no chores), the woman felt less like a team with her partner (p = .0058). It also found the partner effects of HS for the man made his feelings of teamliness higher when his partner was not performing any chores (p = .0265). However, the effect of the interaction between gender, the partner’s daily percentage of chores performed, and  the partner’s HS, which was statistically significant in the previous model, was no longer significant in the reduced model. 
+
+Since this interaction was not significant we removed it and ran a new model with only gender, gender interacted with time, gender interacted with the partner’s HS, and gender interacted with the partner’s daily percentage of chores. This new model confirmed the results from before, but also added new findings: the male partner’s effect of daily percent of chores performed decreased the woman's feeling of teamliness (p = .0011). 
+
+
+```{r table}
+#creating the dataframe for men and for women
+Variable <- c('Gender', 'Time', 
+              'Partner\'s Percent of Chores (PC)', 'Actor\'s PC', 
+              'Actor\'s Hostile Sexism (HS)', 'Actor\'s Benevolent Sexism (BS)', 
+              'Partner\'s HS', 'Partner\'s BS',
+              'Actor\'s PC x Actor\'s HS', 
+              'Partner\'s PC x Actor\'s HS',
+              'Actor\'s PC x Partner\'s HS',
+              'Partner\'s PC x Partner\'s HS',
+              'Actor\'s PC x Actor\'s BS',
+              'Partner\'s PC x Actor\'s BS',
+              'Actor\'s PC x Partner\'s BS',
+              'Partner\'s PC x Partner\'s BS')
+Value_M <- c(-0.46, '>-0.01', 1.43, 1.86, -0.08, .49, .44, -0.23, -0.08, 0.11,
+             -0.15, -0.41, -0.53, -0.57, 0.18, '0.40')
+T_M <- c(-.24, -.05, .76, 0.97, -0.44, .98, 2.32, -0.80, -0.44, 0.65,
+         -0.76, -2.27, -1.05, -1.15, 0.63, 1.40)
+P_M <- c(.81, .96, .45, .33, .66, .33, '.02*', .42, .66, .51,
+         .45, '.02*', .30, .25, .55, .16)
+Value_W <- c(2.52, -0.01, -1.01, -1.51, .05, .38, -0.13, -0.48, -0.07, 0.24,
+             .22, -0.02, -0.11, -0.39, 0.36, 0.37)
+T_W <- c(1.14,-2.39,-0.45, -0.69, 0.24, 1.14, -0.64, -0.82, -0.33, 1.05,
+         1.11, -.1, -0.34, -1.14, 0.63, 0.63)
+P_W <- c(.26, '.02*', .65, .49, .81, .26, .52, .41, .74, .39,
+         .27, .92, .74, .25, .53, .53)
+#join the variables to create a data frame
+df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
+
+#making it pretty
+kable(df,
+      format = 'latex') %>% 
+  add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
+  add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
+```
+
+**Figure 1**
+
+*Representation of our APIM Model
+
+![Our APIM Model](APIM.png)
+
+*Note.*For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
 
 
 ## Data analysis
