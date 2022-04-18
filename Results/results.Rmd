@@ -590,12 +590,38 @@ summary(boing)
 #over the two weeks the women become less satisfied
 #the more her partner is doing chores the less teamliness she feels 
 
-laksdh <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*hs_A*bs_A*hs_P*bs_P,
+hyp_1 <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*hs_A*bs_A*hs_P*bs_P,
               random = ~ gender2_A + gender2_A:time| dyadID,
+              data = dyad_pair2,
               correlation = corCompSymm(form = ~1|dyadID/obsid),
               weights = varIdent(form = ~1|gender2_A),
               na.action = na.omit)
-summary(laskdh)
+summary(hyp_1)
+
+#gender2_AWoman, hs_P, bs_P, gender2AWoman:time, hs_A:hs_P, bs_A:hs_P, hs_P:bs_P, hs_A:bs_A:hs_P,hs_A:hs_P:bs_P, bs_A:hs_P:bs_P, hs_A:bs_A:hs_P:bs_P are significant
+
+# testing all of this but keeping gender bc that's the hypothesis
+
+beep <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:bs_P + bs_A + bs_P + hs_A:hs_P + bs_A:hs_P + hs_P:bs_P + hs_A:bs_A:hs_P + hs_A:hs_P:bs_P + bs_A:hs_P:bs_P + hs_A:bs_A:hs_P:bs_P,
+              random = ~ gender2_A + gender2_A:time| dyadID,
+              data = dyad_pair2,
+              correlation = corCompSymm(form = ~1|dyadID/obsid),
+              weights = varIdent(form = ~1|gender2_A),
+              na.action = na.omit)
+summary(beep)
+
+# lol nothing is significant except women and time yay
+# played around with adding and removing gender in a few places but didn't want to add a bunch of code - here is the only one that led to some significance (doesn't have gender but theres still a bit to say about it and that's actually technically the real reduced model)
+
+boop <- lme(qmi4_A ~ gender2_A + gender2_A:time + hs_P + bs_P + bs_A + bs_P + hs_A:hs_P + bs_A:hs_P + hs_P:bs_P + hs_A:bs_A:hs_P + hs_A:hs_P:bs_P + bs_A:hs_P:bs_P + hs_A:bs_A:hs_P:bs_P,
+              random = ~ gender2_A + gender2_A:time| dyadID,
+              data = dyad_pair2,
+              correlation = corCompSymm(form = ~1|dyadID/obsid),
+              weights = varIdent(form = ~1|gender2_A),
+              na.action = na.omit)
+summary(boop)
+
+#gender2_AWoman, gender2A_Woman:time, hs_P:bs_A:hs_A, and hs_P:bs_P:bs_A:hs_A are significant
 ```
 
 # Results
