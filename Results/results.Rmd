@@ -590,62 +590,12 @@ summary(boing)
 #over the two weeks the women become less satisfied
 #the more her partner is doing chores the less teamliness she feels 
 
-##### ADDING SEXISM #####
-addingsexism  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:daily_per_P 
-                     + gender2_A:daily_per_A +gender2_A:bs_A + gender2_A:hs_A - 1, 
-                      data = dyad_pair2, 
-                      random = ~ gender2_A + gender2_A:time - 1|dyadID, 
-                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
-                      weights = varIdent(form = ~1|gender2_A), 
-                      na.action = na.omit)
-
-summary(addingsexism)
-
-##### GENDER AND SEXISM #####
-hewo <- lme(qmi4_A ~ gender2_A + gender2_A:bs_A  + gender2_A:hs_A- 1, 
-                      data = dyad_pair2, 
-                      random = ~ gender2_A - 1|dyadID, 
-                      correlation = corCompSymm(form = ~1|dyadID/obsid), 
-                      weights = varIdent(form = ~1|gender2_A), 
-                      na.action = na.omit)
-
-summary(hewo)
-
-##### PLAYING AROUND #####
-full_model <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A + gender2_A*daily_per_A*bs_P + gender2_A*daily_per_A*hs_A + gender2_A*daily_per_A*hs_P - 1, 
-                  data = dyad_pair2, 
-                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
-                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
-                  weights = varIdent(form = ~1|gender2_A), 
-                  na.action = na.omit)
-summary(full_model)
-
-# a horrifyingly large table
-experiment <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*daily_per_A*bs_A*bs_P*hs_A*hs_P - 1, 
-                  data = dyad_pair2, 
-                  random = ~ gender2_A + gender2_A:time - 1|dyadID, 
-                  correlation = corCompSymm(form = ~1|dyadID/obsid), 
-                  weights = varIdent(form = ~1|gender2_A), 
-                  na.action = na.omit)
-summary(experiment)
-
-##### RECHECKING INTERACTION APPROACH #####
-timeandgender  <- lme(qmi4_A ~ gender2_A + time + gender2_A*time, 
-                      data = dyad_pair2, 
-                      random = ~ gender2_A + gender2_A:time - 1|dyadID,
-                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
-                      weights = varIdent(form = ~1|gender2_A),
-                      na.action = na.omit)
-
-summary(timeandgender)
-
-justsexism  <- lme(qmi4_A ~ gender2_A  + gender2_A*hs_A + gender2_A*bs_A, 
-                      data = dyad_pair2, 
-                      random = ~ gender2_A - 1|dyadID,
-                      correlation = corCompSymm(form = ~1|dyadID/obsid),  
-                      weights = varIdent(form = ~1|gender2_A),
-                      na.action = na.omit)
-summary(justsexism)
+laksdh <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*hs_A*bs_A*hs_P*bs_P,
+              random = ~ gender2_A + gender2_A:time| dyadID,
+              correlation = corCompSymm(form = ~1|dyadID/obsid),
+              weights = varIdent(form = ~1|gender2_A),
+              na.action = na.omit)
+summary(laskdh)
 ```
 
 # Results
