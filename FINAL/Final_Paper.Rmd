@@ -636,7 +636,12 @@ politics <- politics %>%
          conservatism_A = ifelse(conservatism_A == 'Far right (conservative)7', 7, conservatism_A)) %>% 
   na.omit
 
-
+ggplot(data = politics, mapping = aes(x = conservatism_A, fill = conservatism_A)) +
+  geom_bar() +
+  scale_fill_brewer(palette = 'RdPu') +
+  labs(title = "Political Spectrum of Participants", x = 'Level of Conservatism', y = 'Count', fill = 'Level of Conservatism, but Pretty') +
+  theme_classic()
+  
 
 politics %>%
   mutate(conservatism_A = as.numeric(conservatism_A)) %>% 
@@ -745,6 +750,7 @@ corrtab <- data.frame(
   '4' = c('.3', '.37', '.53', '1')
 )
 ```
+
 ```{r echo = FALSE}
 #creating the sexy sexy table for it 
 apa_table(corrtab,

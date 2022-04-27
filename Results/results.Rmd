@@ -536,6 +536,11 @@ justbenevolent <- lme(qmi4_A ~ gender2_A + gender2_A:time  + gender2_A:bs_A - 1,
 summary(justbenevolent)
 
 ##### DAILY PER FOR JUST THE ACTOR LOL #####
+
+
+
+
+
 yeall  <- lme(qmi4_A ~ gender2_A + gender2_A:time  
               + gender2_A:daily_per_P 
               + gender2_A:daily_per_A  
@@ -561,22 +566,40 @@ summary(yeall)
 
 # Removing the non-statistically significant interactions
 #this has the interaction effect-so when she isnt doing any chroes
-boing  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P + gender2_A:daily_per_P:hs_P - 1, 
+boing  <- 
+  
+  
+  lme(qmi4_A ~ gender2_A + 
+        gender2_A:time + 
+        gender2_A:hs_P + 
+        gender2_A:daily_per_P + 
+        gender2_A:daily_per_P:hs_P - 1, 
               data = dyad_pair2, 
               random = ~ gender2_A  - 1|dyadID, 
               correlation = corCompSymm(form = ~1|dyadID/obsid), 
               weights = varIdent(form = ~1|gender2_A), 
               na.action = na.omit)
+
+
+
 summary(boing)
 
 #remove the interaction effect so we are no longer making sure that the partner is doing no chores
-boing_2  <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A:hs_P + gender2_A:daily_per_P - 1, 
+boing_2  <- 
+  
+  
+  lme(qmi4_A ~ gender2_A + 
+        gender2_A:time + 
+        gender2_A:hs_P + 
+        gender2_A:daily_per_P - 1, 
               data = dyad_pair2, 
               random = ~ gender2_A  - 1|dyadID, 
               correlation = corCompSymm(form = ~1|dyadID/obsid), 
               weights = varIdent(form = ~1|gender2_A), 
               na.action = na.omit)
-summary(boing)
+
+
+summary(boing_2)
 
 
 #have interaction term and report significances 
@@ -590,7 +613,9 @@ summary(boing)
 #over the two weeks the women become less satisfied
 #the more her partner is doing chores the less teamliness she feels 
 
-hyp_1 <- lme(qmi4_A ~ gender2_A + gender2_A:time + gender2_A*hs_A*bs_A*hs_P*bs_P,
+hyp_1 <- lme(qmi4_A ~ gender2_A + 
+               gender2_A:time + 
+               gender2_A*hs_A*bs_A*hs_P*bs_P,
               random = ~ gender2_A + gender2_A:time| dyadID,
               data = dyad_pair2,
               correlation = corCompSymm(form = ~1|dyadID/obsid),
@@ -622,6 +647,15 @@ boop <- lme(qmi4_A ~ gender2_A + gender2_A:time + hs_P + bs_P + bs_A + bs_P + hs
 summary(boop)
 
 #gender2_AWoman, gender2A_Woman:time, hs_P:bs_A:hs_A, and hs_P:bs_P:bs_A:hs_A are significant
+
+partners <- lme(qmi4_A ~ 
+                  gender2_A*hs_A*hs_P*bs_A*bs_P,
+              random = ~ gender2_A -1| dyadID,
+              data = dyad_pair2,
+              correlation = corCompSymm(form = ~1|dyadID/obsid),
+              weights = varIdent(form = ~1|gender2_A),
+              na.action = na.omit)
+summary(partners)
 ```
 
 # Results
