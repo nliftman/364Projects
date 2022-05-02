@@ -317,6 +317,12 @@ couple_chores <- total %>%
   group_by(dyadID.x, day, day_of_study) %>%
   summarize(cup_chores = sum(ind_chores))
 
+# Amount with no chores
+couple_chores %>%
+  filter(cup_chores == 0) %>%
+  group_by(cup_chores) %>%
+  summarize(n = n())
+
 # Joining the individual and couple chore calculations 
 total_chores <- merge(couple_chores, total, by = c('dyadID.x', 'day', 'day_of_study'))
 
