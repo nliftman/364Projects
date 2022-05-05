@@ -744,15 +744,21 @@ corr_tab$r
 corr_tab$p
 
 corrtab <- data.frame(
-  'Scales' = c('1X Male Hostile Sexism', '2X Male Benevolent Sexism', 
-               '3X Female Hostile Sexism', '4X Female Benevolent Sexism'),
+  'Scales' = c('1. Male Hostile Sexism', '2. Male Benevolent Sexism', 
+               '3. Female Hostile Sexism', '4. Female Benevolent Sexism'),
   'Mean' = c(3.56, 3.95, 3.23, 3.71),
   'SD' = c(0.810, 0.696, 1.01, 0.72),
-  '1' = c('1', '.038', '.54', '.3'),
-  '2' = c('.038', '1', '.3', '.37'),       
-  '3' = c('.54', '.3', '1', '.53'),
-  '4' = c('.3', '.37', '.53', '1')
+  "1." = c('1.00', '0.04', '0.54', '0.30'),
+  '2.' = c('0.04', '1.00', '0.30', '0.37'),       
+  '3.' = c('0.54', '0.30', '1.00', '0.53'),
+  '4.' = c('0.30', '0.37', '0.53', '1.00')
 )
+corrtab <- corrtab %>% 
+  rename('1.' = 'X1.',
+         '2.' = 'X2.',
+         '3.' = 'X3.',
+         '4.' = 'X4.') 
+corrtab
 ```
 
 ```{r echo = FALSE}
@@ -1053,7 +1059,7 @@ df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
 
 #making it pretty
 kable(df,
-      format = 'latex') %>% 
+      format = 'apa') %>% 
   add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
   add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
 ```
