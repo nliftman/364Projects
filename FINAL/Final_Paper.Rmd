@@ -1028,6 +1028,8 @@ We predicted that the COVID-19 pandemic would lead to an increased burden on wom
 
 Despite the increasing number of women in the workforce, routine housework is still predominantly performed by women [@Bareket]. This has led to an imbalance where women are doing the same amount of work as men in their occupations, but go home and perform more household labor. With increased levels of work-family conflict, more overall housework (e.g., increased childcare, more meals from home), and less time away from each other, it is important to study the ways in which the COVID-19 pandemic has impacted the gender divide in households. The pandemic has had a tremendous and lasting impact on our lifestyles and the economy, making it imperative that we investigate the differences in interpersonal relationships before, during, and after the pandemic.
 
+**Table 2**
+
 ```{r table2}
 #creating the dataframe for men and for women
 Variable <- c('Gender', 'Time', 
@@ -1057,12 +1059,28 @@ P_W <- c(.26, '.02*', .65, .49, .81, .26, .52, .41, .74, .39,
 #join the variables to create a data frame
 df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
 
+#can we make it APA, whos to say???
+#gotta make it sexy first
+colnames(df)[2] <- "$\\beta$"
+colnames(df)[3] <- 't-value'
+colnames(df)[4] <- 'p-value'
+colnames(df)[5] <- "$\\beta$"
+colnames(df)[6] <- 't-value'
+colnames(df)[7] <- 'p-value'
+
 #making it pretty
-kable(df,
-      format = 'apa') %>% 
+kable(df, 
+      format = 'latex',
+      booktabs = TRUE,
+      align = c('l', 'c', 'c', 'c', 'c', 'c', 'c'),
+      escape = FALSE) %>%
   add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
   add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
+
 ```
+
+
+\newpage
 
 **Figure 1**
 

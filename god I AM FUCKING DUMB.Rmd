@@ -1,0 +1,141 @@
+---
+title             : "The title"
+shorttitle        : "Title"
+
+author: 
+  - name          : "First Author"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Conceptualization
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+  - name          : "Ernst-August Doelle"
+    affiliation   : "1,2"
+    role:
+      - Writing - Review & Editing
+
+affiliation:
+  - id            : "1"
+    institution   : "Wilhelm-Wundt-University"
+  - id            : "2"
+    institution   : "Konstanz Business School"
+
+authornote: |
+  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+
+  Enter author note here.
+
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+
+
+# Methods
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(psych)
+library(mosaic)
+library(nlme)
+library(kableExtra)
+library(corrplot)
+#creating the dataframe for men and for women
+Variable <- c('Gender', 'Time', 
+              'Partner\'s Percent of Chores (PC)', 'Actor\'s PC', 
+              'Actor\'s Hostile Sexism (HS)', 'Actor\'s Benevolent Sexism (BS)', 
+              'Partner\'s HS', 'Partner\'s BS',
+              'Actor\'s PC x Actor\'s HS', 
+              'Partner\'s PC x Actor\'s HS',
+              'Actor\'s PC x Partner\'s HS',
+              'Partner\'s PC x Partner\'s HS',
+              'Actor\'s PC x Actor\'s BS',
+              'Partner\'s PC x Actor\'s BS',
+              'Actor\'s PC x Partner\'s BS',
+              'Partner\'s PC x Partner\'s BS')
+Value_M <- c(-0.46, '>-0.01', 1.43, 1.86, -0.08, .49, .44, -0.23, -0.08, 0.11,
+             -0.15, -0.41, -0.53, -0.57, 0.18, '0.40')
+T_M <- c(-.24, -.05, .76, 0.97, -0.44, .98, 2.32, -0.80, -0.44, 0.65,
+         -0.76, -2.27, -1.05, -1.15, 0.63, 1.40)
+P_M <- c(.81, .96, .45, .33, .66, .33, '.02*', .42, .66, .51,
+         .45, '.02*', .30, .25, .55, .16)
+Value_W <- c(2.52, -0.01, -1.01, -1.51, .05, .38, -0.13, -0.48, -0.07, 0.24,
+             .22, -0.02, -0.11, -0.39, 0.36, 0.37)
+T_W <- c(1.14,-2.39,-0.45, -0.69, 0.24, 1.14, -0.64, -0.82, -0.33, 1.05,
+         1.11, -.1, -0.34, -1.14, 0.63, 0.63)
+P_W <- c(.26, '.02*', .65, .49, .81, .26, .52, .41, .74, .39,
+         .27, .92, .74, .25, .53, .53)
+#join the variables to create a data frame
+df <- data.frame(Variable, Value_M, T_M, P_M, Value_W, T_W, P_W)
+
+#can we make it APA, whos to say???
+
+apa_table(df)
+colnames(df)[2] <- "$\\beta$"
+colnames(df)[3] <- 't-value'
+colnames(df)[4] <- 'p-value'
+colnames(df)[5] <- "$\\beta$"
+colnames(df)[6] <- 't-value'
+colnames(df)[7] <- 'p-value'
+
+#making it pretty
+kable(df, 
+      format = 'latex',
+      booktabs = TRUE,
+      align = c('l', 'c', 'c', 'c', 'c', 'c', 'c'),
+      escape = FALSE) %>%
+  add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
+  add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
+
+```
+
+
+## Data analysis
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+
+# Results
+
+# Discussion
+
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
