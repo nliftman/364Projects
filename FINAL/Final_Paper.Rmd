@@ -1028,6 +1028,11 @@ We predicted that the COVID-19 pandemic would lead to an increased burden on wom
 
 Despite the increasing number of women in the workforce, routine housework is still predominantly performed by women [@Bareket]. This has led to an imbalance where women are doing the same amount of work as men in their occupations, but go home and perform more household labor. With increased levels of work-family conflict, more overall housework (e.g., increased childcare, more meals from home), and less time away from each other, it is important to study the ways in which the COVID-19 pandemic has impacted the gender divide in households. The pandemic has had a tremendous and lasting impact on our lifestyles and the economy, making it imperative that we investigate the differences in interpersonal relationships before, during, and after the pandemic.
 
+\newpage
+## Data analysis
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+\newpage
 **Table 2**
 
 ```{r table2}
@@ -1089,12 +1094,6 @@ kable(df,
 ![Our APIM Model](APIM.png)
 
 *Note.*For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
-
-
-## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-
-
 
 \newpage
 
