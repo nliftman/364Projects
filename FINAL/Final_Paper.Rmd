@@ -14,10 +14,8 @@ affiliation:
   - id            : "1"
     institution   : "Smith College"
 
-
-  
-keywords          : "keywords"
-wordcount         : "X"
+abstract: |
+  This study focuses on the relationship between sexism, division of housework, and relationship satisfaction within heterosexual couples in the context of the COVID-19 pandemic. Past research shows that people who are high in sexism prefer partners who are also high in sexism, and when both partners share more traditional gender ideologies women end up doing more of the routine housework. 136 heterosexual couples (272 individuals) were assessed for their sexist attitudes, and were then asked to record both the chores they completed and how much they felt like a team with their partner over a 14-day period. Most of our analyses did not yield significant results, but there was some evidence for a relationship between certain combinations of sexism and feelings of teamliness, as well as certain scenarios in which division of labor interacted with sexism and gender to influence feelings of teamliness. Our results do not present any evidence to suggest that there is a link between sexism, division of housework, and relationship satisfaction. Overall, research that both looks at a larger sample size and that calculates division of labor differently is necessary to draw conclusions about how the COVID-19 pandemic affects members of households on the basis of gender. 
 
 bibliography      : ["psy-references.bib", "r-references.bib"]
 
@@ -656,8 +654,6 @@ politics %>%
             sd = sd(conservatism_A))
 ```
 
-# Introduction
-
 For many decades, women in dual-earner households were found to do a significant portion of the housework, thus creating a so-called “second shift” of work for women when they returned home  [@Bareket]. In May of 2020, as the devastation of the COVID-19 pandemic began to set in, nearly 48% of the Americans that had previously commuted to work in February were either working from home or unemployed [@Bick]. As a result of the pandemic, the entire American workforce was rearranged, and couples had to substantially adjust their lifestyles. Prior to the pandemic, there were clear links between sexism and relationship satisfaction, sexism and the division of housework, and the division of housework and relationship satisfaction. We explored these concepts through a dyadic lens, looking the experiences of both partners within a heterosexual relationship, with a focus on which findings from previous research on these topics hold true during such unprecedented times.
 
 ## Sexism in Romantic Couples
@@ -1033,7 +1029,6 @@ Despite the increasing number of women in the workforce, routine housework is st
 We used `r cite_r("r-references.bib")` for all our analyses.
 
 \newpage
-**Table 2**
 
 ```{r table2}
 #creating the dataframe for men and for women
@@ -1073,27 +1068,16 @@ colnames(df)[5] <- "$\\beta$"
 colnames(df)[6] <- 't-value'
 colnames(df)[7] <- 'p-value'
 
-#making it pretty
-kable(df, 
-      format = 'latex',
-      booktabs = TRUE,
-      align = c('l', 'c', 'c', 'c', 'c', 'c', 'c'),
-      escape = FALSE) %>%
-  add_header_above(c(" " = 1, "Man" = 3, "Woman" = 3)) %>% 
-  add_footnote(c('indicate a p-value lower than our alpha of .05'), notation = "symbol")
-
+apa_table(df,
+          escape = FALSE,
+          caption = "Correlation Matrix for Sexism, Division of Labor, and Teamliness",
+          note = "* indicate a p-value lower than our alpha of .05",
+          col_spanners= list("Man" = c(2,4), "Woman" = c(5,7)))
 ```
-
 
 \newpage
 
-**Figure 1**
-
-*Representation of our APIM Model
-
-![Our APIM Model](APIM.png)
-
-*Note.*For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.
+![For simplicity, time was not included and HS and BS were simplified as sexism. In reality, HS and BS would interact with each other for both the actor and the partner.](APIM.png)
 
 \newpage
 
